@@ -646,6 +646,7 @@ function buildMethods(){
     `Registros procesados: ${fmt(D.meta.registros_leidos)} certificados de defunción.`,
     'El año en curso se muestra como «parcial» y no se compara como año completo.',
     'La codificación CIE-10 de la causa va con rezago: en los años más recientes hay una mayor proporción de «causa no codificada», por lo que el detalle por causa de 2025–2026 es provisional y se irá completando.',
+    'Para la carga REAL estimada (corrigiendo subregistro y mala clasificación) la referencia mundial es el Global Burden of Disease (GBD/IHME); aquí se cita como contraste, no se republica (sus datos por causa no son redistribuibles).',
   ];
   ul.innerHTML=items.map(t=>`<li>${t}</li>`).join('');
 }
@@ -719,6 +720,8 @@ function chatFacts(){
 function localAnswer(q){
   const t=norm(q), F=chatFacts(), y=F.y;
   const has=(...w)=>w.some(x=>t.includes(x));
+  if(has('gbd','ihme','carga real','burden','verdadero','cifra real','realidad'))
+    return `Este observatorio muestra muertes REGISTRADAS (SINADEF) y registros oficiales (CEIC-INEI, MININTER). Para la carga REAL estimada —corrigiendo subregistro— la referencia mundial es el Global Burden of Disease (GBD) del IHME (U. de Washington), que modela 288 causas con intervalos de incertidumbre. Lo citamos como contraste en la sección Metodología (sus datos por causa no son redistribuibles).`;
   if(has('homicidio','asesinato','violencia','crimen','matan')){
     const of=D.fuentes_oficiales?.homicidios?.serie||{}; const oy=of[y]!=null?y:Object.keys(of).sort().at(-1);
     const ofi=oy?`La cifra OFICIAL (CEIC-INEI) fue ${fmt(of[oy])} homicidios en ${oy}: SINADEF solo capta ~${fmt1((F.val('homicidio')||0)/of[oy]*100)}%. `:'';

@@ -32,6 +32,8 @@ tendencias y tres ejes de prevención: **metabólico/cardiovascular**,
 |---|---|---|---|
 | **SINADEF** (MINSA) | Defunciones y causas CIE-10 (microdata) | 2017–2026* | [datosabiertos.gob.pe](https://www.datosabiertos.gob.pe/dataset/informaci%C3%B3n-de-fallecidos-del-sistema-inform%C3%A1tico-nacional-de-defunciones-sinadef-ministerio) |
 | **INEI** — Estimaciones y Proyecciones de Población (base Censo 2017) | Denominadores de tasas | 2017–2026 | [inei.gob.pe](https://www.inei.gob.pe/) |
+| **CEIC-INEI** (homicidios) / **INEI-MININTER** (tránsito) | Contraste de causas externas | 2017–2025 | [inei.gob.pe](https://www.inei.gob.pe/) |
+| **GBD — IHME** (U. Washington) | Carga real estimada (referencia metodológica) | 1990–2021 | [healthdata.org/gbd](https://www.healthdata.org/research-analysis/gbd) |
 | **peru-geojson** (juaneladio) | Límites departamentales | — | [github](https://github.com/juaneladio/peru-geojson) |
 
 \* La microdata oficial de SINADEF (DATOS ABIERTOS, MINSA) se actualiza a diario y
