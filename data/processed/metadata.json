@@ -1,0 +1,83 @@
+{
+  "fuente_principal": "SINADEF — Información de Fallecidos (MINSA), datosabiertos.gob.pe",
+  "url_fuente": "https://www.datosabiertos.gob.pe/dataset/informaci%C3%B3n-de-fallecidos-del-sistema-inform%C3%A1tico-nacional-de-defunciones-sinadef-ministerio",
+  "fecha_proceso": "2026-09-24T16:31:55.628125+00:00",
+  "registros_leidos": 1110168,
+  "registros_fuera_de_rango": 0,
+  "anios": [
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "anios_completos": [
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023
+  ],
+  "anio_parcial": 2024,
+  "poblacion_disponible": true,
+  "poblacion_fuente": [
+    {
+      "bloque": "nacional_por_anio",
+      "url": "https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1665/libro.pdf",
+      "detalle": "INEI, Boletin de Analisis Demografico N 38: 'Peru: Estimaciones y Proyecciones de la Poblacion Nacional, 1950-2070' (Lima, 2019; base Censo 2017). Cuadro N 01: Peru: Estimaciones y proyecciones de la poblacion total por sexo y anos calendario, 1950-2070 (poblacion al 30 de junio de cada ano). p.41-43."
+    },
+    {
+      "bloque": "nacional_por_anio_sexo",
+      "url": "https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1665/libro.pdf",
+      "detalle": "INEI, Boletin de Analisis Demografico N 38, Cuadro N 01 (columnas Hombres/Mujeres), poblacion al 30 de junio."
+    },
+    {
+      "bloque": "nacional_por_edad_sexo (solo 2020)",
+      "url": "https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1665/libro.pdf",
+      "detalle": "INEI, Boletin de Analisis Demografico N 38, Cuadro N 02: Peru: Poblacion total al 30 de junio de cada ano, segun sexo y grupo de edad, 2020-2050. p.45-46. El boletin solo publica cortes quinquenales (2020, 2025, ...); no publica 2022 por grupos de edad."
+    },
+    {
+      "bloque": "por_departamento_anio",
+      "url": "https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1860/libro.pdf",
+      "detalle": "INEI, Boletin Especial N 27: 'Peru: Proyecciones de Poblacion Total, segun Departamento, Provincia y Distrito, 2018-2022' (base Censo 2017). Cuadro: Peru: Poblacion total proyectada al 30 de junio, segun departamento, provincia y distrito, 2018-2022 (filas de nivel departamento, UBIGEO XX0000)."
+    },
+    {
+      "bloque": "por_departamento_anio (corroboracion 2018-2020)",
+      "url": "https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1715/libro.pdf",
+      "detalle": "INEI, Boletin Especial N 26: 'Peru: Estimaciones y Proyecciones por Departamento, Provincia y Distrito, 2018-2020'. Coincide con N 27 para 2018-2020."
+    }
+  ],
+  "quiebres_serie": [
+    {
+      "anio": 2017,
+      "nota": "Inicio de SINADEF: subregistro alto en el arranque"
+    },
+    {
+      "anio": 2020,
+      "nota": "Pandemia COVID-19 (exceso de mortalidad)"
+    },
+    {
+      "anio": 2021,
+      "nota": "Pandemia COVID-19 (pico de mortalidad)"
+    },
+    {
+      "anio": 2022,
+      "nota": "Disrupción/cierre temporal de SINADEF"
+    },
+    {
+      "anio": 2024,
+      "nota": "Año PARCIAL: microdata oficial llega hasta 2024-05-05"
+    }
+  ],
+  "notas_calidad": [
+    "Causa básica = último código CIE-10 no vacío de la cadena A→F (aprox. a la selección oficial).",
+    "Agrupación de causas APROXIMADA (capítulos CIE-10), no es la Lista 10/110 oficial del MINSA.",
+    "Causas externas (homicidios, tránsito) reflejan lo REGISTRADO en el certificado; hay subregistro.",
+    "Celdas con menos de 5 defunciones suprimidas en cruces por departamento."
+  ]
+}

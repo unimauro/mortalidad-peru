@@ -1,0 +1,15 @@
+{
+  "name": "Observatorio de Mortalidad del Perú",
+  "short_name": "Mortalidad Perú",
+  "description": "¿De qué muere el Perú? Series anuales de mortalidad (SINADEF) con tasas estandarizadas por edad y ejes de prevención.",
+  "lang": "es-PE",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#faf8f4",
+  "theme_color": "#b3122b",
+  "icons": [
+    { "src": "favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "favicon-32.png", "type": "image/png", "sizes": "32x32" },
+    { "src": "apple-touch-icon.png", "type": "image/png", "sizes": "180x180" }
+  ]
+}

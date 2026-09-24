@@ -1,0 +1,15 @@
+# Datos crudos pesados — NO se suben (se regeneran con pipeline/descargar.py)
+data/raw/
+*.csv
+!data/processed/*.csv
+
+# Python
+venv/
+__pycache__/
+*.pyc
+.env
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

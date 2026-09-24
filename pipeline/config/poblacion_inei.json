@@ -1,0 +1,263 @@
+{
+  "nacional_por_anio": {
+    "2017": 30973992,
+    "2018": 31562130,
+    "2019": 32131400,
+    "2020": 32625948,
+    "2021": 33035304,
+    "2022": 33396698,
+    "2023": 33725844,
+    "2024": 34038457
+  },
+  "nacional_por_anio_sexo": {
+    "2017": {
+      "hombres": 15336495,
+      "mujeres": 15637497
+    },
+    "2018": {
+      "hombres": 15642691,
+      "mujeres": 15919439
+    },
+    "2019": {
+      "hombres": 15938284,
+      "mujeres": 16193116
+    },
+    "2020": {
+      "hombres": 16190895,
+      "mujeres": 16435053
+    },
+    "2021": {
+      "hombres": 16394177,
+      "mujeres": 16641127
+    },
+    "2022": {
+      "hombres": 16569707,
+      "mujeres": 16826991
+    },
+    "2023": {
+      "hombres": 16727018,
+      "mujeres": 16998826
+    },
+    "2024": {
+      "hombres": 16875638,
+      "mujeres": 17162819
+    }
+  },
+  "nacional_por_edad_sexo": {
+    "2020": {
+      "hombres": {
+        "0-4": 1426865,
+        "5-9": 1307892,
+        "10-14": 1377943,
+        "15-19": 1213318,
+        "20-24": 1268429,
+        "25-29": 1333702,
+        "30-34": 1313553,
+        "35-39": 1237960,
+        "40-44": 1144732,
+        "45-49": 958363,
+        "50-54": 875725,
+        "55-59": 759779,
+        "60-64": 585142,
+        "65-69": 488786,
+        "70-74": 367550,
+        "75-79": 248591,
+        "80-84": 183127,
+        "85-89": 73199,
+        "90-94": 22210,
+        "95-99": 3635,
+        "100+": 394,
+        "80+": 282565
+      },
+      "mujeres": {
+        "0-4": 1361759,
+        "5-9": 1287554,
+        "10-14": 1362124,
+        "15-19": 1252987,
+        "20-24": 1422936,
+        "25-29": 1378603,
+        "30-34": 1268034,
+        "35-39": 1211570,
+        "40-44": 1100490,
+        "45-49": 979562,
+        "50-54": 884183,
+        "55-59": 757447,
+        "60-64": 624211,
+        "65-69": 523102,
+        "70-74": 376544,
+        "75-79": 279157,
+        "80-84": 213765,
+        "85-89": 104539,
+        "90-94": 36739,
+        "95-99": 8657,
+        "100+": 1090,
+        "80+": 364790
+      }
+    }
+  },
+  "por_departamento_anio": {
+    "2018": {
+      "AMAZONAS": 419833,
+      "ANCASH": 1155451,
+      "APURIMAC": 427323,
+      "AREQUIPA": 1428708,
+      "AYACUCHO": 659061,
+      "CAJAMARCA": 1438325,
+      "CALLAO": 1078789,
+      "CUSCO": 1320530,
+      "HUANCAVELICA": 376346,
+      "HUANUCO": 757467,
+      "ICA": 923175,
+      "JUNIN": 1335139,
+      "LA LIBERTAD": 1938501,
+      "LAMBAYEQUE": 1270295,
+      "LIMA": 10180641,
+      "LORETO": 1000350,
+      "MADRE DE DIOS": 161324,
+      "MOQUEGUA": 186371,
+      "PASCO": 271704,
+      "PIURA": 1974368,
+      "PUNO": 1236836,
+      "SAN MARTIN": 866861,
+      "TACNA": 354644,
+      "TUMBES": 241321,
+      "UCAYALI": 558767
+    },
+    "2019": {
+      "AMAZONAS": 423863,
+      "ANCASH": 1169522,
+      "APURIMAC": 429587,
+      "AREQUIPA": 1464638,
+      "AYACUCHO": 664494,
+      "CAJAMARCA": 1447891,
+      "CALLAO": 1105512,
+      "CUSCO": 1340457,
+      "HUANCAVELICA": 371260,
+      "HUANUCO": 759851,
+      "ICA": 950100,
+      "JUNIN": 1350021,
+      "LA LIBERTAD": 1979901,
+      "LAMBAYEQUE": 1292105,
+      "LIMA": 10416139,
+      "LORETO": 1015212,
+      "MADRE DE DIOS": 167674,
+      "MOQUEGUA": 189781,
+      "PASCO": 272157,
+      "PIURA": 2013517,
+      "PUNO": 1239022,
+      "SAN MARTIN": 884283,
+      "TACNA": 363205,
+      "TUMBES": 246699,
+      "UCAYALI": 574509
+    },
+    "2020": {
+      "AMAZONAS": 426806,
+      "ANCASH": 1180638,
+      "APURIMAC": 430736,
+      "AREQUIPA": 1497438,
+      "AYACUCHO": 668213,
+      "CAJAMARCA": 1453711,
+      "CALLAO": 1129854,
+      "CUSCO": 1357075,
+      "HUANCAVELICA": 365317,
+      "HUANUCO": 760267,
+      "ICA": 975182,
+      "JUNIN": 1361467,
+      "LA LIBERTAD": 2016771,
+      "LAMBAYEQUE": 1310785,
+      "LIMA": 10628470,
+      "LORETO": 1027559,
+      "MADRE DE DIOS": 173811,
+      "MOQUEGUA": 192740,
+      "PASCO": 271904,
+      "PIURA": 2047954,
+      "PUNO": 1237997,
+      "SAN MARTIN": 899648,
+      "TACNA": 370974,
+      "TUMBES": 251521,
+      "UCAYALI": 589110
+    },
+    "2021": {
+      "AMAZONAS": 428512,
+      "ANCASH": 1188391,
+      "APURIMAC": 430609,
+      "AREQUIPA": 1526669,
+      "AYACUCHO": 669979,
+      "CAJAMARCA": 1455245,
+      "CALLAO": 1151480,
+      "CUSCO": 1369932,
+      "HUANCAVELICA": 358356,
+      "HUANUCO": 758416,
+      "ICA": 998144,
+      "JUNIN": 1369003,
+      "LA LIBERTAD": 2048492,
+      "LAMBAYEQUE": 1325912,
+      "LIMA": 10814450,
+      "LORETO": 1037055,
+      "MADRE DE DIOS": 179688,
+      "MOQUEGUA": 195185,
+      "PASCO": 270842,
+      "PIURA": 2077039,
+      "PUNO": 1233277,
+      "SAN MARTIN": 912674,
+      "TACNA": 377842,
+      "TUMBES": 255712,
+      "UCAYALI": 602400
+    },
+    "2022": {
+      "AMAZONAS": 429483,
+      "ANCASH": 1194156,
+      "APURIMAC": 429720,
+      "AREQUIPA": 1553994,
+      "AYACUCHO": 670579,
+      "CAJAMARCA": 1454217,
+      "CALLAO": 1171648,
+      "CUSCO": 1380594,
+      "HUANCAVELICA": 350845,
+      "HUANUCO": 755213,
+      "ICA": 1020050,
+      "JUNIN": 1374221,
+      "LA LIBERTAD": 2077345,
+      "LAMBAYEQUE": 1338994,
+      "LIMA": 10986006,
+      "LORETO": 1044884,
+      "MADRE DE DIOS": 185478,
+      "MOQUEGUA": 197337,
+      "PASCO": 269296,
+      "PIURA": 2103099,
+      "PUNO": 1226353,
+      "SAN MARTIN": 924384,
+      "TACNA": 384222,
+      "TUMBES": 259556,
+      "UCAYALI": 615024
+    }
+  },
+  "fuentes": [
+    {
+      "bloque": "nacional_por_anio",
+      "url": "https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1665/libro.pdf",
+      "detalle": "INEI, Boletin de Analisis Demografico N 38: 'Peru: Estimaciones y Proyecciones de la Poblacion Nacional, 1950-2070' (Lima, 2019; base Censo 2017). Cuadro N 01: Peru: Estimaciones y proyecciones de la poblacion total por sexo y anos calendario, 1950-2070 (poblacion al 30 de junio de cada ano). p.41-43."
+    },
+    {
+      "bloque": "nacional_por_anio_sexo",
+      "url": "https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1665/libro.pdf",
+      "detalle": "INEI, Boletin de Analisis Demografico N 38, Cuadro N 01 (columnas Hombres/Mujeres), poblacion al 30 de junio."
+    },
+    {
+      "bloque": "nacional_por_edad_sexo (solo 2020)",
+      "url": "https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1665/libro.pdf",
+      "detalle": "INEI, Boletin de Analisis Demografico N 38, Cuadro N 02: Peru: Poblacion total al 30 de junio de cada ano, segun sexo y grupo de edad, 2020-2050. p.45-46. El boletin solo publica cortes quinquenales (2020, 2025, ...); no publica 2022 por grupos de edad."
+    },
+    {
+      "bloque": "por_departamento_anio",
+      "url": "https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1860/libro.pdf",
+      "detalle": "INEI, Boletin Especial N 27: 'Peru: Proyecciones de Poblacion Total, segun Departamento, Provincia y Distrito, 2018-2022' (base Censo 2017). Cuadro: Peru: Poblacion total proyectada al 30 de junio, segun departamento, provincia y distrito, 2018-2022 (filas de nivel departamento, UBIGEO XX0000)."
+    },
+    {
+      "bloque": "por_departamento_anio (corroboracion 2018-2020)",
+      "url": "https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1715/libro.pdf",
+      "detalle": "INEI, Boletin Especial N 26: 'Peru: Estimaciones y Proyecciones por Departamento, Provincia y Distrito, 2018-2020'. Coincide con N 27 para 2018-2020."
+    }
+  ],
+  "notas": "Todas las cifras son al 30 de junio de cada ano, tomadas literalmente de boletines oficiales del INEI basados en el Censo 2017. BLOQUE 1 (nacional por ano 2017-2024): COMPLETO, del Boletin N 38, Cuadro 01. Nota: 30 973 992 es la poblacion PROYECTADA al 30-jun-2017 de la serie de estimaciones (no es el conteo censal del 22-oct-2017, que fue 31 237 385 poblacion censada / 29 381 884 sin omision segun otras fuentes); para denominadores de tasas use la serie al 30 de junio (esta). BLOQUE 2 (nacional por edad/sexo): SOLO 2020 disponible y COMPLETO (grupos quinquenales 0-4 ... 95-99 y 100+, ambos sexos), del Boletin N 38 Cuadro 02. El campo '80+' es la suma de 80-84+85-89+90-94+95-99+100+ (aritmetica, no estimacion). 2022 por grupos de edad NO esta publicado: el Boletin N 38 y el Boletin Especial N 25 (Lib1702) solo dan cortes cada 5 anos (1995,2000,...,2015,2020,2025,2030); no hay tabla oficial 2022 por edad quinquenal. Para 2022 por edad se necesitaria el dataset por edades simples y ano calendario, que no se localizo en version Censo-2017 legible. BLOQUE 3 (departamentos 2018-2022): COMPLETO, 24 departamentos + Prov. Const. del Callao (clave CALLAO), del Boletin Especial N 27. LIMA es el departamento completo de Lima (incluye Lima Metropolitana y region Lima). No hay datos departamentales oficiales para 2017 en esta serie (arranca en 2018); para 2023-2024 existe una version posterior 2018-2026 no descargada aqui. Validacion: la suma de los 25 ambitos departamentales coincide exactamente con el total nacional de cada ano 2018-2022, y la suma por edad/sexo de 2020 coincide con el total nacional 2020."
+}

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Observatorio de Mortalidad del Perú</title>
+<meta name="description" content="¿De qué muere el Perú? Series anuales de mortalidad (SINADEF 2017–2024) con tasas estandarizadas por edad, tendencias y tres ejes de prevención: metabólico, criminalidad y accidentes. Datos oficiales, sin cifras inventadas.">
+<link rel="canonical" href="https://unimauro.github.io/mortalidad-peru/">
+<meta name="theme-color" content="#b3122b">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_PE">
+<meta property="og:site_name" content="Observatorio de Mortalidad del Perú">
+<meta property="og:title" content="Observatorio de Mortalidad del Perú — ¿De qué muere el Perú?">
+<meta property="og:description" content="Series anuales 2017–2024 de SINADEF con tasas estandarizadas por edad, tendencias y ejes de prevención. Datos oficiales del MINSA e INEI.">
+<meta property="og:url" content="https://unimauro.github.io/mortalidad-peru/">
+<meta property="og:image" content="https://unimauro.github.io/mortalidad-peru/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Observatorio de Mortalidad del Perú">
+<meta name="twitter:description" content="¿De qué muere el Perú? Series anuales de mortalidad con tasas estandarizadas por edad y ejes de prevención.">
+<meta name="twitter:image" content="https://unimauro.github.io/mortalidad-peru/assets/og.png">
+<!-- Favicon -->
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="assets/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#top" style="text-decoration:none"><span class="dot"></span> Mortalidad&nbsp;Perú</a>
+    <nav>
+      <a href="#causas">Causas</a>
+      <a href="#metabolico">Metabólico</a>
+      <a href="#criminalidad">Criminalidad</a>
+      <a href="#accidentes">Accidentes</a>
+      <a href="#demografia">Sexo y edad</a>
+      <a href="#mapa">Mapa</a>
+      <a href="#cancer">Cáncer / VIH</a>
+      <a href="#metodologia">Metodología</a>
+    </nav>
+    <button class="iconbtn" id="themeBtn" title="Modo claro/oscuro" aria-label="Cambiar tema">◑</button>
+  </div>
+</header>
+
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap">
+    <div class="kicker">Observatorio de datos abiertos · Perú</div>
+    <h1>¿De qué muere el&nbsp;Perú?</h1>
+    <p class="lead">Un observatorio de la mortalidad peruana con series anuales del Sistema Informático Nacional de Defunciones (SINADEF), tasas estandarizadas por edad y seguimiento de tres ejes de prevención. Todas las cifras son trazables a su fuente oficial; ninguna se inventa.</p>
+    <div class="updated"><span class="pulse"></span> Última actualización de datos: <b id="lastUpdate">—</b></div>
+    <div class="kpis" id="kpis">
+      <div class="kpi"><div class="lab skel" style="height:14px;width:60%">&nbsp;</div><div class="val skel" style="height:34px;width:80%;margin-top:8px">&nbsp;</div></div>
+      <div class="kpi"><div class="lab skel" style="height:14px;width:60%">&nbsp;</div><div class="val skel" style="height:34px;width:80%;margin-top:8px">&nbsp;</div></div>
+      <div class="kpi"><div class="lab skel" style="height:14px;width:60%">&nbsp;</div><div class="val skel" style="height:34px;width:80%;margin-top:8px">&nbsp;</div></div>
+      <div class="kpi"><div class="lab skel" style="height:14px;width:60%">&nbsp;</div><div class="val skel" style="height:34px;width:80%;margin-top:8px">&nbsp;</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERIE GENERAL -->
+<section class="blk" id="general">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Panorama</div>
+      <h2>Defunciones registradas por año</h2>
+      <p>Total de fallecimientos inscritos en SINADEF. Las bandas sombreadas marcan quiebres de la serie: pandemia COVID-19 (2020–2022) y el año en curso, siempre parcial.</p>
+    </div>
+    <div class="card">
+      <div class="chart tall" id="ch_general"></div>
+      <div class="cfoot"><span id="src_general">Fuente: SINADEF (MINSA)</span><button data-csv="general">Descargar CSV</button></div>
+    </div>
+    <div class="note" style="margin-top:16px" id="note_undercount"></div>
+  </div>
+</section>
+
+<!-- TOP CAUSAS -->
+<section class="blk" id="causas">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Ranking</div>
+      <h2>Las principales causas, año por año</h2>
+      <p>Grupos de causa según la causa básica del certificado (agrupación aproximada por capítulos CIE-10). A la derecha, cómo se mueven de posición las 10 primeras a lo largo del periodo.</p>
+    </div>
+    <div class="controls">
+      <label class="ctl">Año <select id="yearCauses"></select></label>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Top causas del año</h3>
+        <div class="chart tall" id="ch_top"></div>
+        <div class="cfoot"><span>Causa básica · SINADEF</span><button data-csv="top">Descargar CSV</button></div>
+      </div>
+      <div class="card">
+        <h3>Cómo cambian de posición (2017–2023)</h3>
+        <p class="hint">Bump chart del top 10 por año completo.</p>
+        <div class="chart tall" id="ch_bump"></div>
+        <div class="cfoot"><span>Ranking anual · SINADEF</span><button data-csv="bump">Descargar CSV</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EJE METABÓLICO -->
+<section class="blk" id="metabolico">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Eje de prevención 1</div>
+      <h2>Muertes metabólicas y cardiovasculares</h2>
+      <p>Diabetes, enfermedades hipertensivas, isquémicas del corazón, cerebrovasculares y enfermedad renal crónica. Se muestran en tasa estandarizada por edad para comparar años de forma válida.</p>
+    </div>
+    <div class="controls">
+      <div class="seg" id="metricMeta">
+        <button data-m="tasa_estandarizada" class="on">Tasa estandarizada</button>
+        <button data-m="tasa_cruda">Tasa cruda</button>
+        <button data-m="conteo">Número</button>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Series por causa</h3>
+        <div class="chart" id="ch_meta"></div>
+        <div class="cfoot"><span>Tasa × 100 000 · población INEI</span><button data-csv="meta">Descargar CSV</button></div>
+      </div>
+      <div class="card">
+        <h3>Semáforo de prevención</h3>
+        <p class="hint">Solo se marca tendencia cuando es estadísticamente significativa (IC 95% de la pendiente log-lineal, años completos 2017–2023).</p>
+        <div class="semaforo" id="semaforoMeta"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CRIMINALIDAD -->
+<section class="blk" id="criminalidad">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Eje de prevención 2</div>
+      <h2>Criminalidad y muertes autoinfligidas</h2>
+      <p>Homicidios/agresiones y suicidios según lo registrado en el certificado de defunción.</p>
+    </div>
+    <div class="note" style="margin-bottom:16px">⚠️ <b>Subregistro importante.</b> Las causas externas están fuertemente sub-registradas y mal codificadas en los certificados de SINADEF (muchas quedan como «intención no determinada»). El dato fino de homicidios proviene del Ministerio Público / INEI y de la PNP, con cifras varias veces mayores. Aquí se muestra lo <b>registrado en SINADEF</b>, no la magnitud real.</div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Homicidios y suicidios (registrados)</h3>
+        <div class="chart" id="ch_crim"></div>
+        <div class="cfoot"><span>Causa básica X60–Y09 · SINADEF</span><button data-csv="crim">Descargar CSV</button></div>
+      </div>
+      <div class="card">
+        <h3>Por sexo (año completo más reciente)</h3>
+        <div class="chart" id="ch_crimSexo"></div>
+        <div class="cfoot"><span>SINADEF</span><button data-csv="crimSexo">Descargar CSV</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCIDENTES -->
+<section class="blk" id="accidentes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Eje de prevención 3</div>
+      <h2>Accidentes por tipo</h2>
+      <p>Tránsito, caídas, ahogamiento, intoxicaciones y otros. Foco en tránsito.</p>
+    </div>
+    <div class="card">
+      <div class="chart" id="ch_acc"></div>
+      <div class="cfoot"><span>Causas externas V01–X59 · SINADEF</span><button data-csv="acc">Descargar CSV</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMOGRAFÍA -->
+<section class="blk" id="demografia">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Perfil</div>
+      <h2>Sexo y edad</h2>
+      <p>Pirámide de defunciones por grupo quinquenal de edad y sexo. Desliza el año.</p>
+    </div>
+    <div class="controls"><label class="ctl">Año <select id="yearPyr"></select></label></div>
+    <div class="card">
+      <div class="chart tall" id="ch_pyr"></div>
+      <div class="cfoot"><span>Defunciones por edad y sexo · SINADEF</span><button data-csv="pyr">Descargar CSV</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAPA -->
+<section class="blk" id="mapa">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Territorio</div>
+      <h2>Mapa por departamento</h2>
+      <p>Distribución territorial de las defunciones. Elige año y causa. Cuando hay población del INEI (2018–2022) se muestra tasa por 100 000; si no, número absoluto.</p>
+    </div>
+    <div class="controls">
+      <label class="ctl">Año <select id="yearMap"></select></label>
+      <label class="ctl">Causa <select id="causeMap"></select></label>
+    </div>
+    <div class="card">
+      <div class="chart tall" id="ch_map"></div>
+      <div class="cfoot"><span id="src_map">GeoJSON: juaneladio/peru-geojson · SINADEF · INEI</span><button data-csv="map">Descargar CSV</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- CÁNCER / VIH / COVID -->
+<section class="blk" id="cancer">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Enfermedades específicas</div>
+      <h2>Cáncer, VIH/sida y COVID-19</h2>
+      <p>Mortalidad por tipo de cáncer (causa básica C00–C97), y series de VIH/sida y COVID-19.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Cáncer por tipo (año completo más reciente)</h3>
+        <div class="chart" id="ch_cancer"></div>
+        <div class="cfoot"><span>SINADEF C00–C97</span><button data-csv="cancer">Descargar CSV</button></div>
+      </div>
+      <div class="card">
+        <h3>VIH/sida y COVID-19 por año</h3>
+        <div class="chart" id="ch_vih"></div>
+        <div class="cfoot"><span>SINADEF B20–B24, U07/U09</span><button data-csv="vih">Descargar CSV</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGÍA -->
+<section class="blk" id="metodologia">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Cómo se hizo</div>
+      <h2>Metodología, quiebres y fuentes</h2>
+      <p>Este observatorio es descriptivo: no afirma causalidad ni proyecta al futuro.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Notas metodológicas</h3>
+        <ul class="methods" id="methodsList"></ul>
+      </div>
+      <div class="card">
+        <h3>Fuentes verificadas</h3>
+        <table class="src-table">
+          <thead><tr><th>Fuente</th><th>Uso</th><th>Años</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://www.datosabiertos.gob.pe/dataset/informaci%C3%B3n-de-fallecidos-del-sistema-inform%C3%A1tico-nacional-de-defunciones-sinadef-ministerio" target="_blank" rel="noopener">SINADEF (MINSA)</a></td><td>Defunciones y causas (microdata)</td><td>2017–2024*</td></tr>
+            <tr><td><a href="https://www.inei.gob.pe/" target="_blank" rel="noopener">INEI — Estimaciones de población</a></td><td>Denominadores de tasas</td><td>2017–2024</td></tr>
+            <tr><td><a href="https://github.com/juaneladio/peru-geojson" target="_blank" rel="noopener">peru-geojson (juaneladio)</a></td><td>Límites departamentales</td><td>—</td></tr>
+          </tbody>
+        </table>
+        <p class="hint" style="margin-top:10px">* La microdata oficial de SINADEF disponible llega hasta 2024-05-05. El observatorio se actualiza automáticamente cuando el MINSA vuelve a publicar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap cols">
+    <div>
+      <strong>Observatorio de Mortalidad del Perú</strong><br>
+      Datos abiertos · sin fines de lucro · código bajo licencia MIT.<br>
+      <a href="https://github.com/unimauro/mortalidad-peru" target="_blank" rel="noopener">Repositorio y datos en GitHub →</a>
+    </div>
+    <div style="max-width:42ch;color:var(--ink-soft)">
+      Las cifras corresponden a defunciones <em>registradas</em> en SINADEF, que subestiman la mortalidad real por subregistro. Úsese con fines de prevención y salud pública, no como conteo definitivo.
+    </div>
+  </div>
+</footer>
+
+<button class="chat-btn" id="chatBtn">💬 Pregúntale a los datos</button>
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-head">Asistente del observatorio <span id="chatClose" style="cursor:pointer">✕</span></div>
+  <div class="chat-body" id="chatBody"><div class="msg bot">Hola 👋 Puedo ayudarte a leer estos datos de mortalidad. (El asistente con IA se activará próximamente.)</div></div>
+  <div class="chat-in"><input id="chatInput" placeholder="Escribe tu pregunta…"><button id="chatSend">Enviar</button></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.1/echarts.min.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

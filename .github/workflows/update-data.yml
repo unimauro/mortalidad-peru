@@ -1,0 +1,89 @@
+name: Actualizar datos de mortalidad
+
+on:
+  schedule:
+    - cron: "0 6 1 * *"   # día 1 de cada mes, 06:00 UTC (01:00 Perú)
+  workflow_dispatch:        # ejecución manual desde la pestaña Actions
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install pandas numpy openpyxl Pillow
+
+      - name: Guardar copia previa (para validar)
+        run: |
+          mkdir -p .prev
+          cp -f data/processed/datos.json .prev/datos.json 2>/dev/null || true
+
+      - name: Descargar SINADEF
+        run: python pipeline/descargar.py
+
+      - name: Procesar
+        run: python pipeline/procesar.py
+
+      - name: Generar imágenes (OG + favicons)
+        run: python pipeline/generar_imagenes.py
+
+      - name: Validar salida
+        run: |
+          python - <<'PY'
+          import json, sys
+          d = json.load(open("data/processed/datos.json", encoding="utf-8"))
+          assert d["meta"]["registros_leidos"] > 100000, "muy pocos registros"
+          tot = sum(d["total_por_anio"].values())
+          assert tot > 0, "total no positivo"
+          assert all(v >= 0 for v in d["total_por_anio"].values()), "conteo negativo"
+          # variación anómala frente a la versión previa (>40% en el total global)
+          import os
+          if os.path.exists(".prev/datos.json"):
+              prev = json.load(open(".prev/datos.json", encoding="utf-8"))
+              pt = sum(prev["total_por_anio"].values())
+              if pt and abs(tot - pt) / pt > 0.40:
+                  sys.exit(f"Cambio anómalo en el total: {pt} -> {tot}")
+          print("Validación OK:", tot, "defunciones")
+          PY
+
+      - name: Commit si hay cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/processed/ assets/og.png
+          if git diff --cached --quiet; then
+            echo "Sin cambios en los datos."
+          else
+            git commit -m "datos: actualización automática mensual de SINADEF"
+            git push
+          fi
+
+      - name: Abrir Issue si algo falla
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `Fallo en la actualización automática de datos (${new Date().toISOString().slice(0,10)})`;
+            const body = `El workflow **update-data** falló. Los datos vigentes NO se sobrescribieron.\n\n` +
+              `Revisa el run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n\n` +
+              `Causa probable: la fuente de SINADEF no respondió, cambió de formato, o Cloudflare bloqueó la descarga desde el runner.`;
+            const {owner, repo} = context.repo;
+            const existing = await github.rest.issues.listForRepo({owner, repo, state:'open', labels:'actualizacion-datos'});
+            if (existing.data.length === 0) {
+              await github.rest.issues.create({owner, repo, title, body, labels:['actualizacion-datos']});
+            }
