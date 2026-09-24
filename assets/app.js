@@ -214,7 +214,7 @@ function chGeneral(){
 
 function chTop(){
   const p=palette(), c=ec('ch_top'), y=$('#yearCauses').value;
-  const rows=(D.causas_por_anio[y]||[]).filter(r=>r.grupo!=='otras').slice(0,12).reverse();
+  const rows=(D.causas_por_anio[y]||[]).filter(r=>r.grupo!=='otras'&&r.grupo!=='no_codificada').slice(0,12).reverse();
   const ejeColor={metabolico:p.cat[0],criminalidad:p.cat[3],accidentes:p.cat[1],cancer:p.cat[6],transmisible:p.cat[2],otras:p.cat[7],mal_definida:p.flat};
   c.setOption({
     grid:{left:8,right:26,top:10,bottom:8,containLabel:true},
@@ -479,6 +479,7 @@ function buildMethods(){
     'Los años COVID-19 (2020–2022) se muestran pero se leen con cautela por el exceso de mortalidad y las disrupciones de registro.',
     `Registros procesados: ${fmt(D.meta.registros_leidos)} certificados de defunción.`,
     'El año en curso se muestra como «parcial» y no se compara como año completo.',
+    'La codificación CIE-10 de la causa va con rezago: en los años más recientes hay una mayor proporción de «causa no codificada», por lo que el detalle por causa de 2025–2026 es provisional y se irá completando.',
   ];
   ul.innerHTML=items.map(t=>`<li>${t}</li>`).join('');
 }

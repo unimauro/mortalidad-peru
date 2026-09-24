@@ -1,8 +1,10 @@
 {
-  "fuente_principal": "SINADEF — Información de Fallecidos (MINSA), datosabiertos.gob.pe",
+  "fuente_principal": "SINADEF — DATOS ABIERTOS (MINSA)",
   "url_fuente": "https://www.datosabiertos.gob.pe/dataset/informaci%C3%B3n-de-fallecidos-del-sistema-inform%C3%A1tico-nacional-de-defunciones-sinadef-ministerio",
-  "fecha_proceso": "2026-09-24T17:12:31.417330+00:00",
-  "registros_leidos": 1110168,
+  "fecha_proceso": "2026-09-24T17:27:17.985307+00:00",
+  "ultimo_anio": 2026,
+  "ultimo_mes": 9,
+  "registros_leidos": 1578149,
   "registros_fuera_de_rango": 0,
   "anios": [
     2017,
@@ -12,7 +14,9 @@
     2021,
     2022,
     2023,
-    2024
+    2024,
+    2025,
+    2026
   ],
   "anios_completos": [
     2017,
@@ -21,9 +25,11 @@
     2020,
     2021,
     2022,
-    2023
+    2023,
+    2024,
+    2025
   ],
-  "anio_parcial": 2024,
+  "anio_parcial": 2026,
   "poblacion_disponible": true,
   "poblacion_fuente": [
     {
@@ -55,7 +61,7 @@
   "quiebres_serie": [
     {
       "anio": 2017,
-      "nota": "Inicio de SINADEF: subregistro alto en el arranque"
+      "nota": "Inicio de SINADEF: subregistro en el arranque"
     },
     {
       "anio": 2020,
@@ -67,11 +73,11 @@
     },
     {
       "anio": 2022,
-      "nota": "Disrupción/cierre temporal de SINADEF"
+      "nota": "Disrupción temporal de SINADEF"
     },
     {
-      "anio": 2024,
-      "nota": "Año PARCIAL: microdata oficial llega hasta 2024-05-05"
+      "anio": 2026,
+      "nota": "Año PARCIAL: datos hasta el mes 9"
     }
   ],
   "notas_calidad": [
