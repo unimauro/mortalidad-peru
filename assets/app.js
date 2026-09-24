@@ -5,6 +5,8 @@ const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => [...r.querySelectorAll(s)];
 const fmt = n => (n==null ? '—' : n.toLocaleString('es-PE'));
 const fmt1 = n => (n==null ? '—' : Number(n).toLocaleString('es-PE',{maximumFractionDigits:1}));
+const MESES = ['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const MESES_C = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
 // ---- tema ----
 const THEME_KEY = 'mp-theme';
@@ -43,7 +45,11 @@ function rerenderAll(){ builders.forEach(b => b.buildFn()); }
 addEventListener('resize', () => Object.values(charts).forEach(c => c.resize()));
 
 // estilo base para ejes/grid según tema
-function baseGrid(){ const p=palette(); return {left:8,right:14,top:26,bottom:8,containLabel:true}; }
+function baseGrid(){ return {left:8,right:14,top:26,bottom:8,containLabel:true}; }
+// grid con espacio arriba para leyenda superior (evita que la leyenda tape los años)
+function gridL(){ return {left:8,right:16,top:44,bottom:14,containLabel:true}; }
+function legTop(){ const p=palette(); return {top:8,left:'center',type:'scroll',icon:'roundRect',
+  itemWidth:14,itemHeight:8,itemGap:14,textStyle:{color:p.soft,fontSize:11}}; }
 function axisStyle(){ const p=palette(); return {
   axisLine:{lineStyle:{color:p.line}}, axisTick:{show:false},
   axisLabel:{color:p.soft,fontSize:11}, splitLine:{lineStyle:{color:p.line,type:'dashed'}}
@@ -77,10 +83,16 @@ const FULL  = () => D.meta.anios_completos.map(String);
 const PARTIAL = () => String(D.meta.anio_parcial);
 const lastFull = () => FULL()[FULL().length-1];
 
+function lastMonthYear(){
+  const yrs = Object.keys(D.mensual_sexo).filter(y=>Object.keys(D.mensual_sexo[y]).length).sort();
+  const ly = yrs[yrs.length-1];
+  const lm = Object.keys(D.mensual_sexo[ly]).sort();
+  return {year: ly, month: +lm[lm.length-1]};
+}
 function init(){
-  // fecha
-  const dt = new Date(D.meta.fecha_proceso);
-  $('#lastUpdate').textContent = dt.toLocaleDateString('es-PE',{day:'numeric',month:'long',year:'numeric'});
+  // cobertura de datos
+  const lm = lastMonthYear();
+  $('#dataSpan').textContent = `enero ${YEARS()[0]} – ${MESES[lm.month]} ${lm.year}`;
   buildKPIs();
   buildMethods();
   fillSelectors();
@@ -96,6 +108,7 @@ function init(){
   reg('ch_map', chMap);
   reg('ch_cancer', chCancer);
   reg('ch_vih', chVih);
+  reg('ch_month', chMonth);
   rerenderAll();
   wireControls();
   buildSemaforo();
@@ -162,6 +175,14 @@ function fillSelectors(){
   $('#causeMap').innerHTML = `<option value="__total__">Todas las causas</option>` +
     CAUSES.filter(g=>g!=='no_codificada'&&g!=='otras').slice(0,16)
       .map(g=>`<option value="${g}">${D.etiquetas[g].etiqueta}</option>`).join('');
+  // mes a mes: años con datos mensuales
+  const mYears = Object.keys(D.mensual_sexo).filter(y=>Object.keys(D.mensual_sexo[y]).length).reverse();
+  $('#yearMonth').innerHTML = mYears.map(y=>opt(y)).join('');
+  $('#yearMonth').value = lastMonthYear().year;
+  // pirámide: selector de causa (Todas + grupos con más peso)
+  $('#causePyr').innerHTML = `<option value="__total__">Todas las causas</option>` +
+    CAUSES.filter(g=>g!=='no_codificada'&&g!=='otras'&&D.causa_edad_sexo[lastFull()]?.[g])
+      .slice(0,18).map(g=>`<option value="${g}">${D.etiquetas[g].etiqueta}</option>`).join('');
 }
 
 // ================= charts =================
@@ -247,10 +268,10 @@ function chMeta(){
     data:ys.map(y=>{ if(y===PARTIAL())return null; return D.series[g][metaMetric][y]; })
   }));
   c.setOption({
-    grid:baseGrid(), legend:{bottom:0,textStyle:{color:p.soft,fontSize:11},icon:'roundRect'},
+    grid:gridL(), legend:legTop(),
     tooltip:tt({trigger:'axis',valueFormatter:v=>v==null?'—':fmt1(v)}),
     xAxis:Object.assign({type:'category',data:ys,boundaryGap:false},axisStyle()),
-    yAxis:Object.assign({type:'value',name:unidad,nameTextStyle:{color:p.soft,fontSize:10}},axisStyle()),
+    yAxis:Object.assign({type:'value'},axisStyle()),
     series
   }, true);
 }
@@ -261,10 +282,10 @@ function chCrim(){
     lineStyle:{width:2.5,color:i===0?p.cat[3]:p.cat[4]},itemStyle:{color:i===0?p.cat[3]:p.cat[4]},
     data:ys.map(y=>y===PARTIAL()?null:D.series[g]?.conteo?.[y]),connectNulls:true});
   c.setOption({
-    grid:baseGrid(), legend:{bottom:0,textStyle:{color:p.soft,fontSize:11}},
+    grid:gridL(), legend:legTop(),
     tooltip:tt({trigger:'axis'}),
     xAxis:Object.assign({type:'category',data:ys,boundaryGap:false},axisStyle()),
-    yAxis:Object.assign({type:'value',name:'defunciones registradas',nameTextStyle:{color:p.soft,fontSize:10}},axisStyle()),
+    yAxis:Object.assign({type:'value'},axisStyle()),
     series:[mk('homicidio',0),mk('suicidio',1)]
   }, true);
 }
@@ -273,7 +294,7 @@ function chCrimSexo(){
   const g=['homicidio','suicidio'];
   const val=(gr,s)=>D.por_sexo[gr]?.[y]?.[s]||0;
   c.setOption({
-    grid:baseGrid(), legend:{bottom:0,textStyle:{color:p.soft,fontSize:11}},
+    grid:gridL(), legend:legTop(),
     tooltip:tt({trigger:'axis',axisPointer:{type:'shadow'}}),
     xAxis:Object.assign({type:'category',data:g.map(x=>D.etiquetas[x].etiqueta)},axisStyle()),
     yAxis:Object.assign({type:'value'},axisStyle()),
@@ -294,23 +315,29 @@ function chAcc(){
     data:ys.map(y=>D.series[g].conteo[y])
   }));
   c.setOption({
-    grid:baseGrid(), legend:{bottom:0,textStyle:{color:p.soft,fontSize:11},type:'scroll'},
+    grid:gridL(), legend:legTop(),
     tooltip:tt({trigger:'axis',axisPointer:{type:'shadow'}}),
     xAxis:Object.assign({type:'category',data:ys},axisStyle()),
-    yAxis:Object.assign({type:'value',name:'defunciones registradas',nameTextStyle:{color:p.soft,fontSize:10}},axisStyle()),
+    yAxis:Object.assign({type:'value'},axisStyle()),
     series
   }, true);
 }
 
 function chPyr(){
-  const p=palette(), c=ec('ch_pyr'), y=$('#yearPyr').value;
+  const p=palette(), c=ec('ch_pyr'), y=$('#yearPyr').value, cause=$('#causePyr').value;
   const ages=D.grupos_edad;
-  const M=ages.map(a=>-(D.piramide[y]?.M?.[a]||0));
-  const F=ages.map(a=>(D.piramide[y]?.F?.[a]||0));
+  let getM, getF, titulo;
+  if(cause==='__total__' || !D.causa_edad_sexo[y]?.[cause]){
+    getM=a=>D.piramide[y]?.M?.[a]||0; getF=a=>D.piramide[y]?.F?.[a]||0; titulo='Todas las causas';
+  } else {
+    const ces=D.causa_edad_sexo[y][cause];
+    getM=a=>ces.M?.[a]||0; getF=a=>ces.F?.[a]||0; titulo=D.etiquetas[cause].etiqueta;
+  }
+  const M=ages.map(a=>-getM(a)), F=ages.map(a=>getF(a));
   const maxv=Math.max(1,...M.map(v=>-v),...F);
   c.setOption({
-    grid:{left:8,right:20,top:10,bottom:30,containLabel:true},
-    legend:{bottom:0,textStyle:{color:p.soft,fontSize:11}},
+    grid:{left:8,right:20,top:42,bottom:16,containLabel:true},
+    legend:legTop(),
     tooltip:tt({trigger:'axis',axisPointer:{type:'shadow'},
       formatter:a=>{const i=a[0].dataIndex; return `Edad ${ages[i]}<br>Hombres: ${fmt(Math.abs(M[i]))}<br>Mujeres: ${fmt(F[i])}`;}}),
     xAxis:Object.assign({type:'value',max:maxv,min:-maxv,axisLabel:{formatter:v=>fmt(Math.abs(v)),color:p.soft,fontSize:10}},axisStyle()),
@@ -320,6 +347,17 @@ function chPyr(){
       {name:'Mujeres',type:'bar',stack:'p',data:F,itemStyle:{color:p.cat[4]}}
     ]
   }, true);
+  $('#src_pyr').textContent=`${titulo} · edad y sexo (${y}) · SINADEF`;
+  const th=M.reduce((a,b)=>a-b,0), tf=F.reduce((a,b)=>a+b,0), tot=th+tf;
+  let modal=ages[0], mx=-1; ages.forEach((a,i)=>{const s=(-M[i])+F[i]; if(s>mx){mx=s;modal=a;}});
+  const ratio=tf?Math.round(th/tf*100):0, pctH=tot?th/tot*100:0;
+  const mas = pctH>=50?'hombres':'mujeres';
+  $('#pyrNote').innerHTML=`
+    <div class="lab">${titulo} · ${y}${y===PARTIAL()?' (parcial)':''}</div>
+    <div class="big">${fmt1(Math.max(pctH,100-pctH))}%</div>
+    <p>de estas muertes fueron <b>${mas}</b> (por cada 100 mujeres, <b>${ratio} hombres</b>).</p>
+    <div class="lab" style="margin-top:12px">Edad con más defunciones</div>
+    <p><b>${modal}</b> años concentra la mayor cantidad${cause==='__total__'?'':' por esta causa'}. La mortalidad se dispara con la edad.</p>`;
 }
 
 function chMap(){
@@ -374,12 +412,45 @@ function chVih(){
     lineStyle:{width:2.5,color},itemStyle:{color},
     data:ys.map(y=>y===PARTIAL()?null:D.series[g]?.conteo?.[y]),connectNulls:true});
   c.setOption({
-    grid:baseGrid(), legend:{bottom:0,textStyle:{color:p.soft,fontSize:11}},
+    grid:gridL(), legend:legTop(),
     tooltip:tt({trigger:'axis'}),
     xAxis:Object.assign({type:'category',data:ys,boundaryGap:false},axisStyle()),
-    yAxis:Object.assign({type:'value',name:'defunciones registradas',nameTextStyle:{color:p.soft,fontSize:10}},axisStyle()),
+    yAxis:Object.assign({type:'value'},axisStyle()),
     series:[mk('vih_sida',0,p.cat[4]), mk('covid19',1,p.cat[3])]
   }, true);
+}
+
+function chMonth(){
+  const p=palette(), c=ec('ch_month'), y=$('#yearMonth').value;
+  const md=D.mensual_sexo[y]||{};
+  const months=Object.keys(md).sort();
+  const cats=months.map(m=>MESES_C[+m]);
+  const H=months.map(m=>md[m].M), F=months.map(m=>md[m].F);
+  c.setOption({
+    grid:gridL(), legend:legTop(),
+    tooltip:tt({trigger:'axis',
+      formatter:a=>{const i=a[0].dataIndex,h=H[i],f=F[i];
+        return `${MESES[+months[i]]} ${y}<br>Hombres: <b>${fmt(h)}</b><br>Mujeres: <b>${fmt(f)}</b><br>Total: ${fmt(h+f)}`;}}),
+    xAxis:Object.assign({type:'category',data:cats,boundaryGap:false},axisStyle()),
+    yAxis:Object.assign({type:'value'},axisStyle()),
+    series:[
+      {name:'Hombres',type:'line',smooth:true,symbol:'circle',symbolSize:6,data:H,
+        lineStyle:{width:3,color:p.cat[0]},itemStyle:{color:p.cat[0]},
+        areaStyle:{color:'rgba(0,114,178,.10)'}},
+      {name:'Mujeres',type:'line',smooth:true,symbol:'circle',symbolSize:6,data:F,
+        lineStyle:{width:3,color:p.cat[4]},itemStyle:{color:p.cat[4]},
+        areaStyle:{color:'rgba(213,94,0,.08)'}},
+    ]
+  }, true);
+  const th=H.reduce((a,b)=>a+b,0), tf=F.reduce((a,b)=>a+b,0), tot=th+tf;
+  const ratio=tf?Math.round(th/tf*100):0, pctH=tot?th/tot*100:0;
+  const parcial = y===PARTIAL();
+  $('#monthNote').innerHTML=`
+    <div class="lab">En ${y}${parcial?' · hasta '+MESES[lastMonthYear().month]:''}</div>
+    <div class="big">${fmt1(pctH)}%</div>
+    <p>de las defunciones registradas fueron <b>hombres</b>.</p>
+    <div class="lab" style="margin-top:12px">Sobre-mortalidad masculina</div>
+    <p>Por cada <b>100 mujeres</b> fallecidas se registraron <b>${ratio} hombres</b>. La brecha se mantiene todos los meses del año.</p>`;
 }
 
 // ================= semáforo =================
@@ -416,6 +487,8 @@ function buildMethods(){
 function wireControls(){
   $('#yearCauses').onchange=chTop;
   $('#yearPyr').onchange=chPyr;
+  $('#causePyr').onchange=chPyr;
+  $('#yearMonth').onchange=chMonth;
   $('#yearMap').onchange=chMap;
   $('#causeMap').onchange=chMap;
   $$('#metricMeta button').forEach(b=>b.onclick=()=>{
@@ -441,7 +514,8 @@ function wireCSV(){
     crim:()=>{const rows=[['anio','causa','defunciones']];['homicidio','suicidio'].forEach(g=>ys.forEach(y=>rows.push([y,D.etiquetas[g].etiqueta,D.series[g].conteo[y]])));return rows;},
     crimSexo:()=>{const y=lastFull();const rows=[['causa','sexo','defunciones']];['homicidio','suicidio'].forEach(g=>['M','F'].forEach(s=>rows.push([D.etiquetas[g].etiqueta,s,D.por_sexo[g]?.[y]?.[s]||0])));return rows;},
     acc:()=>{const rows=[['anio','tipo','defunciones']];ACC_GROUPS.filter(g=>D.series[g]).forEach(g=>ys.forEach(y=>rows.push([y,D.etiquetas[g].etiqueta,D.series[g].conteo[y]])));return rows;},
-    pyr:()=>{const y=$('#yearPyr').value;const rows=[['anio','grupo_edad','sexo','defunciones']];D.grupos_edad.forEach(a=>['M','F'].forEach(s=>rows.push([y,a,s,D.piramide[y]?.[s]?.[a]||0])));return rows;},
+    month:()=>{const y=$('#yearMonth').value;const rows=[['anio','mes','hombres','mujeres','total']];Object.keys(D.mensual_sexo[y]||{}).sort().forEach(m=>{const r=D.mensual_sexo[y][m];rows.push([y,m,r.M,r.F,r.T]);});return rows;},
+    pyr:()=>{const y=$('#yearPyr').value,cause=$('#causePyr').value;const rows=[['anio','causa','grupo_edad','sexo','defunciones']];const src=(cause!=='__total__'&&D.causa_edad_sexo[y]?.[cause])?D.causa_edad_sexo[y][cause]:D.piramide[y];const et=cause==='__total__'?'Todas':D.etiquetas[cause]?.etiqueta||cause;D.grupos_edad.forEach(a=>['M','F'].forEach(s=>rows.push([y,et,a,s,src?.[s]?.[a]||0])));return rows;},
     map:()=>{const y=$('#yearMap').value;const rows=[['anio','departamento','tasa_x100k','defunciones']];Object.keys(D.por_departamento[y]||{}).forEach(dep=>rows.push([y,dep,(D.tasa_departamento[y]||{})[dep]??'',D.por_departamento[y][dep]]));return rows;},
     cancer:()=>{const y=lastFull();return [['anio','tipo_cancer','defunciones'],...Object.entries(D.cancer_subtipos[y]||{}).map(([k,v])=>[y,k,v])];},
     vih:()=>{const rows=[['anio','causa','defunciones']];['vih_sida','covid19'].forEach(g=>ys.forEach(y=>rows.push([y,D.etiquetas[g].etiqueta,D.series[g]?.conteo?.[y]||0])));return rows;},

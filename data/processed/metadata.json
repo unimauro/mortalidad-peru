@@ -1,7 +1,7 @@
 {
   "fuente_principal": "SINADEF — Información de Fallecidos (MINSA), datosabiertos.gob.pe",
   "url_fuente": "https://www.datosabiertos.gob.pe/dataset/informaci%C3%B3n-de-fallecidos-del-sistema-inform%C3%A1tico-nacional-de-defunciones-sinadef-ministerio",
-  "fecha_proceso": "2026-09-24T16:31:55.628125+00:00",
+  "fecha_proceso": "2026-09-24T17:12:31.417330+00:00",
   "registros_leidos": 1110168,
   "registros_fuera_de_rango": 0,
   "anios": [

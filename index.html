@@ -55,12 +55,32 @@
     <div class="kicker">Observatorio de datos abiertos · Perú</div>
     <h1>¿De qué muere el&nbsp;Perú?</h1>
     <p class="lead">Un observatorio de la mortalidad peruana con series anuales del Sistema Informático Nacional de Defunciones (SINADEF), tasas estandarizadas por edad y seguimiento de tres ejes de prevención. Todas las cifras son trazables a su fuente oficial; ninguna se inventa.</p>
-    <div class="updated"><span class="pulse"></span> Última actualización de datos: <b id="lastUpdate">—</b></div>
+    <div class="updated" title="Fecha de último procesamiento"><span class="pulse"></span> Datos oficiales SINADEF · <b id="dataSpan">—</b></div>
     <div class="kpis" id="kpis">
       <div class="kpi"><div class="lab skel" style="height:14px;width:60%">&nbsp;</div><div class="val skel" style="height:34px;width:80%;margin-top:8px">&nbsp;</div></div>
       <div class="kpi"><div class="lab skel" style="height:14px;width:60%">&nbsp;</div><div class="val skel" style="height:34px;width:80%;margin-top:8px">&nbsp;</div></div>
       <div class="kpi"><div class="lab skel" style="height:14px;width:60%">&nbsp;</div><div class="val skel" style="height:34px;width:80%;margin-top:8px">&nbsp;</div></div>
       <div class="kpi"><div class="lab skel" style="height:14px;width:60%">&nbsp;</div><div class="val skel" style="height:34px;width:80%;margin-top:8px">&nbsp;</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MES A MES POR SEXO -->
+<section class="blk" id="mensual">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Lo más reciente, mes a mes</div>
+      <h2>¿Cuántos mueren cada mes, hombres y mujeres?</h2>
+      <p>Defunciones registradas por mes y sexo. El dato oficial mes a mes disponible llega hasta <b>mayo de 2024</b>; el panel se actualizará solo cuando el MINSA publique 2025–2026. No se inventan meses.</p>
+    </div>
+    <div class="controls"><label class="ctl">Año <select id="yearMonth"></select></label></div>
+    <div class="split">
+      <div class="card">
+        <h3>Defunciones por mes</h3>
+        <div class="chart" id="ch_month"></div>
+        <div class="cfoot"><span>Mensual por sexo · SINADEF</span><button data-csv="month">Descargar CSV</button></div>
+      </div>
+      <div class="card explica" id="monthNote"></div>
     </div>
   </div>
 </section>
@@ -183,12 +203,18 @@
     <div class="sec-head">
       <div class="eyebrow">Perfil</div>
       <h2>Sexo y edad</h2>
-      <p>Pirámide de defunciones por grupo quinquenal de edad y sexo. Desliza el año.</p>
+      <p>Pirámide de defunciones por grupo quinquenal de edad y sexo. Puedes elegir el año y <b>desagregar por tipo de enfermedad</b>.</p>
     </div>
-    <div class="controls"><label class="ctl">Año <select id="yearPyr"></select></label></div>
-    <div class="card">
-      <div class="chart tall" id="ch_pyr"></div>
-      <div class="cfoot"><span>Defunciones por edad y sexo · SINADEF</span><button data-csv="pyr">Descargar CSV</button></div>
+    <div class="controls">
+      <label class="ctl">Año <select id="yearPyr"></select></label>
+      <label class="ctl">Causa <select id="causePyr"></select></label>
+    </div>
+    <div class="split">
+      <div class="card">
+        <div class="chart tall" id="ch_pyr"></div>
+        <div class="cfoot"><span id="src_pyr">Defunciones por edad y sexo · SINADEF</span><button data-csv="pyr">Descargar CSV</button></div>
+      </div>
+      <div class="card explica" id="pyrNote"></div>
     </div>
   </div>
 </section>

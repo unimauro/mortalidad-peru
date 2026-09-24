@@ -31,7 +31,7 @@ POB_FILE = os.path.join(ROOT, "pipeline", "config", "poblacion_inei.json")
 # índices de columna (0-based) según el diccionario SINADEF
 I_SEXO, I_EDAD, I_TEDAD = 2, 3, 4
 I_DEP = 10
-I_FECHA, I_ANIO = 13, 14
+I_FECHA, I_ANIO, I_MES = 13, 14, 15
 I_VIOLENTA = 18
 I_CIE = [21, 23, 25, 27, 29, 31]  # CAUSA A..F (CIE-X)
 NCOLS = 32
@@ -112,6 +112,8 @@ def main():
     dep_grupo = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))   # [anio][dep][grupo]
     dep_total = defaultdict(lambda: defaultdict(int))          # [anio][dep]
     cancer_sub = defaultdict(lambda: defaultdict(int))         # [anio][subtipo]
+    mensual = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))     # [anio][mes][sexo]
+    causa_edad_sexo = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(int))))  # [anio][grupo][sexo][gedad]
     etiquetas = {}                                            # grupo -> {etiqueta, eje}
     edad_desc = defaultdict(int)                              # [anio] edad desconocida
     n_leidos = 0
@@ -147,10 +149,14 @@ def main():
         if ge:
             causa_edad[anio][g][ge] += 1
             piramide[anio][sx][ge] += 1
+            causa_edad_sexo[anio][g][sx][ge] += 1
         else:
             edad_desc[anio] += 1
         if cl["subtipo"]:
             cancer_sub[anio][cl["subtipo"]] += 1
+        mes = parts[I_MES].strip().zfill(2) if parts[I_MES].strip().isdigit() else None
+        if mes:
+            mensual[anio][mes][sx] += 1
 
     anios = list(range(ANIO_MIN, ANIO_MAX + 1))
     anios_completos = [a for a in anios if a != ANIO_PARCIAL]
@@ -290,6 +296,17 @@ def main():
         },
         "cancer_subtipos": {
             a: dict(sorted(cancer_sub[a].items(), key=lambda x: -x[1])) for a in anios
+        },
+        "mensual_sexo": {
+            a: {m: {"M": mensual[a][m].get("M", 0), "F": mensual[a][m].get("F", 0),
+                    "T": sum(mensual[a][m].values())}
+                for m in sorted(mensual[a])} for a in anios
+        },
+        "causa_edad_sexo": {
+            a: {g: {sx: {ge: causa_edad_sexo[a][g][sx][ge] for ge in GRUPOS_EDAD
+                         if causa_edad_sexo[a][g][sx].get(ge)}
+                    for sx in ("M", "F")}
+                for g in causa_edad_sexo[a]} for a in anios
         },
         "grupos_edad": GRUPOS_EDAD,
     }
