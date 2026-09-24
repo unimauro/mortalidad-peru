@@ -296,6 +296,14 @@ def main():
         "grupos_edad": GRUPOS_EDAD,
     }
 
+    # fuentes oficiales de contraste (homicidios/tránsito), si están disponibles
+    fc = os.path.join(ROOT, "pipeline", "config", "fuentes_criminalidad.json")
+    if os.path.exists(fc):
+        try:
+            datos["fuentes_oficiales"] = json.load(open(fc, encoding="utf-8"))
+        except Exception:
+            pass
+
     with open(os.path.join(OUT, "datos.json"), "w", encoding="utf-8") as f:
         json.dump(datos, f, ensure_ascii=False, separators=(",", ":"))
     with open(os.path.join(OUT, "metadata.json"), "w", encoding="utf-8") as f:

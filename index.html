@@ -283,6 +283,19 @@
       <div class="chart tall" id="ch_hommes"></div>
       <div class="cfoot"><span>Serie mensual · SINADEF (registrado)</span><button data-csv="hommes">Descargar CSV</button></div>
     </div>
+    <div class="card" style="margin-top:18px">
+      <h3>Lo registrado en SINADEF vs. la cifra oficial</h3>
+      <p class="hint">Los certificados de defunción subestiman gravemente las causas externas. Aquí, frente al registro oficial policial-fiscal.</p>
+      <div class="controls">
+        <div class="seg" id="causeOfi">
+          <button data-c="homicidios" class="on">Homicidios</button>
+          <button data-c="transito">Accidentes de tránsito</button>
+        </div>
+      </div>
+      <div class="chart" id="ch_oficial"></div>
+      <div class="note" id="ofiNote" style="margin-top:12px"></div>
+      <div class="cfoot"><span id="src_oficial">Fuentes oficiales · SINADEF</span><button data-csv="oficial">Descargar CSV</button></div>
+    </div>
   </div>
 </section>
 
@@ -408,6 +421,8 @@
           <tbody>
             <tr><td><a href="https://www.datosabiertos.gob.pe/dataset/informaci%C3%B3n-de-fallecidos-del-sistema-inform%C3%A1tico-nacional-de-defunciones-sinadef-ministerio" target="_blank" rel="noopener">SINADEF (MINSA)</a></td><td>Defunciones y causas (microdata)</td><td>2017–2026*</td></tr>
             <tr><td><a href="https://www.inei.gob.pe/" target="_blank" rel="noopener">INEI — Estimaciones y proyecciones de población</a></td><td>Denominadores de tasas</td><td>2017–2026</td></tr>
+            <tr><td><a href="https://www.gob.pe/institucion/inei/informes-publicaciones/7648859-evolucion-de-la-tasa-de-homicidios-e-indicadores-de-seguridad-ciudadana-2022-2025" target="_blank" rel="noopener">CEIC — INEI (homicidios)</a></td><td>Cifra oficial de homicidios (contraste)</td><td>2017–2025</td></tr>
+            <tr><td><a href="https://www.inei.gob.pe/estadisticas/indice-tematico/traffic-accidents/" target="_blank" rel="noopener">INEI / MININTER-PNP (tránsito)</a></td><td>Fallecidos en accidentes (contraste)</td><td>2017–2025</td></tr>
             <tr><td><a href="https://github.com/juaneladio/peru-geojson" target="_blank" rel="noopener">peru-geojson (juaneladio)</a></td><td>Límites departamentales</td><td>—</td></tr>
           </tbody>
         </table>

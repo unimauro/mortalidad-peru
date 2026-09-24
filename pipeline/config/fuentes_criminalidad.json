@@ -1,0 +1,46 @@
+{
+  "homicidios": {
+    "serie": {
+      "2017": 2487,
+      "2018": 2452,
+      "2019": 2385,
+      "2020": 1903,
+      "2021": 2853,
+      "2022": 2879,
+      "2023": 3126,
+      "2024": 3426,
+      "2025": 3675
+    },
+    "tasa_100k": {
+      "2017": 7.8,
+      "2018": 7.6,
+      "2019": 7.4,
+      "2020": 5.8,
+      "2021": 8.6,
+      "2022": 8.6,
+      "2023": 9.3,
+      "2024": 10.1,
+      "2025": 10.7
+    },
+    "fuente": "Comité Estadístico Interinstitucional de la Criminalidad (CEIC) - Instituto Nacional de Estadística e Informática (INEI). Para 2017 y 2018: Informe Estadístico 'Homicidios en el Perú, contándolos uno a uno, 2011-2017' (Lib1532, jun-2018) y '2011-2018' (Lib1731). Para 2019-2025: Informe Técnico CEIC 'Evolución de la tasa de homicidios e indicadores de seguridad ciudadana, 2022-2025' (publicado 22-ene-2026), Cuadro 'Muertes violentas asociadas a hechos delictivos dolosos, 2019-2025'. El CEIC integra Ministerio Público, PNP-MININTER, Poder Judicial, MINJUSDH e INPE.",
+    "url": "https://www.gob.pe/institucion/inei/informes-publicaciones/7648859-evolucion-de-la-tasa-de-homicidios-e-indicadores-de-seguridad-ciudadana-2022-2025 | PDF informe tecnico: https://cdn.www.gob.pe/uploads/document/file/9331973/7648859-informe-tecnico-evolucion-de-la-tasa-de-homicidios-e-indicadores-de-seguridad-ciudadana-2022-2025.pdf | 2017: https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1532/libro.pdf | 2018: https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1731/libro.pdf | 2019-2020: https://www.inei.gob.pe/media/MenuRecursivo/publicaciones_digitales/Est/Lib1869/libro.pdf",
+    "definicion": "Homicidios dolosos = numero de personas fallecidas por muerte violenta asociada a un hecho delictivo doloso (homicidio calificado-asesinato, sicariato, feminicidio, homicidio simple, robo agravado seguido de muerte, etc.). Tasa = muertes / poblacion proyectada * 100 000 habitantes. Poblaciones usadas por CEIC (2019-2025): 2019=32131400, 2020=32625948, 2021=33035304, 2022=33396698, 2023=33725844, 2024=34038457, 2025=34350244."
+  },
+  "transito": {
+    "serie": {
+      "2017": 2826,
+      "2018": 3244,
+      "2019": 3110,
+      "2020": 2159,
+      "2021": 3032,
+      "2022": 3328,
+      "2023": 3137,
+      "2024": 3002,
+      "2025": 3455
+    },
+    "fuente": "INEI - Indice Tematico 'Accidentes de Transito' (Cuadro 8.73 'Victimas de accidentes de transito fatales, segun departamento, 2017-2024', casos registrados), con fuente primaria: 2017 Censo Nacional de Comisarias (INEI) y 2018-2024 Ministerio del Interior (MININTER) - Oficina de Planeamiento y Estadistica / PNP. El dato 2025 (3455) proviene del Observatorio Nacional de Seguridad Vial (ONSV-MTC), Boletin estadistico de siniestralidad vial 2025 (publicado abr-2026); el ONSV usa la misma serie PNP: su total 2024 (3002) coincide exactamente con el cuadro INEI/MININTER.",
+    "url": "https://www.inei.gob.pe/estadisticas/indice-tematico/traffic-accidents/ | XLSX (2017-2024): https://www.inei.gob.pe/media/MenuRecursivo/indices_tematicos/2.%20Victimas%20de%20accidentes_1_1.xlsx | ONSV: https://www.onsv.gob.pe/datosabiertos | ONSV boletin 2025: https://www.onsv.gob.pe/publicaciones/",
+    "definicion": "Victimas fatales de accidentes/siniestros de transito: numero de fallecidos registrados por la PNP en accidentes de transito a nivel nacional (casos registrados). No es una tasa; son cifras absolutas. La caida de 2020 (2159) se debe a las restricciones de circulacion por la pandemia COVID-19 (D.S. 044-2020-PCM)."
+  },
+  "notas": "DIFERENCIAS METODOLOGICAS vs SINADEF: (1) Los homicidios del CEIC/INEI (muertes violentas por hecho delictivo doloso) provienen de registros policiales-fiscales (SIDPOL/PNP, Ministerio Publico, CEIC), no de certificados de defuncion. SINADEF suele subregistrar homicidios porque muchas muertes por agresion se certifican como causa externa 'en investigacion', indeterminada o mal clasificada; por eso la cifra oficial de homicidios (p.ej. 3426 en 2024) es mayor que la que se obtendria contando solo certificados SINADEF codificados como homicidio (X85-Y09). (2) Ruptura de serie en homicidios: las cifras 2011-2018 se calcularon con proyecciones de poblacion del Censo 2007 y metodologia SIDPOL; a partir de 2019 se usa proyeccion del Censo 2017 y un ajuste metodologico alineado al Clasificador Internacional de Delitos de UNODC, por lo que 2019+ NO son estrictamente comparables con 2017-2018. (3) El valor 2025 de homicidios es ESTIMADO (E/) por el CEIC (tasa 10.7 con intervalo +/- 0.5); 2025 de transito (3455) es preliminar del ONSV. (4) Transito vs SINADEF: la serie PNP cuenta fallecidos en el evento/registro policial; SINADEF y OMS suelen reportar cifras mayores de mortalidad por accidentes de transporte porque incluyen fallecidos posteriores por lesiones. Prensa/MTC a veces citan totales ligeramente distintos por registro (p.ej. 2023: MTC ~3316 vs INEI/MININTER 3137). (5) AÑOS FALTANTES: ninguno en homicidios 2017-2025; en transito todos 2017-2025 disponibles (2017-2024 oficial INEI/MININTER, 2025 ONSV preliminar). Las dos series miden fenomenos distintos y NO deben sumarse."
+}

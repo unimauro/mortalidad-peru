@@ -124,6 +124,7 @@ function init(){
   reg('ch_hero', chHero);
   reg('ch_crimEdad', chCrimEdad);
   reg('ch_hommes', chHomMes);
+  reg('ch_oficial', chOficial);
   rerenderAll();
   wireControls();
   buildSemaforo();
@@ -525,6 +526,30 @@ function chCrimEdad(){
 }
 
 function ramp(i,n){ const t=n>1?i/(n-1):1; return `hsl(352,64%,${Math.round(80-50*t)}%)`; }
+
+let causeOfi='homicidios';
+function chOficial(){
+  const p=palette(), c=ec('ch_oficial'), fo=D.fuentes_oficiales||{};
+  const blk=fo[causeOfi]||{}, of=blk.serie||{};
+  const sinGroup = causeOfi==='homicidios'?'homicidio':'acc_transito';
+  const yrs=Object.keys(of).sort();
+  const oficial=yrs.map(y=>of[y]);
+  const sinadef=yrs.map(y=>D.series[sinGroup]?.conteo?.[y]??0);
+  c.setOption({
+    grid:gridL(), legend:legTop(), tooltip:tt({trigger:'axis',axisPointer:{type:'shadow'}}),
+    xAxis:Object.assign({type:'category',data:yrs},axisStyle()),
+    yAxis:Object.assign({type:'value'},axisStyle()),
+    series:[
+      {name:'Cifra oficial',type:'bar',data:oficial,itemStyle:{color:p.cat[3],borderRadius:[4,4,0,0]},barMaxWidth:26},
+      {name:'Registrado en SINADEF',type:'bar',data:sinadef,itemStyle:{color:p.cat[7],borderRadius:[4,4,0,0]},barMaxWidth:26},
+    ]
+  }, true);
+  const lf=lastFull(); const oy=(of[lf]!=null)?lf:yrs[yrs.length-1];
+  const capt=of[oy]?(D.series[sinGroup].conteo[oy]/of[oy]*100):null;
+  const nomOf = causeOfi==='homicidios'?'homicidios (víctimas, CEIC-INEI)':'fallecidos en tránsito (MININTER/PNP)';
+  $('#ofiNote').innerHTML=`⚠️ En ${oy}, la cifra oficial de <b>${nomOf}</b> fue <b>${fmt(of[oy])}</b>, pero SINADEF registró solo <b>${fmt(D.series[sinGroup].conteo[oy])}</b> con ese código — apenas <b>${fmt1(capt)}%</b>. Por eso, para ${causeOfi} la magnitud real viene de estas fuentes, no del certificado.`;
+  $('#src_oficial').textContent=`${(blk.fuente||'').slice(0,70)} · vs SINADEF`;
+}
 let modeMes='anios';
 function chHomMes(){
   const p=palette(), c=ec('ch_hommes'), g=$('#causeMes').value, ys=YEARS();
@@ -641,6 +666,10 @@ function wireControls(){
     $$('#modeMes button').forEach(x=>x.classList.remove('on'));
     b.classList.add('on'); modeMes=b.dataset.mode; chHomMes();
   });
+  $$('#causeOfi button').forEach(b=>b.onclick=()=>{
+    $$('#causeOfi button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); causeOfi=b.dataset.c; chOficial();
+  });
   $$('#metricMeta button').forEach(b=>b.onclick=()=>{
     $$('#metricMeta button').forEach(x=>x.classList.remove('on'));
     b.classList.add('on'); metaMetric=b.dataset.m; chMeta();
@@ -671,6 +700,7 @@ function wireCSV(){
     cancerTrend:()=>{const t=$('#typeCancer').value;const rows=[['anio','tipo','sexo','defunciones']];YEARS().forEach(y=>['M','F'].forEach(s=>rows.push([y,t,s,D.cancer_subtipos_sexo[y]?.[t]?.[s]||0])));return rows;},
     crimEdad:()=>{const y=$('#yearCrimEdad').value;const ces=D.causa_edad_sexo[y]?.homicidio||{M:{},F:{}};const rows=[['anio','grupo_edad','sexo','homicidios']];D.grupos_edad.forEach(a=>['M','F'].forEach(s=>rows.push([y,a,s,ces[s]?.[a]||0])));return rows;},
     hommes:()=>{const g=$('#causeMes').value;const rows=[['anio','mes','causa',D.etiquetas[g]?.etiqueta||g]];YEARS().forEach(y=>Object.keys(D.mensual_sexo[y]||{}).sort().forEach(m=>rows.push([y,m,g,(D.mensual_grupo[y]?.[m]||{})[g]||0])));return rows;},
+    oficial:()=>{const fo=D.fuentes_oficiales||{};const of=fo[causeOfi]?.serie||{};const sg=causeOfi==='homicidios'?'homicidio':'acc_transito';const rows=[['anio','cifra_oficial','registrado_sinadef']];Object.keys(of).sort().forEach(y=>rows.push([y,of[y],D.series[sg]?.conteo?.[y]??'']));return rows;},
     vih:()=>{const rows=[['anio','causa','defunciones']];['vih_sida','covid19'].forEach(g=>ys.forEach(y=>rows.push([y,D.etiquetas[g].etiqueta,D.series[g]?.conteo?.[y]||0])));return rows;},
   };
   $$('[data-csv]').forEach(b=>b.onclick=()=>{const k=b.dataset.csv; if(gens[k]) download(`mortalidad-peru_${k}.csv`, gens[k]());});
@@ -689,8 +719,11 @@ function chatFacts(){
 function localAnswer(q){
   const t=norm(q), F=chatFacts(), y=F.y;
   const has=(...w)=>w.some(x=>t.includes(x));
-  if(has('homicidio','asesinato','violencia','crimen','matan'))
-    return `En ${y} SINADEF registró ${fmt(F.val('homicidio'))} homicidios y ${fmt(F.val('suicidio'))} suicidios. Ojo: las causas externas están MUY sub-registradas en los certificados; la cifra real de homicidios (Ministerio Público/INEI) es varias veces mayor.`;
+  if(has('homicidio','asesinato','violencia','crimen','matan')){
+    const of=D.fuentes_oficiales?.homicidios?.serie||{}; const oy=of[y]!=null?y:Object.keys(of).sort().at(-1);
+    const ofi=oy?`La cifra OFICIAL (CEIC-INEI) fue ${fmt(of[oy])} homicidios en ${oy}: SINADEF solo capta ~${fmt1((F.val('homicidio')||0)/of[oy]*100)}%. `:'';
+    return `En ${y} SINADEF registró ${fmt(F.val('homicidio'))} muertes con código de homicidio. ${ofi}Las causas externas están MUY sub-registradas en los certificados; usa la sección de Criminalidad para ver el contraste.`;
+  }
   if(has('cancer','tumor')) return `El cáncer es de las primeras causas: en ${y} se registraron ${fmt(F.val('cancer'))} muertes por tumores. El tipo más frecuente es ${F.cancer?F.cancer[0]+' ('+fmt(F.cancer[1])+')':'—'}. El Perú tiene una carga alta de cáncer de estómago.`;
   if(has('diabetes')) return `La diabetes causó ${fmt(F.val('diabetes'))} defunciones registradas en ${y} (tasa estandarizada ${fmt1(F.tasa('diabetes'))} por 100 000). Es uno de los ejes metabólicos de prevención.`;
   if(has('corazon','cardiaco','infarto','isquemic','cardiovascular')) return `Las enfermedades isquémicas del corazón registraron ${fmt(F.val('isquemicas'))} muertes en ${y}; sumadas a hipertensivas y cerebrovasculares forman el mayor bloque cardiovascular.`;
