@@ -39,6 +39,8 @@ C_CIE = ["CAUSA_A_CIEX", "CAUSA_B_CIEX", "CAUSA_C_CIEX",
          "CAUSA_D_CIEX", "CAUSA_E_CIEX", "CAUSA_F_CIEX"]
 
 SUPPRESS = 5
+# grupos con serie mensual (causas externas con patrón estacional relevante)
+MONTHLY_GROUPS = {"homicidio", "suicidio", "acc_transito"}
 ANIO_MIN, ANIO_MAX = 2017, 2026
 ANIO_PARCIAL = 2026  # año en curso, incompleto
 
@@ -92,6 +94,7 @@ def main():
     cancer_sub = defaultdict(lambda: defaultdict(int))
     cancer_sub_sexo = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))  # [anio][subtipo][sexo]
     mensual = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    mensual_grupo = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))  # [anio][mes][grupo]
     causa_edad_sexo = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(int))))
     etiquetas = {}
     edad_desc = defaultdict(int)
@@ -134,7 +137,10 @@ def main():
                 cancer_sub_sexo[anio][cl["subtipo"]][sx] += 1
             mes = (row.get(C_MES) or "").strip()
             if mes.isdigit():
-                mensual[anio][mes.zfill(2)][sx] += 1
+                mm = mes.zfill(2)
+                mensual[anio][mm][sx] += 1
+                if g in MONTHLY_GROUPS:
+                    mensual_grupo[anio][mm][g] += 1
 
     anios = list(range(ANIO_MIN, ANIO_MAX + 1))
     anios_completos = [a for a in anios if a != ANIO_PARCIAL]
@@ -282,6 +288,11 @@ def main():
                     for sx in ("M", "F")}
                 for g in causa_edad_sexo[a]} for a in anios
         },
+        "mensual_grupo": {
+            a: {m: {g: mensual_grupo[a][m].get(g, 0) for g in MONTHLY_GROUPS}
+                for m in sorted(mensual_grupo[a])} for a in anios
+        },
+        "monthly_groups": sorted(MONTHLY_GROUPS),
         "grupos_edad": GRUPOS_EDAD,
     }
 

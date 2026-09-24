@@ -197,6 +197,19 @@
       <div class="chart" id="ch_crimEdad"></div>
       <div class="cfoot"><span>Homicidios (X85–Y09) por edad y sexo · SINADEF</span><button data-csv="crimEdad">Descargar CSV</button></div>
     </div>
+    <div class="card" style="margin-top:18px">
+      <h3>Mes a mes, comparando años</h3>
+      <p class="hint">¿En qué meses y años se registran más muertes violentas? Cada línea es un año.</p>
+      <div class="controls">
+        <label class="ctl">Causa <select id="causeMes"></select></label>
+        <div class="seg" id="modeMes">
+          <button data-mode="anios" class="on">Comparar años</button>
+          <button data-mode="continua">Serie continua</button>
+        </div>
+      </div>
+      <div class="chart tall" id="ch_hommes"></div>
+      <div class="cfoot"><span>Serie mensual · SINADEF (registrado)</span><button data-csv="hommes">Descargar CSV</button></div>
+    </div>
   </div>
 </section>
 

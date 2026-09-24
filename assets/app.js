@@ -117,6 +117,7 @@ function init(){
   reg('ch_month', chMonth);
   reg('ch_hero', chHero);
   reg('ch_crimEdad', chCrimEdad);
+  reg('ch_hommes', chHomMes);
   rerenderAll();
   wireControls();
   buildSemaforo();
@@ -195,6 +196,8 @@ function fillSelectors(){
   // homicidios por edad: año
   $('#yearCrimEdad').innerHTML = yearsDesc.map(y=>opt(y)).join('');
   $('#yearCrimEdad').value = lastFull();
+  // serie mensual por causa
+  $('#causeMes').innerHTML = (D.monthly_groups||['homicidio']).map(g=>`<option value="${g}">${D.etiquetas[g]?.etiqueta||g}</option>`).join('');
   // cáncer: año + tipo
   $('#yearCancer').innerHTML = yearsDesc.map(y=>opt(y)).join('');
   $('#yearCancer').value = lastFull();
@@ -515,6 +518,41 @@ function chCrimEdad(){
   }, true);
 }
 
+function ramp(i,n){ const t=n>1?i/(n-1):1; return `hsl(352,64%,${Math.round(80-50*t)}%)`; }
+let modeMes='anios';
+function chHomMes(){
+  const p=palette(), c=ec('ch_hommes'), g=$('#causeMes').value, ys=YEARS();
+  const pad=m=>String(m).padStart(2,'0');
+  if(modeMes==='anios'){
+    const series=ys.map((y,i)=>{
+      const has=D.mensual_sexo[y]||{}, mg=D.mensual_grupo[y]||{};
+      const data=[...Array(12)].map((_,m)=>{const k=pad(m+1); return (k in has)?((mg[k]||{})[g]||0):null;});
+      const partial=y===PARTIAL(), col=ramp(i,ys.length), recent=(y===lastFull());
+      return {name:y,type:'line',smooth:true,symbol:partial||recent?'circle':'none',symbolSize:5,
+        lineStyle:{width:partial?2.5:(recent?3.2:1.6),color:col,type:partial?'dashed':'solid'},
+        itemStyle:{color:col},emphasis:{focus:'series'},connectNulls:false,data};
+    });
+    c.setOption({
+      grid:gridL(), legend:legTop(), tooltip:tt({trigger:'axis',order:'valueDesc'}),
+      xAxis:Object.assign({type:'category',data:MESES_C.slice(1),boundaryGap:false},axisStyle()),
+      yAxis:Object.assign({type:'value'},axisStyle()),
+      series
+    }, true);
+  } else {
+    const cats=[], data=[];
+    ys.forEach(y=>{const has=D.mensual_sexo[y]||{}, mg=D.mensual_grupo[y]||{};
+      Object.keys(has).sort().forEach(k=>{cats.push(`${MESES_C[+k]} ${y.slice(2)}`); data.push((mg[k]||{})[g]||0);});});
+    c.setOption({
+      grid:{left:8,right:16,top:16,bottom:14,containLabel:true}, tooltip:tt({trigger:'axis'}),
+      xAxis:Object.assign({type:'category',data:cats,axisLabel:{interval:11,color:p.soft,fontSize:10}},axisStyle()),
+      yAxis:Object.assign({type:'value'},axisStyle()),
+      series:[{type:'line',smooth:true,symbol:'none',data,lineStyle:{width:2,color:p.cat[3]},itemStyle:{color:p.cat[3]},
+        areaStyle:{color:'rgba(213,94,0,.10)'},
+        markLine:{silent:true,symbol:'none',lineStyle:{color:p.line},data:ys.slice(1).map(y=>({xAxis:`${MESES_C[1]} ${y.slice(2)}`}))}}]
+    }, true);
+  }
+}
+
 function chCancerTrend(){
   const p=palette(), c=ec('ch_cancerTrend'), tipo=$('#typeCancer').value, ys=YEARS();
   if($('#cancerTrendTitle')) $('#cancerTrendTitle').textContent=tipo;
@@ -592,6 +630,11 @@ function wireControls(){
   $('#yearCrimEdad').onchange=chCrimEdad;
   $('#yearCancer').onchange=chCancer;
   $('#typeCancer').onchange=chCancerTrend;
+  $('#causeMes').onchange=chHomMes;
+  $$('#modeMes button').forEach(b=>b.onclick=()=>{
+    $$('#modeMes button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); modeMes=b.dataset.mode; chHomMes();
+  });
   $$('#metricMeta button').forEach(b=>b.onclick=()=>{
     $$('#metricMeta button').forEach(x=>x.classList.remove('on'));
     b.classList.add('on'); metaMetric=b.dataset.m; chMeta();
@@ -621,6 +664,7 @@ function wireCSV(){
     cancer:()=>{const y=$('#yearCancer').value;return [['anio','tipo_cancer','defunciones'],...Object.entries(D.cancer_subtipos[y]||{}).map(([k,v])=>[y,k,v])];},
     cancerTrend:()=>{const t=$('#typeCancer').value;const rows=[['anio','tipo','sexo','defunciones']];YEARS().forEach(y=>['M','F'].forEach(s=>rows.push([y,t,s,D.cancer_subtipos_sexo[y]?.[t]?.[s]||0])));return rows;},
     crimEdad:()=>{const y=$('#yearCrimEdad').value;const ces=D.causa_edad_sexo[y]?.homicidio||{M:{},F:{}};const rows=[['anio','grupo_edad','sexo','homicidios']];D.grupos_edad.forEach(a=>['M','F'].forEach(s=>rows.push([y,a,s,ces[s]?.[a]||0])));return rows;},
+    hommes:()=>{const g=$('#causeMes').value;const rows=[['anio','mes','causa',D.etiquetas[g]?.etiqueta||g]];YEARS().forEach(y=>Object.keys(D.mensual_sexo[y]||{}).sort().forEach(m=>rows.push([y,m,g,(D.mensual_grupo[y]?.[m]||{})[g]||0])));return rows;},
     vih:()=>{const rows=[['anio','causa','defunciones']];['vih_sida','covid19'].forEach(g=>ys.forEach(y=>rows.push([y,D.etiquetas[g].etiqueta,D.series[g]?.conteo?.[y]||0])));return rows;},
   };
   $$('[data-csv]').forEach(b=>b.onclick=()=>{const k=b.dataset.csv; if(gens[k]) download(`mortalidad-peru_${k}.csv`, gens[k]());});
