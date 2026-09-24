@@ -46,10 +46,10 @@ def og():
     # kicker
     d.text((70, 70), "OBSERVATORIO DE DATOS ABIERTOS · PERÚ", font=font(ARIAL_B, 22, ARIAL_B), fill=BRAND)
     # título
-    d.text((66, 108), "¿De qué muere", font=font(GEORGIA_B, 92, ARIAL_B), fill=INK)
-    d.text((66, 200), "el Perú?", font=font(GEORGIA_B, 92, ARIAL_B), fill=INK)
+    d.text((66, 108), "¿De qué morimos", font=font(GEORGIA_B, 84, ARIAL_B), fill=INK)
+    d.text((66, 196), "en el Perú?", font=font(GEORGIA_B, 84, ARIAL_B), fill=INK)
     # subtítulo
-    sub = ("Mortalidad 2017–2024 · SINADEF · tasas estandarizadas por edad,\n"
+    sub = ("Mortalidad 2017–2026 · SINADEF · tasas estandarizadas por edad,\n"
            "tendencias y tres ejes de prevención. Sin cifras inventadas.")
     d.multiline_text((70, 320), sub, font=font(ARIAL, 27), fill=(74, 78, 87), spacing=10)
 
