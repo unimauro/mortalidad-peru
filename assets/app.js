@@ -22,7 +22,8 @@ function palette(){
     up: cssvar('--up'), down: cssvar('--down'), flat: cssvar('--flat')
   };
 }
-try{ const saved = localStorage.getItem(THEME_KEY); if(saved) document.documentElement.setAttribute('data-theme', saved); }catch(e){}
+// Por defecto tema CLARO (menos sombrío) aunque el SO esté en oscuro; respeta la elección guardada.
+try{ const saved = localStorage.getItem(THEME_KEY); document.documentElement.setAttribute('data-theme', saved || 'light'); }catch(e){ document.documentElement.setAttribute('data-theme','light'); }
 $('#themeBtn').onclick = () => {
   const next = currentTheme()==='dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
@@ -327,7 +328,7 @@ function chMap(){
   if(!echarts.getMap('peru')) echarts.registerMap('peru', GEO, {});
   const y=$('#yearMap').value, cause=$('#causeMap').value;
   let dataMap={}, unidad='', title='';
-  if(cause==='__total__'){
+  if(cause==='__total__' || !D.etiquetas[cause]){
     const rates=D.tasa_departamento[y];
     if(rates && Object.keys(rates).length){ dataMap=rates; unidad='× 100 000 hab.'; title='Tasa bruta de mortalidad'; }
     else { dataMap=D.por_departamento[y]||{}; unidad='defunciones'; title='Defunciones registradas'; }
