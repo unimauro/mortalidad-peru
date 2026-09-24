@@ -7,6 +7,17 @@
 <meta name="description" content="¿De qué morimos en el Perú? Series anuales de mortalidad (SINADEF 2017–2026) con tasas estandarizadas por edad, tendencias y tres ejes de prevención: metabólico, criminalidad y accidentes. Datos oficiales, sin cifras inventadas.">
 <link rel="canonical" href="https://unimauro.github.io/mortalidad-peru/">
 <meta name="theme-color" content="#b3122b">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="Carlos Mauro Cárdenas Fernández">
+<meta name="keywords" content="mortalidad Perú, ¿de qué morimos en el Perú?, SINADEF, causas de muerte Perú, defunciones, tasas de mortalidad, homicidios Perú, cáncer Perú, diabetes, INEI, datos abiertos, epidemiología, salud pública">
+<!-- Google Analytics (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EPCTRBQ9N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9EPCTRBQ9N');
+</script>
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_PE">
@@ -30,6 +41,40 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
+<!-- Datos estructurados para buscadores y robots (incluidos los de IA) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://unimauro.github.io/mortalidad-peru/#website",
+      "name": "¿De qué morimos en el Perú? — Observatorio de Mortalidad",
+      "url": "https://unimauro.github.io/mortalidad-peru/",
+      "inLanguage": "es-PE",
+      "description": "Observatorio de la mortalidad del Perú con series anuales de SINADEF (2017–2026), tasas estandarizadas por edad, tendencias y tres ejes de prevención.",
+      "author": { "@type": "Person", "name": "Carlos Mauro Cárdenas Fernández" }
+    },
+    {
+      "@type": "Dataset",
+      "name": "Observatorio de Mortalidad del Perú (SINADEF 2017–2026)",
+      "description": "Defunciones registradas en el Perú por año, causa (CIE-10), sexo, grupo de edad y departamento, con tasas crudas y estandarizadas por edad (población INEI) y análisis de tendencias. Fuente oficial: SINADEF (MINSA) e INEI. Regla del proyecto: cero cifras inventadas.",
+      "url": "https://unimauro.github.io/mortalidad-peru/",
+      "inLanguage": "es-PE",
+      "isAccessibleForFree": true,
+      "keywords": ["mortalidad","Perú","SINADEF","causas de muerte","CIE-10","homicidios","cáncer","diabetes","INEI","tasas de mortalidad","salud pública","epidemiología"],
+      "creator": { "@type": "Person", "name": "Carlos Mauro Cárdenas Fernández" },
+      "license": "https://opensource.org/licenses/MIT",
+      "temporalCoverage": "2017/2026",
+      "spatialCoverage": { "@type": "Place", "name": "Perú" },
+      "distribution": [
+        { "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://unimauro.github.io/mortalidad-peru/data/processed/datos.json" }
+      ],
+      "citation": "SINADEF — Sistema Informático Nacional de Defunciones (MINSA); INEI — Estimaciones y Proyecciones de Población."
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <header class="top">
