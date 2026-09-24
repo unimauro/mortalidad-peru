@@ -90,6 +90,7 @@
       <a href="#mapa">Mapa</a>
       <a href="#cancer">Cáncer</a>
       <a href="#metodologia">Metodología</a>
+      <a href="#descargas">Datos</a>
     </nav>
     <button class="iconbtn" id="themeBtn" title="Modo claro/oscuro" aria-label="Cambiar tema">◑</button>
     <button class="iconbtn menuBtn" id="menuBtn" aria-label="Menú" aria-expanded="false">☰</button>
@@ -111,6 +112,7 @@
     <a href="#cancer">Cáncer por tipo</a>
     <a href="#vih">VIH y COVID-19</a>
     <a href="#metodologia">Metodología y fuentes</a>
+    <a href="#descargas">Descargar datos 📥</a>
   </nav>
   <div class="apoyo">
     <strong>Apoya este observatorio ☕</strong>
@@ -429,6 +431,16 @@
         </table>
         <p class="hint" style="margin-top:10px">* Microdata oficial de SINADEF (DATOS ABIERTOS, MINSA), que se actualiza a diario. El año en curso es parcial. La codificación CIE-10 de la causa va con rezago, por lo que el detalle por causa de los años más recientes es provisional.</p>
       </div>
+    </div>
+    <div class="card" id="descargas" style="margin-top:18px">
+      <h3>Descarga los datos 📥</h3>
+      <p class="hint">Todo es de datos abiertos. Baja el dataset agregado completo, un CSV consolidado, o cada gráfico por separado con su propio botón «Descargar CSV».</p>
+      <div class="dl-row">
+        <button class="paybtn" id="dlJson">Dataset completo (JSON)</button>
+        <button class="paybtn" id="dlCsv" style="background:var(--c1)">Series principales (CSV)</button>
+        <a class="paybtn" style="background:var(--ink-soft)" href="https://github.com/unimauro/mortalidad-peru" target="_blank" rel="noopener">Repositorio + pipeline (GitHub)</a>
+      </div>
+      <p class="hint" style="margin-top:10px">Licencia del código: MIT. Los datos pertenecen a sus fuentes oficiales (SINADEF/MINSA, INEI, CEIC, MININTER) y se usan bajo sus términos de datos abiertos.</p>
     </div>
     <div class="note" style="margin-top:18px">
       <strong>Contraste con el estándar de oro: GBD / IHME.</strong> Este observatorio muestra muertes

@@ -129,6 +129,7 @@ function init(){
   wireControls();
   buildSemaforo();
   wireCSV();
+  wireDownloads();
   wireChat();
   wireNav();
 }
@@ -707,7 +708,27 @@ function wireCSV(){
   $$('[data-csv]').forEach(b=>b.onclick=()=>{const k=b.dataset.csv; if(gens[k]) download(`mortalidad-peru_${k}.csv`, gens[k]());});
 }
 
-// ================= chat (stub, gateway pendiente) =================
+// ================= descargas =================
+function wireDownloads(){
+  const jb=$('#dlJson');
+  if(jb) jb.onclick=async()=>{
+    try{
+      const r=await fetch('data/processed/datos.json'); const b=await r.blob();
+      const a=document.createElement('a'); a.href=URL.createObjectURL(b);
+      a.download='mortalidad-peru_datos.json'; document.body.appendChild(a); a.click(); a.remove();
+    }catch(e){ window.open('data/processed/datos.json','_blank'); }
+  };
+  const cb=$('#dlCsv');
+  if(cb) cb.onclick=()=>{
+    const ys=YEARS();
+    const rows=[['anio','grupo','causa','eje','defunciones','tasa_cruda_100k','tasa_estandarizada_100k']];
+    Object.keys(D.series).forEach(g=>{const s=D.series[g];
+      ys.forEach(y=>rows.push([y,g,s.etiqueta,s.eje,s.conteo[y],s.tasa_cruda[y]??'',s.tasa_estandarizada[y]??'']));});
+    download('mortalidad-peru_series_completas.csv', rows);
+  };
+}
+
+// ================= chat (gateway ai.tunky.net + fallback local) =================
 const CHAT_SYS = "Eres el asistente de «¿De qué morimos en el Perú?», un observatorio de mortalidad basado en datos oficiales de SINADEF (MINSA, 2017–2026) e INEI. Responde en español, breve y claro. Las cifras son defunciones REGISTRADAS (subestiman la mortalidad real por subregistro; las causas externas como homicidios están muy sub-registradas). No inventes cifras.";
 function chatFacts(){
   const y=lastFull(); const D_=D;

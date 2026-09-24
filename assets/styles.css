@@ -192,7 +192,8 @@ footer .cols{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   border:1px solid var(--line);border-radius:9px;padding:8px 11px;margin-bottom:8px}
 .pay span{font-size:12px;color:var(--ink-soft)} .pay b{font-size:15px;font-variant-numeric:tabular-nums}
 .paybtn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;font-weight:600;
-  font-size:13px;padding:8px 12px;border-radius:9px;text-align:center}
+  font-size:13px;padding:8px 12px;border-radius:9px;text-align:center;border:0;cursor:pointer}
+.dl-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .drawer .author{margin-top:auto;font-size:12px;color:var(--ink-soft);line-height:1.6;border-top:1px solid var(--line);padding-top:12px}
 .drawer .author a{color:var(--brand);text-decoration:none}
 
