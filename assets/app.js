@@ -720,8 +720,10 @@ function chatFacts(){
 function localAnswer(q){
   const t=norm(q), F=chatFacts(), y=F.y;
   const has=(...w)=>w.some(x=>t.includes(x));
+  if(has('daly','discapacidad','años de vida','anos de vida','avad'))
+    return `El DALY (año de vida ajustado por discapacidad) es la métrica central del GBD/IHME: suma los años de vida perdidos por muerte prematura más los años vividos con discapacidad. Capta la carga de enfermar, no solo de morir. Este observatorio se centra en mortalidad; para DALYs del Perú, mira GBD Compare de IHME (enlace en Metodología).`;
   if(has('gbd','ihme','carga real','burden','verdadero','cifra real','realidad'))
-    return `Este observatorio muestra muertes REGISTRADAS (SINADEF) y registros oficiales (CEIC-INEI, MININTER). Para la carga REAL estimada —corrigiendo subregistro— la referencia mundial es el Global Burden of Disease (GBD) del IHME (U. de Washington), que modela 288 causas con intervalos de incertidumbre. Lo citamos como contraste en la sección Metodología (sus datos por causa no son redistribuibles).`;
+    return `Este observatorio muestra muertes REGISTRADAS (SINADEF) y registros oficiales (CEIC-INEI, MININTER). Para la carga REAL estimada —corrigiendo subregistro— la referencia mundial es el Global Burden of Disease (GBD) del IHME (U. de Washington), que modela 288 causas con intervalos de incertidumbre y usa el DALY. Lo citamos como contraste en Metodología (sus datos por causa no son redistribuibles); puedes explorarlo en GBD Compare.`;
   if(has('homicidio','asesinato','violencia','crimen','matan')){
     const of=D.fuentes_oficiales?.homicidios?.serie||{}; const oy=of[y]!=null?y:Object.keys(of).sort().at(-1);
     const ofi=oy?`La cifra OFICIAL (CEIC-INEI) fue ${fmt(of[oy])} homicidios en ${oy}: SINADEF solo capta ~${fmt1((F.val('homicidio')||0)/of[oy]*100)}%. `:'';
