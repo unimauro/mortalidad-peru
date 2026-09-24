@@ -35,27 +35,38 @@
 <header class="top">
   <div class="wrap top-in">
     <a class="brand" href="#top" style="text-decoration:none"><span class="dot"></span> Mortalidad&nbsp;Perú</a>
-    <nav>
+    <nav id="nav">
+      <a href="#mensual">Mes a mes</a>
       <a href="#causas">Causas</a>
       <a href="#metabolico">Metabólico</a>
       <a href="#criminalidad">Criminalidad</a>
       <a href="#accidentes">Accidentes</a>
       <a href="#demografia">Sexo y edad</a>
       <a href="#mapa">Mapa</a>
-      <a href="#cancer">Cáncer / VIH</a>
+      <a href="#cancer">Cáncer</a>
       <a href="#metodologia">Metodología</a>
     </nav>
     <button class="iconbtn" id="themeBtn" title="Modo claro/oscuro" aria-label="Cambiar tema">◑</button>
+    <button class="iconbtn menuBtn" id="menuBtn" aria-label="Menú" aria-expanded="false">☰</button>
   </div>
 </header>
 
 <a id="top"></a>
 <section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <div class="kicker">Observatorio de datos abiertos · Perú</div>
+      <h1>¿De qué <em>muere</em><br>el&nbsp;Perú?</h1>
+      <p class="lead">Series anuales de mortalidad del Sistema Informático Nacional de Defunciones (SINADEF), con tasas estandarizadas por edad y tres ejes de prevención. Cada cifra es trazable a su fuente oficial; ninguna se inventa.</p>
+      <div class="updated" title="Fecha de último procesamiento"><span class="pulse"></span> Datos oficiales SINADEF · <b id="dataSpan">—</b></div>
+    </div>
+    <div class="hero-vis">
+      <div class="hero-chart" id="ch_hero"></div>
+      <div class="hero-cap" id="heroCap">&nbsp;</div>
+    </div>
+  </div>
   <div class="wrap">
-    <div class="kicker">Observatorio de datos abiertos · Perú</div>
-    <h1>¿De qué muere el&nbsp;Perú?</h1>
-    <p class="lead">Un observatorio de la mortalidad peruana con series anuales del Sistema Informático Nacional de Defunciones (SINADEF), tasas estandarizadas por edad y seguimiento de tres ejes de prevención. Todas las cifras son trazables a su fuente oficial; ninguna se inventa.</p>
-    <div class="updated" title="Fecha de último procesamiento"><span class="pulse"></span> Datos oficiales SINADEF · <b id="dataSpan">—</b></div>
     <div class="kpis" id="kpis">
       <div class="kpi"><div class="lab skel" style="height:14px;width:60%">&nbsp;</div><div class="val skel" style="height:34px;width:80%;margin-top:8px">&nbsp;</div></div>
       <div class="kpi"><div class="lab skel" style="height:14px;width:60%">&nbsp;</div><div class="val skel" style="height:34px;width:80%;margin-top:8px">&nbsp;</div></div>
@@ -119,8 +130,8 @@
         <div class="cfoot"><span>Causa básica · SINADEF</span><button data-csv="top">Descargar CSV</button></div>
       </div>
       <div class="card">
-        <h3>Cómo cambian de posición (2017–2023)</h3>
-        <p class="hint">Bump chart del top 10 por año completo.</p>
+        <h3>Cómo cambian de posición</h3>
+        <p class="hint">Bump chart del top 10, por año completo del periodo.</p>
         <div class="chart tall" id="ch_bump"></div>
         <div class="cfoot"><span>Ranking anual · SINADEF</span><button data-csv="bump">Descargar CSV</button></div>
       </div>
@@ -151,7 +162,7 @@
       </div>
       <div class="card">
         <h3>Semáforo de prevención</h3>
-        <p class="hint">Solo se marca tendencia cuando es estadísticamente significativa (IC 95% de la pendiente log-lineal, años completos 2017–2023).</p>
+        <p class="hint">Solo se marca tendencia cuando es estadísticamente significativa (IC 95% de la pendiente log-lineal sobre los años completos).</p>
         <div class="semaforo" id="semaforoMeta"></div>
       </div>
     </div>
@@ -178,6 +189,13 @@
         <div class="chart" id="ch_crimSexo"></div>
         <div class="cfoot"><span>SINADEF</span><button data-csv="crimSexo">Descargar CSV</button></div>
       </div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3>Homicidios por grupo de edad y sexo</h3>
+      <p class="hint">¿A qué edad se concentra la violencia letal registrada? Elige el año.</p>
+      <div class="controls"><label class="ctl">Año <select id="yearCrimEdad"></select></label></div>
+      <div class="chart" id="ch_crimEdad"></div>
+      <div class="cfoot"><span>Homicidios (X85–Y09) por edad y sexo · SINADEF</span><button data-csv="crimEdad">Descargar CSV</button></div>
     </div>
   </div>
 </section>
@@ -231,32 +249,55 @@
       <label class="ctl">Año <select id="yearMap"></select></label>
       <label class="ctl">Causa <select id="causeMap"></select></label>
     </div>
-    <div class="card">
-      <div class="chart tall" id="ch_map"></div>
-      <div class="cfoot"><span id="src_map">GeoJSON: juaneladio/peru-geojson · SINADEF · INEI</span><button data-csv="map">Descargar CSV</button></div>
+    <div class="split">
+      <div class="card">
+        <div class="chart tall" id="ch_map"></div>
+        <div class="cfoot"><span id="src_map">GeoJSON: juaneladio/peru-geojson · SINADEF · INEI</span><button data-csv="map">Descargar CSV</button></div>
+      </div>
+      <div class="card" id="mapPanel"><p class="hint">Haz clic en un departamento para ver sus principales causas de muerte.</p></div>
     </div>
   </div>
 </section>
 
-<!-- CÁNCER / VIH / COVID -->
+<!-- CÁNCER -->
 <section class="blk" id="cancer">
   <div class="wrap">
     <div class="sec-head">
       <div class="eyebrow">Enfermedades específicas</div>
-      <h2>Cáncer, VIH/sida y COVID-19</h2>
-      <p>Mortalidad por tipo de cáncer (causa básica C00–C97), y series de VIH/sida y COVID-19.</p>
+      <h2>Cáncer por tipo</h2>
+      <p>Mortalidad por tipo de cáncer (causa básica C00–C97). El Perú tiene una carga muy alta de cáncer de estómago. Elige el año y explora un tipo específico por sexo.</p>
     </div>
-    <div class="grid2">
+    <div class="controls">
+      <label class="ctl">Año <select id="yearCancer"></select></label>
+      <label class="ctl">Tipo <select id="typeCancer"></select></label>
+    </div>
+    <div class="split">
       <div class="card">
-        <h3>Cáncer por tipo (año completo más reciente)</h3>
+        <h3>Distribución por tipo</h3>
         <div class="chart" id="ch_cancer"></div>
-        <div class="cfoot"><span>SINADEF C00–C97</span><button data-csv="cancer">Descargar CSV</button></div>
+        <div class="cfoot"><span id="src_cancer">SINADEF C00–C97</span><button data-csv="cancer">Descargar CSV</button></div>
       </div>
       <div class="card">
-        <h3>VIH/sida y COVID-19 por año</h3>
-        <div class="chart" id="ch_vih"></div>
-        <div class="cfoot"><span>SINADEF B20–B24, U07/U09</span><button data-csv="vih">Descargar CSV</button></div>
+        <h3 id="cancerTrendTitle">Evolución por sexo</h3>
+        <p class="hint">Del tipo seleccionado, año por año, hombres y mujeres.</p>
+        <div class="chart" id="ch_cancerTrend"></div>
+        <div class="cfoot"><span>Tipo de cáncer por sexo · SINADEF</span><button data-csv="cancerTrend">Descargar CSV</button></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIH / COVID -->
+<section class="blk" id="vih">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Enfermedades específicas</div>
+      <h2>VIH/sida y COVID-19</h2>
+      <p>Series anuales de defunciones registradas por VIH/sida (B20–B24) y COVID-19 (U07/U09).</p>
+    </div>
+    <div class="card">
+      <div class="chart" id="ch_vih"></div>
+      <div class="cfoot"><span>SINADEF B20–B24, U07/U09</span><button data-csv="vih">Descargar CSV</button></div>
     </div>
   </div>
 </section>

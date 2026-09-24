@@ -90,6 +90,7 @@ def main():
     dep_grupo = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     dep_total = defaultdict(lambda: defaultdict(int))
     cancer_sub = defaultdict(lambda: defaultdict(int))
+    cancer_sub_sexo = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))  # [anio][subtipo][sexo]
     mensual = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     causa_edad_sexo = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(int))))
     etiquetas = {}
@@ -130,6 +131,7 @@ def main():
                 edad_desc[anio] += 1
             if cl["subtipo"]:
                 cancer_sub[anio][cl["subtipo"]] += 1
+                cancer_sub_sexo[anio][cl["subtipo"]][sx] += 1
             mes = (row.get(C_MES) or "").strip()
             if mes.isdigit():
                 mensual[anio][mes.zfill(2)][sx] += 1
@@ -263,6 +265,11 @@ def main():
         },
         "cancer_subtipos": {
             a: dict(sorted(cancer_sub[a].items(), key=lambda x: -x[1])) for a in anios
+        },
+        "cancer_subtipos_sexo": {
+            a: {sub: {"M": cancer_sub_sexo[a][sub].get("M", 0),
+                      "F": cancer_sub_sexo[a][sub].get("F", 0)}
+                for sub in cancer_sub[a]} for a in anios
         },
         "mensual_sexo": {
             a: {m: {"M": mensual[a][m].get("M", 0), "F": mensual[a][m].get("F", 0),
