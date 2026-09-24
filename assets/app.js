@@ -7,6 +7,12 @@ const fmt = n => (n==null ? '—' : n.toLocaleString('es-PE'));
 const fmt1 = n => (n==null ? '—' : Number(n).toLocaleString('es-PE',{maximumFractionDigits:1}));
 const MESES = ['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const MESES_C = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+// ==== Chatbot IA (gateway ai.tunky.net) ====
+// Pega el token del proyecto (formato mortalidad_...) para activar la IA.
+// Mientras esté vacío, el asistente responde localmente con los datos del observatorio.
+const TUNKY_TOKEN = '';
+const TUNKY_URL = 'https://ai.tunky.net/v1/chat';
+const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 
 // ---- tema ----
 const THEME_KEY = 'mp-theme';
@@ -671,13 +677,70 @@ function wireCSV(){
 }
 
 // ================= chat (stub, gateway pendiente) =================
+const CHAT_SYS = "Eres el asistente de «¿De qué morimos en el Perú?», un observatorio de mortalidad basado en datos oficiales de SINADEF (MINSA, 2017–2026) e INEI. Responde en español, breve y claro. Las cifras son defunciones REGISTRADAS (subestiman la mortalidad real por subregistro; las causas externas como homicidios están muy sub-registradas). No inventes cifras.";
+function chatFacts(){
+  const y=lastFull(); const D_=D;
+  const top=(D_.causas_por_anio[y]||[]).filter(c=>c.grupo!=='no_codificada'&&c.grupo!=='otras').slice(0,5);
+  const cancer=Object.entries(D_.cancer_subtipos[y]||{}).sort((a,b)=>b[1]-a[1])[0];
+  return {y, top, cancer,
+    val:g=>D_.series[g]?.conteo?.[y], tasa:g=>D_.series[g]?.tasa_estandarizada?.[y],
+    et:g=>D_.etiquetas[g]?.etiqueta||g};
+}
+function localAnswer(q){
+  const t=norm(q), F=chatFacts(), y=F.y;
+  const has=(...w)=>w.some(x=>t.includes(x));
+  if(has('homicidio','asesinato','violencia','crimen','matan'))
+    return `En ${y} SINADEF registró ${fmt(F.val('homicidio'))} homicidios y ${fmt(F.val('suicidio'))} suicidios. Ojo: las causas externas están MUY sub-registradas en los certificados; la cifra real de homicidios (Ministerio Público/INEI) es varias veces mayor.`;
+  if(has('cancer','tumor')) return `El cáncer es de las primeras causas: en ${y} se registraron ${fmt(F.val('cancer'))} muertes por tumores. El tipo más frecuente es ${F.cancer?F.cancer[0]+' ('+fmt(F.cancer[1])+')':'—'}. El Perú tiene una carga alta de cáncer de estómago.`;
+  if(has('diabetes')) return `La diabetes causó ${fmt(F.val('diabetes'))} defunciones registradas en ${y} (tasa estandarizada ${fmt1(F.tasa('diabetes'))} por 100 000). Es uno de los ejes metabólicos de prevención.`;
+  if(has('corazon','cardiaco','infarto','isquemic','cardiovascular')) return `Las enfermedades isquémicas del corazón registraron ${fmt(F.val('isquemicas'))} muertes en ${y}; sumadas a hipertensivas y cerebrovasculares forman el mayor bloque cardiovascular.`;
+  if(has('suicidio')) return `En ${y} se registraron ${fmt(F.val('suicidio'))} suicidios (lesiones autoinfligidas) en SINADEF. También hay subregistro en causas externas.`;
+  if(has('transito','accidente','choque','carretera')) return `Los accidentes de tránsito registrados en SINADEF fueron ${fmt(F.val('acc_transito'))} en ${y}. El dato fino lo tiene el MTC/PNP y es mayor.`;
+  if(has('covid')) return `El COVID-19 marcó el pico de mortalidad en 2020–2021. Puedes ver la serie en la sección «VIH/sida y COVID-19».`;
+  if(has('vih','sida')) return `Las muertes por VIH/sida registradas fueron ${fmt(F.val('vih_sida'))} en ${y}.`;
+  if(has('hombre','mujer','sexo','genero')){ const ts=D.total_por_anio_sexo[y]||{}; const m=ts.M||0,f=ts.F||0,tt=m+f; return `En ${y}, ${fmt1(tt?m/tt*100:0)}% de las defunciones registradas fueron hombres y ${fmt1(tt?f/tt*100:0)}% mujeres. Los hombres mueren más en casi todas las edades.`; }
+  if(has('cuanto','cuantos','total','defunciones','mueren','muertes','fallecid')){
+    const p=String(D.meta.anio_parcial); return `En ${y} se registraron ${fmt(D.total_por_anio[y])} defunciones en SINADEF (tasa bruta ${fmt1(D.tasa_cruda_total[y])} por 100 000). ${p} va parcial con ${fmt(D.total_por_anio[p])} hasta ahora.`;
+  }
+  if(has('edad','viejo','joven','años')) return `La mortalidad se concentra en los mayores de 80; en la pirámide de «Sexo y edad» puedes desagregar por enfermedad y sexo.`;
+  if(has('departamento','region','lima','provincia','mapa')){ const dt=D.por_departamento[y]||{}; const topd=Object.entries(dt).filter(([d])=>!d.includes('EXTRAN')&&!d.includes('DETERMIN')).sort((a,b)=>b[1]-a[1])[0]; return `Lima concentra la mayor cantidad de defunciones registradas. ${topd?topd[0]+': '+fmt(topd[1])+' en '+y+'.':''} En el mapa puedes hacer clic en un departamento para ver sus principales causas.`; }
+  if(has('de que','principal','causa','mas comun','mata')||t==='')
+    return `En ${y}, las principales causas registradas fueron: ${F.top.map(c=>`${c.etiqueta} (${fmt(c.n)})`).join(' · ')}. Pregúntame por cáncer, diabetes, homicidios, tránsito, sexo, edad o un departamento.`;
+  if(has('hola','buenas','ayuda','que puedes','que haces'))
+    return `Hola 👋 Soy el asistente del observatorio. Pregúntame «¿de qué morimos?», «¿cuántos homicidios?», «cáncer más común», «muertes por diabetes», «por sexo» o «en Lima».`;
+  return `Puedo responder con los datos del observatorio (2017–${YEARS().at(-1)}): prueba «¿de qué morimos en el Perú?», «homicidios», «cáncer más común», «diabetes», «por sexo» o «en Lima».`;
+}
+async function gateway(history){
+  const res=await fetch(TUNKY_URL,{method:'POST',
+    headers:{'Content-Type':'application/json','X-Client-Token':TUNKY_TOKEN},
+    body:JSON.stringify({messages:[{role:'system',content:CHAT_SYS}].concat(history.slice(-12))})});
+  if(!res.ok) throw new Error('gateway '+res.status);
+  const d=await res.json();
+  return d.reply||d.message||d.answer||d.response||d.text||d.content||localAnswer(history.at(-1)?.content||'');
+}
 function wireChat(){
   const panel=$('#chatPanel'), body=$('#chatBody'), input=$('#chatInput');
-  $('#chatBtn').onclick=()=>panel.classList.toggle('open');
+  const history=[]; let greeted=false;
+  function add(txt,who){const d=document.createElement('div');d.className='msg '+who;d.textContent=txt;body.appendChild(d);body.scrollTop=body.scrollHeight;return d;}
+  function chips(){
+    const wrap=document.createElement('div'); wrap.className='chips';
+    ['¿De qué morimos?','¿Cuántos homicidios?','Cáncer más común','Muertes por diabetes'].forEach(q=>{
+      const b=document.createElement('button'); b.textContent=q; b.onclick=()=>{wrap.remove(); handle(q);}; wrap.appendChild(b);
+    });
+    body.appendChild(wrap);
+  }
+  function greet(){ if(greeted)return; greeted=true; add('Hola 👋 Soy el asistente del observatorio. Puedo responder con datos reales de mortalidad del Perú.','bot'); chips(); }
+  async function handle(q){
+    add(q,'me'); history.push({role:'user',content:q});
+    const t=add('…','bot');
+    let reply;
+    try{ reply = TUNKY_TOKEN ? await gateway(history) : localAnswer(q); }
+    catch(e){ reply = localAnswer(q); }
+    t.textContent=reply; history.push({role:'assistant',content:reply}); body.scrollTop=body.scrollHeight;
+  }
+  $('#chatBtn').onclick=()=>{panel.classList.toggle('open'); if(panel.classList.contains('open')) greet();};
   $('#chatClose').onclick=()=>panel.classList.remove('open');
-  function add(txt,who){const d=document.createElement('div');d.className='msg '+who;d.textContent=txt;body.appendChild(d);body.scrollTop=body.scrollHeight;}
-  function send(){const q=input.value.trim(); if(!q)return; add(q,'me'); input.value='';
-    setTimeout(()=>add('El asistente con IA se activará pronto (falta el token del gateway ai.tunky.net). Mientras tanto, explora los gráficos y descarga los datos en CSV.','bot'),350);}
+  function send(){const q=input.value.trim(); if(!q)return; input.value=''; handle(q);}
   $('#chatSend').onclick=send; input.onkeydown=e=>{if(e.key==='Enter')send();};
 }
 

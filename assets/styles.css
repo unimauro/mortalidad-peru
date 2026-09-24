@@ -137,6 +137,10 @@ footer .cols{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .msg{padding:9px 12px;border-radius:12px;max-width:85%}
 .msg.bot{background:var(--line-2);align-self:flex-start}
 .msg.me{background:var(--brand);color:#fff;align-self:flex-end}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.chips button{border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:12px;
+  padding:6px 10px;border-radius:999px;cursor:pointer}
+.chips button:hover{border-color:var(--brand);color:var(--brand)}
 .chat-in{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
 .chat-in input{flex:1;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:10px;padding:9px 11px;font-size:13.5px}
 .chat-in button{border:0;background:var(--brand);color:#fff;border-radius:10px;padding:0 14px;cursor:pointer;font-weight:600}
