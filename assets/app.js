@@ -683,11 +683,12 @@ function wireChat(){
 
 // ================= navegación móvil =================
 function wireNav(){
-  const btn=$('#menuBtn');
-  if(btn) btn.onclick=()=>{
-    const open=document.body.classList.toggle('nav-open');
-    btn.setAttribute('aria-expanded', open?'true':'false');
-  };
-  $$('#nav a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));
+  const d=$('#drawer'), sc=$('#scrim'), btn=$('#menuBtn');
+  if(!d||!btn) return;
+  const setOpen=v=>{ d.classList.toggle('open',v); if(sc) sc.classList.toggle('open',v); btn.setAttribute('aria-expanded',v?'true':'false'); };
+  btn.onclick=()=>setOpen(!d.classList.contains('open'));
+  if(sc) sc.onclick=()=>setOpen(false);
+  $$('#drawer a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
+  addEventListener('keydown',e=>{ if(e.key==='Escape') setOpen(false); });
 }
 })();
