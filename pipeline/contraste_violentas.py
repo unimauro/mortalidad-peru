@@ -3,8 +3,8 @@
 
 Genera data/processed/contraste_violentas.json. Solo biblioteca estándar.
 
-Fuentes (todas descargadas, ninguna cifra tecleada a mano salvo las del mapa viral,
-que se transcriben de la imagen para poder verificarlas):
+Fuentes (todas descargadas, las únicas cifras transcritas a mano son las del mapa
+viral y los conteos de las notas de prensa del MINSA, con su URL):
   - SINADEF Datos Abiertos (data/raw/SINADEF_DATOS_ABIERTOS.csv)
       a) código CIE-10 en cualquier posición de la cadena A-F
       b) campo MUERTE_VIOLENTA del certificado
@@ -33,6 +33,21 @@ PAISES = {
 # The World in Maps, "Source: WHO"). Solo países cuya etiqueta es inequívoca.
 MAPA_VIRAL = {"MEX": 7, "CUB": 13.8, "COL": 5, "VEN": 8.6, "ECU": 7.6, "PER": 1.5, "BRA": 7.6,
               "BOL": 4.2, "PRY": 6.4, "CHL": 7.7, "ARG": 7.9, "URY": 24.8, "CRI": 8.1, "PAN": 3.3}
+
+# Conteos anuales de suicidios publicados por el MINSA en notas de prensa oficiales
+# (gob.pe), todos atribuidos a SINADEF. Transcritos de cada nota; "corte" es la
+# fecha de la nota. Sirven para contrastar el conteo propio de la microdata.
+_N = "https://www.gob.pe/institucion/minsa/noticias/"
+MINSA = [
+    {"anio": 2020, "n": 614, "corte": "2021-05-01", "url": _N + "490446-minsa-advierte-que-la-tasa-de-suicidio-esta-en-aumento-en-el-peru"},
+    {"anio": 2021, "n": 708, "corte": "2022-05-10", "url": _N + "605561-minsa-pone-a-disposicion-pautas-para-prevenir-conductas-suicidas"},
+    {"anio": 2022, "n": 686, "corte": "2023-09-10", "url": _N + "831907-dia-mundial-de-prevencion-del-suicidio-como-reconocer-las-senales-de-alerta"},
+    {"anio": 2024, "n": 735, "corte": "2025-02-17", "url": _N + "1111210-el-90-de-los-casos-de-suicidio-estan-relacionados-a-la-depresion-ansiedad-y-otros-trastornos-de-salud-mental"},
+    {"anio": 2024, "n": 749, "corte": "2025-09-10", "url": _N + "1243788-dia-mundial-de-la-prevencion-del-suicidio-minsa-registro-mas-de-6000-casos-de-autolesiones-en-los-establecimientos-durante-el-2024"},
+    {"anio": 2025, "n": 809, "corte": "2026-09-09", "url": _N + "1441848-minsa-promueve-la-escucha-y-el-dialogo-como-herramientas-para-prevenir-el-suicidio"},
+]
+# Tasa nacional 2023 que el MINSA cita sin publicar el conteo (misma nota del 10-set-2025)
+MINSA_TASA_2023 = {"anio": 2023, "tasa": 2.8, "url": MINSA[4]["url"]}
 
 GHO = "https://ghoapi.azureedge.net/api/{}"
 WB = ("https://api.worldbank.org/v2/country/{}/indicator/SH.STA.SUIC.P5"
@@ -192,13 +207,20 @@ def main():
                 "SINADEF 'campo': casilla MUERTE_VIOLENTA del certificado (SUICIDIO / HOMICIDIO).",
                 "'Techo' = suicidios del campo + muertes violentas marcadas 'NO SE CONOCE'. Es una cota superior de lo certificado, no una estimación: no todas esas muertes son suicidios.",
                 "OMS: estimación modelada con intervalo de incertidumbre; no es un conteo.",
-                "La 'edición anterior' de la OMS es la que hoy sigue publicando el Banco Mundial (SH.STA.SUIC.P5).",
+                "La 'edición anterior' de la OMS es GHE 2021 (mayo de 2024), la que hoy sigue publicando el Banco Mundial (SH.STA.SUIC.P5). La vigente es GHE 2023 (septiembre de 2026). La OMS advierte que las ediciones no son comparables entre sí.",
+                "La serie de homicidios de la OMS sigue en la edición GHE 2021; su valor 2021 es una proyección.",
+                "Homicidios CEIC-INEI: 2019 en adelante no es estrictamente comparable con 2017-2018 (nota del INEI); 2025 es estimación preliminar.",
                 "Se excluye el año en curso (parcial).",
             ],
         },
         "peru": peru,
         "latam": latam,
         "series": series,
+        "minsa": {
+            "conteos": [dict(m, sinadef_campo_n=campo[str(m["anio"])]["SUICIDIO"]) for m in MINSA],
+            "tasa_2023": dict(MINSA_TASA_2023, equivale_n=round(MINSA_TASA_2023["tasa"] * pob["2023"] / 1e5),
+                              sinadef_campo_n=campo["2023"]["SUICIDIO"], sinadef_cie_n=cie["2023"]["suicidio"]),
+        },
     }
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print("OK", OUT, "| mapa:", n_ok, "de", len(coinc), "coinciden con la edición anterior OMS")

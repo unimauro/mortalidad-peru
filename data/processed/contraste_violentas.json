@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generado": "2026-11-20T14:39:48+00:00",
+  "generado": "2026-11-20T14:57:44+00:00",
   "sinadef_ultima_defuncion": "2026-09-23",
   "anios": [
    2017,
@@ -35,7 +35,9 @@
    "SINADEF 'campo': casilla MUERTE_VIOLENTA del certificado (SUICIDIO / HOMICIDIO).",
    "'Techo' = suicidios del campo + muertes violentas marcadas 'NO SE CONOCE'. Es una cota superior de lo certificado, no una estimación: no todas esas muertes son suicidios.",
    "OMS: estimación modelada con intervalo de incertidumbre; no es un conteo.",
-   "La 'edición anterior' de la OMS es la que hoy sigue publicando el Banco Mundial (SH.STA.SUIC.P5).",
+   "La 'edición anterior' de la OMS es GHE 2021 (mayo de 2024), la que hoy sigue publicando el Banco Mundial (SH.STA.SUIC.P5). La vigente es GHE 2023 (septiembre de 2026). La OMS advierte que las ediciones no son comparables entre sí.",
+   "La serie de homicidios de la OMS sigue en la edición GHE 2021; su valor 2021 es una proyección.",
+   "Homicidios CEIC-INEI: 2019 en adelante no es estrictamente comparable con 2017-2018 (nota del INEI); 2025 es estimación preliminar.",
    "Se excluye el año en curso (parcial)."
   ]
  },
@@ -4185,6 +4187,60 @@
     "2020": 62.03,
     "2021": 63.15
    }
+  }
+ },
+ "minsa": {
+  "conteos": [
+   {
+    "anio": 2020,
+    "n": 614,
+    "corte": "2021-05-01",
+    "url": "https://www.gob.pe/institucion/minsa/noticias/490446-minsa-advierte-que-la-tasa-de-suicidio-esta-en-aumento-en-el-peru",
+    "sinadef_campo_n": 660
+   },
+   {
+    "anio": 2021,
+    "n": 708,
+    "corte": "2022-05-10",
+    "url": "https://www.gob.pe/institucion/minsa/noticias/605561-minsa-pone-a-disposicion-pautas-para-prevenir-conductas-suicidas",
+    "sinadef_campo_n": 744
+   },
+   {
+    "anio": 2022,
+    "n": 686,
+    "corte": "2023-09-10",
+    "url": "https://www.gob.pe/institucion/minsa/noticias/831907-dia-mundial-de-prevencion-del-suicidio-como-reconocer-las-senales-de-alerta",
+    "sinadef_campo_n": 700
+   },
+   {
+    "anio": 2024,
+    "n": 735,
+    "corte": "2025-02-17",
+    "url": "https://www.gob.pe/institucion/minsa/noticias/1111210-el-90-de-los-casos-de-suicidio-estan-relacionados-a-la-depresion-ansiedad-y-otros-trastornos-de-salud-mental",
+    "sinadef_campo_n": 749
+   },
+   {
+    "anio": 2024,
+    "n": 749,
+    "corte": "2025-09-10",
+    "url": "https://www.gob.pe/institucion/minsa/noticias/1243788-dia-mundial-de-la-prevencion-del-suicidio-minsa-registro-mas-de-6000-casos-de-autolesiones-en-los-establecimientos-durante-el-2024",
+    "sinadef_campo_n": 749
+   },
+   {
+    "anio": 2025,
+    "n": 809,
+    "corte": "2026-09-09",
+    "url": "https://www.gob.pe/institucion/minsa/noticias/1441848-minsa-promueve-la-escucha-y-el-dialogo-como-herramientas-para-prevenir-el-suicidio",
+    "sinadef_campo_n": 809
+   }
+  ],
+  "tasa_2023": {
+   "anio": 2023,
+   "tasa": 2.8,
+   "url": "https://www.gob.pe/institucion/minsa/noticias/1243788-dia-mundial-de-la-prevencion-del-suicidio-minsa-registro-mas-de-6000-casos-de-autolesiones-en-los-establecimientos-durante-el-2024",
+   "equivale_n": 944,
+   "sinadef_campo_n": 460,
+   "sinadef_cie_n": 113
   }
  }
 }
