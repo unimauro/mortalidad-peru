@@ -39,6 +39,10 @@ jobs:
       - name: Procesar
         run: python pipeline/procesar.py
 
+      - name: Contraste suicidios/homicidios (OMS, Banco Mundial, CEIC)
+        continue-on-error: true   # si la API de la OMS falla, se conserva el JSON anterior
+        run: python pipeline/contraste_violentas.py
+
       - name: Generar imágenes (OG + favicons)
         run: python pipeline/generar_imagenes.py
 

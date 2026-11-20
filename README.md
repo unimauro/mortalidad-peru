@@ -26,6 +26,15 @@ tendencias y tres ejes de prevención: **metabólico/cardiovascular**,
   - **Accidentes:** tránsito, caídas, ahogamiento, intoxicaciones y otros.
 - Además: cáncer por tipo, VIH/sida, COVID-19, y perfil por sexo, edad y departamento.
 
+## Verificación: suicidios y homicidios
+
+[`suicidios-homicidios.html`](https://unimauro.github.io/mortalidad-peru/suicidios-homicidios.html)
+contrasta un mapa viral («Perú: 1.5 suicidios por 100 mil, fuente OMS») con la
+estimación vigente de la OMS (GHO), la edición anterior que aún publica el Banco
+Mundial, los certificados de SINADEF (casilla de muerte violenta y código CIE-10)
+y los homicidios del CEIC-INEI. Datos en `data/processed/contraste_violentas.json`,
+generados por `pipeline/contraste_violentas.py`.
+
 ## Fuentes de datos (verificadas)
 
 | Fuente | Uso | Años | URL |

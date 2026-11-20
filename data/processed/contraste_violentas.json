@@ -1,0 +1,748 @@
+{
+ "meta": {
+  "generado": "2026-11-20T14:32:34+00:00",
+  "sinadef_ultima_defuncion": "2026-09-23",
+  "anios": [
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "anio_oms_suicidio": 2023,
+  "anio_oms_homicidio": 2021,
+  "anio_mapa": 2021,
+  "banco_mundial_actualizado": "2026-11-11",
+  "mapa_coincidencias": {
+   "paises_comparados": 14,
+   "coinciden": 14
+  },
+  "fuentes": {
+   "sinadef": "https://www.datosabiertos.gob.pe/dataset/informaci%C3%B3n-de-fallecidos-del-sistema-inform%C3%A1tico-nacional-de-defunciones-sinadef-ministerio",
+   "oms_suicidio": "https://www.who.int/data/gho/data/indicators/indicator-details/GHO/crude-suicide-rates-(per-100-000-population)",
+   "oms_homicidio": "https://www.who.int/data/gho/data/indicators/indicator-details/GHO/estimates-of-rates-of-homicides-per-100-000-population",
+   "oms_api": "https://ghoapi.azureedge.net/api/SDGSUICIDE",
+   "banco_mundial": "https://data.worldbank.org/indicator/SH.STA.SUIC.P5",
+   "ceic": "https://www.gob.pe/institucion/inei/informes-publicaciones/7648859-evolucion-de-la-tasa-de-homicidios-e-indicadores-de-seguridad-ciudadana-2022-2025"
+  },
+  "notas": [
+   "Tasas crudas por 100 mil habitantes, ambos sexos. Población: INEI (base Censo 2017).",
+   "SINADEF 'CIE-10': certificados con código X60-X84 (suicidio) o X85-Y09 (homicidio) en cualquier posición de la cadena de causas A-F.",
+   "SINADEF 'campo': casilla MUERTE_VIOLENTA del certificado (SUICIDIO / HOMICIDIO).",
+   "'Techo' = suicidios del campo + muertes violentas marcadas 'NO SE CONOCE'. Es una cota superior de lo certificado, no una estimación: no todas esas muertes son suicidios.",
+   "OMS: estimación modelada con intervalo de incertidumbre; no es un conteo.",
+   "La 'edición anterior' de la OMS es la que hoy sigue publicando el Banco Mundial (SH.STA.SUIC.P5).",
+   "Se excluye el año en curso (parcial)."
+  ]
+ },
+ "peru": [
+  {
+   "anio": 2017,
+   "poblacion": 30973992,
+   "defunciones_sinadef": 99923,
+   "pct_sin_codigo_cie": 22.6,
+   "violenta_no_se_conoce": 1408,
+   "suicidio": {
+    "sinadef_cie_n": 161,
+    "sinadef_cie_tasa": 0.52,
+    "sinadef_campo_n": 468,
+    "sinadef_campo_tasa": 1.51,
+    "techo_n": 1876,
+    "techo_tasa": 6.06,
+    "oms": {
+     "v": 1.8,
+     "lo": 1.2,
+     "hi": 2.3
+    },
+    "oms_edicion_anterior": 1.41
+   },
+   "homicidio": {
+    "sinadef_cie_n": 170,
+    "sinadef_cie_tasa": 0.55,
+    "sinadef_campo_n": 677,
+    "sinadef_campo_tasa": 2.19,
+    "ceic_n": 2487,
+    "ceic_tasa": 7.8,
+    "oms": {
+     "v": 5.5,
+     "lo": 3.52,
+     "hi": 8.11
+    }
+   }
+  },
+  {
+   "anio": 2018,
+   "poblacion": 31562130,
+   "defunciones_sinadef": 116433,
+   "pct_sin_codigo_cie": 26.6,
+   "violenta_no_se_conoce": 1791,
+   "suicidio": {
+    "sinadef_cie_n": 109,
+    "sinadef_cie_tasa": 0.35,
+    "sinadef_campo_n": 579,
+    "sinadef_campo_tasa": 1.83,
+    "techo_n": 2370,
+    "techo_tasa": 7.51,
+    "oms": {
+     "v": 2.2,
+     "lo": 1.5,
+     "hi": 2.8
+    },
+    "oms_edicion_anterior": 1.8
+   },
+   "homicidio": {
+    "sinadef_cie_n": 111,
+    "sinadef_cie_tasa": 0.35,
+    "sinadef_campo_n": 926,
+    "sinadef_campo_tasa": 2.93,
+    "ceic_n": 2452,
+    "ceic_tasa": 7.6,
+    "oms": {
+     "v": 6.22,
+     "lo": 3.89,
+     "hi": 9.36
+    }
+   }
+  },
+  {
+   "anio": 2019,
+   "poblacion": 32131400,
+   "defunciones_sinadef": 129953,
+   "pct_sin_codigo_cie": 26.2,
+   "violenta_no_se_conoce": 1935,
+   "suicidio": {
+    "sinadef_cie_n": 98,
+    "sinadef_cie_tasa": 0.3,
+    "sinadef_campo_n": 670,
+    "sinadef_campo_tasa": 2.09,
+    "techo_n": 2605,
+    "techo_tasa": 8.11,
+    "oms": {
+     "v": 2.7,
+     "lo": 1.9,
+     "hi": 3.6
+    },
+    "oms_edicion_anterior": 2.19
+   },
+   "homicidio": {
+    "sinadef_cie_n": 128,
+    "sinadef_cie_tasa": 0.4,
+    "sinadef_campo_n": 1141,
+    "sinadef_campo_tasa": 3.55,
+    "ceic_n": 2385,
+    "ceic_tasa": 7.4,
+    "oms": {
+     "v": 7.01,
+     "lo": 4.29,
+     "hi": 10.81
+    }
+   }
+  },
+  {
+   "anio": 2020,
+   "poblacion": 32625948,
+   "defunciones_sinadef": 230492,
+   "pct_sin_codigo_cie": 17.4,
+   "violenta_no_se_conoce": 1471,
+   "suicidio": {
+    "sinadef_cie_n": 110,
+    "sinadef_cie_tasa": 0.34,
+    "sinadef_campo_n": 660,
+    "sinadef_campo_tasa": 2.02,
+    "techo_n": 2131,
+    "techo_tasa": 6.53,
+    "oms": {
+     "v": 3.0,
+     "lo": 2.0,
+     "hi": 4.0
+    },
+    "oms_edicion_anterior": 1.5
+   },
+   "homicidio": {
+    "sinadef_cie_n": 118,
+    "sinadef_cie_tasa": 0.36,
+    "sinadef_campo_n": 1019,
+    "sinadef_campo_tasa": 3.12,
+    "ceic_n": 1903,
+    "ceic_tasa": 5.8,
+    "oms": {
+     "v": 5.8,
+     "lo": 3.44,
+     "hi": 9.24
+    }
+   }
+  },
+  {
+   "anio": 2021,
+   "poblacion": 33035304,
+   "defunciones_sinadef": 260690,
+   "pct_sin_codigo_cie": 15.1,
+   "violenta_no_se_conoce": 1832,
+   "suicidio": {
+    "sinadef_cie_n": 135,
+    "sinadef_cie_tasa": 0.41,
+    "sinadef_campo_n": 744,
+    "sinadef_campo_tasa": 2.25,
+    "techo_n": 2576,
+    "techo_tasa": 7.8,
+    "oms": {
+     "v": 3.8,
+     "lo": 2.5,
+     "hi": 5.2
+    },
+    "oms_edicion_anterior": 1.54
+   },
+   "homicidio": {
+    "sinadef_cie_n": 96,
+    "sinadef_cie_tasa": 0.29,
+    "sinadef_campo_n": 1416,
+    "sinadef_campo_tasa": 4.29,
+    "ceic_n": 2853,
+    "ceic_tasa": 8.6,
+    "oms": {
+     "v": 6.21,
+     "lo": 3.51,
+     "hi": 10.24
+    }
+   }
+  },
+  {
+   "anio": 2022,
+   "poblacion": 33396698,
+   "defunciones_sinadef": 160946,
+   "pct_sin_codigo_cie": 17.6,
+   "violenta_no_se_conoce": 2245,
+   "suicidio": {
+    "sinadef_cie_n": 119,
+    "sinadef_cie_tasa": 0.36,
+    "sinadef_campo_n": 700,
+    "sinadef_campo_tasa": 2.1,
+    "techo_n": 2945,
+    "techo_tasa": 8.82,
+    "oms": {
+     "v": 3.5,
+     "lo": 2.2,
+     "hi": 5.0
+    },
+    "oms_edicion_anterior": null
+   },
+   "homicidio": {
+    "sinadef_cie_n": 129,
+    "sinadef_cie_tasa": 0.39,
+    "sinadef_campo_n": 1539,
+    "sinadef_campo_tasa": 4.61,
+    "ceic_n": 2879,
+    "ceic_tasa": 8.6,
+    "oms": null
+   }
+  },
+  {
+   "anio": 2023,
+   "poblacion": 33725844,
+   "defunciones_sinadef": 127982,
+   "pct_sin_codigo_cie": 13.5,
+   "violenta_no_se_conoce": 1950,
+   "suicidio": {
+    "sinadef_cie_n": 113,
+    "sinadef_cie_tasa": 0.34,
+    "sinadef_campo_n": 460,
+    "sinadef_campo_tasa": 1.36,
+    "techo_n": 2410,
+    "techo_tasa": 7.15,
+    "oms": {
+     "v": 2.9,
+     "lo": 1.8,
+     "hi": 4.3
+    },
+    "oms_edicion_anterior": null
+   },
+   "homicidio": {
+    "sinadef_cie_n": 186,
+    "sinadef_cie_tasa": 0.55,
+    "sinadef_campo_n": 1512,
+    "sinadef_campo_tasa": 4.48,
+    "ceic_n": 3126,
+    "ceic_tasa": 9.3,
+    "oms": null
+   }
+  },
+  {
+   "anio": 2024,
+   "poblacion": 34038457,
+   "defunciones_sinadef": 158556,
+   "pct_sin_codigo_cie": 14.5,
+   "violenta_no_se_conoce": 2122,
+   "suicidio": {
+    "sinadef_cie_n": 175,
+    "sinadef_cie_tasa": 0.51,
+    "sinadef_campo_n": 749,
+    "sinadef_campo_tasa": 2.2,
+    "techo_n": 2871,
+    "techo_tasa": 8.43,
+    "oms": null,
+    "oms_edicion_anterior": null
+   },
+   "homicidio": {
+    "sinadef_cie_n": 184,
+    "sinadef_cie_tasa": 0.54,
+    "sinadef_campo_n": 2082,
+    "sinadef_campo_tasa": 6.12,
+    "ceic_n": 3426,
+    "ceic_tasa": 10.1,
+    "oms": null
+   }
+  },
+  {
+   "anio": 2025,
+   "poblacion": 34412393,
+   "defunciones_sinadef": 169701,
+   "pct_sin_codigo_cie": 17.1,
+   "violenta_no_se_conoce": 2290,
+   "suicidio": {
+    "sinadef_cie_n": 166,
+    "sinadef_cie_tasa": 0.48,
+    "sinadef_campo_n": 809,
+    "sinadef_campo_tasa": 2.35,
+    "techo_n": 3099,
+    "techo_tasa": 9.01,
+    "oms": null,
+    "oms_edicion_anterior": null
+   },
+   "homicidio": {
+    "sinadef_cie_n": 160,
+    "sinadef_cie_tasa": 0.46,
+    "sinadef_campo_n": 2253,
+    "sinadef_campo_tasa": 6.55,
+    "ceic_n": 3675,
+    "ceic_tasa": 10.7,
+    "oms": null
+   }
+  }
+ ],
+ "latam": [
+  {
+   "iso3": "ARG",
+   "pais": "Argentina",
+   "mapa_viral": 7.9,
+   "oms_edicion_anterior": 7.94,
+   "oms_vigente_mismo_anio": {
+    "v": 10.0,
+    "lo": 8.7,
+    "hi": 11.4
+   },
+   "oms_vigente_ultimo": {
+    "v": 11.3,
+    "lo": 9.5,
+    "hi": 13.4
+   },
+   "homicidio_oms": {
+    "v": 5.94,
+    "lo": 4.61,
+    "hi": 7.51
+   }
+  },
+  {
+   "iso3": "BOL",
+   "pais": "Bolivia",
+   "mapa_viral": 4.2,
+   "oms_edicion_anterior": 4.2,
+   "oms_vigente_mismo_anio": {
+    "v": 4.2,
+    "lo": 2.4,
+    "hi": 6.4
+   },
+   "oms_vigente_ultimo": {
+    "v": 5.1,
+    "lo": 2.9,
+    "hi": 7.8
+   },
+   "homicidio_oms": {
+    "v": 10.74,
+    "lo": 5.66,
+    "hi": 18.44
+   }
+  },
+  {
+   "iso3": "BRA",
+   "pais": "Brasil",
+   "mapa_viral": 7.6,
+   "oms_edicion_anterior": 7.59,
+   "oms_vigente_mismo_anio": {
+    "v": 8.5,
+    "lo": 7.7,
+    "hi": 9.5
+   },
+   "oms_vigente_ultimo": {
+    "v": 8.8,
+    "lo": 7.8,
+    "hi": 9.9
+   },
+   "homicidio_oms": {
+    "v": 32.34,
+    "lo": 31.76,
+    "hi": 34.74
+   }
+  },
+  {
+   "iso3": "CHL",
+   "pais": "Chile",
+   "mapa_viral": 7.7,
+   "oms_edicion_anterior": 7.69,
+   "oms_vigente_mismo_anio": {
+    "v": 7.8,
+    "lo": 7.0,
+    "hi": 8.8
+   },
+   "oms_vigente_ultimo": {
+    "v": 9.7,
+    "lo": 8.3,
+    "hi": 11.2
+   },
+   "homicidio_oms": {
+    "v": 3.77,
+    "lo": 2.95,
+    "hi": 4.74
+   }
+  },
+  {
+   "iso3": "COL",
+   "pais": "Colombia",
+   "mapa_viral": 5,
+   "oms_edicion_anterior": 4.96,
+   "oms_vigente_mismo_anio": {
+    "v": 6.4,
+    "lo": 5.6,
+    "hi": 7.2
+   },
+   "oms_vigente_ultimo": {
+    "v": 6.7,
+    "lo": 5.7,
+    "hi": 7.8
+   },
+   "homicidio_oms": {
+    "v": 35.75,
+    "lo": 29.23,
+    "hi": 43.26
+   }
+  },
+  {
+   "iso3": "CRI",
+   "pais": "Costa Rica",
+   "mapa_viral": 8.1,
+   "oms_edicion_anterior": 8.06,
+   "oms_vigente_mismo_anio": {
+    "v": 7.8,
+    "lo": 6.7,
+    "hi": 9.1
+   },
+   "oms_vigente_ultimo": {
+    "v": 7.2,
+    "lo": 5.9,
+    "hi": 8.6
+   },
+   "homicidio_oms": {
+    "v": 13.52,
+    "lo": 11.23,
+    "hi": 16.65
+   }
+  },
+  {
+   "iso3": "CUB",
+   "pais": "Cuba",
+   "mapa_viral": 13.8,
+   "oms_edicion_anterior": 13.79,
+   "oms_vigente_mismo_anio": {
+    "v": 17.4,
+    "lo": 15.3,
+    "hi": 19.8
+   },
+   "oms_vigente_ultimo": {
+    "v": 16.8,
+    "lo": 12.1,
+    "hi": 22.3
+   },
+   "homicidio_oms": {
+    "v": 5.01,
+    "lo": 3.8,
+    "hi": 6.63
+   }
+  },
+  {
+   "iso3": "DOM",
+   "pais": "Rep. Dominicana",
+   "mapa_viral": null,
+   "oms_edicion_anterior": 4.2,
+   "oms_vigente_mismo_anio": {
+    "v": 7.4,
+    "lo": 4.6,
+    "hi": 10.7
+   },
+   "oms_vigente_ultimo": {
+    "v": 8.1,
+    "lo": 4.9,
+    "hi": 12.2
+   },
+   "homicidio_oms": {
+    "v": 19.54,
+    "lo": 12.06,
+    "hi": 29.32
+   }
+  },
+  {
+   "iso3": "ECU",
+   "pais": "Ecuador",
+   "mapa_viral": 7.6,
+   "oms_edicion_anterior": 7.56,
+   "oms_vigente_mismo_anio": {
+    "v": 6.4,
+    "lo": 5.6,
+    "hi": 7.2
+   },
+   "oms_vigente_ultimo": {
+    "v": 5.1,
+    "lo": 4.2,
+    "hi": 6.0
+   },
+   "homicidio_oms": {
+    "v": 6.55,
+    "lo": 4.78,
+    "hi": 8.87
+   }
+  },
+  {
+   "iso3": "SLV",
+   "pais": "El Salvador",
+   "mapa_viral": null,
+   "oms_edicion_anterior": 7.63,
+   "oms_vigente_mismo_anio": {
+    "v": 8.3,
+    "lo": 5.6,
+    "hi": 11.9
+   },
+   "oms_vigente_ultimo": {
+    "v": 9.0,
+    "lo": 5.8,
+    "hi": 13.2
+   },
+   "homicidio_oms": {
+    "v": 93.82,
+    "lo": 63.67,
+    "hi": 135.5
+   }
+  },
+  {
+   "iso3": "GTM",
+   "pais": "Guatemala",
+   "mapa_viral": null,
+   "oms_edicion_anterior": 4.94,
+   "oms_vigente_mismo_anio": {
+    "v": 5.0,
+    "lo": 4.3,
+    "hi": 5.8
+   },
+   "oms_vigente_ultimo": {
+    "v": 4.6,
+    "lo": 3.3,
+    "hi": 6.2
+   },
+   "homicidio_oms": {
+    "v": 26.18,
+    "lo": 21.69,
+    "hi": 31.44
+   }
+  },
+  {
+   "iso3": "HTI",
+   "pais": "Haití",
+   "mapa_viral": null,
+   "oms_edicion_anterior": 7.81,
+   "oms_vigente_mismo_anio": {
+    "v": 3.9,
+    "lo": 1.9,
+    "hi": 6.9
+   },
+   "oms_vigente_ultimo": {
+    "v": 3.7,
+    "lo": 1.7,
+    "hi": 6.7
+   },
+   "homicidio_oms": {
+    "v": 20.94,
+    "lo": 12.06,
+    "hi": 33.76
+   }
+  },
+  {
+   "iso3": "HND",
+   "pais": "Honduras",
+   "mapa_viral": null,
+   "oms_edicion_anterior": 2.97,
+   "oms_vigente_mismo_anio": {
+    "v": 3.7,
+    "lo": 2.2,
+    "hi": 5.8
+   },
+   "oms_vigente_ultimo": {
+    "v": 4.5,
+    "lo": 2.6,
+    "hi": 7.0
+   },
+   "homicidio_oms": {
+    "v": 75.21,
+    "lo": 42.22,
+    "hi": 125.95
+   }
+  },
+  {
+   "iso3": "MEX",
+   "pais": "México",
+   "mapa_viral": 7,
+   "oms_edicion_anterior": 6.95,
+   "oms_vigente_mismo_anio": {
+    "v": 8.1,
+    "lo": 7.1,
+    "hi": 9.2
+   },
+   "oms_vigente_ultimo": {
+    "v": 8.8,
+    "lo": 7.6,
+    "hi": 10.1
+   },
+   "homicidio_oms": {
+    "v": 28.23,
+    "lo": 24.5,
+    "hi": 31.61
+   }
+  },
+  {
+   "iso3": "NIC",
+   "pais": "Nicaragua",
+   "mapa_viral": null,
+   "oms_edicion_anterior": 4.24,
+   "oms_vigente_mismo_anio": {
+    "v": 6.3,
+    "lo": 4.6,
+    "hi": 8.6
+   },
+   "oms_vigente_ultimo": {
+    "v": 6.7,
+    "lo": 4.3,
+    "hi": 10.0
+   },
+   "homicidio_oms": {
+    "v": 9.23,
+    "lo": 6.26,
+    "hi": 13.72
+   }
+  },
+  {
+   "iso3": "PAN",
+   "pais": "Panamá",
+   "mapa_viral": 3.3,
+   "oms_edicion_anterior": 3.29,
+   "oms_vigente_mismo_anio": {
+    "v": 4.5,
+    "lo": 3.8,
+    "hi": 5.2
+   },
+   "oms_vigente_ultimo": {
+    "v": 4.0,
+    "lo": 3.2,
+    "hi": 4.9
+   },
+   "homicidio_oms": {
+    "v": 20.31,
+    "lo": 15.49,
+    "hi": 25.61
+   }
+  },
+  {
+   "iso3": "PRY",
+   "pais": "Paraguay",
+   "mapa_viral": 6.4,
+   "oms_edicion_anterior": 6.36,
+   "oms_vigente_mismo_anio": {
+    "v": 10.3,
+    "lo": 6.3,
+    "hi": 13.2
+   },
+   "oms_vigente_ultimo": {
+    "v": 10.2,
+    "lo": 6.1,
+    "hi": 13.9
+   },
+   "homicidio_oms": {
+    "v": 7.58,
+    "lo": 4.84,
+    "hi": 11.13
+   }
+  },
+  {
+   "iso3": "PER",
+   "pais": "Perú",
+   "mapa_viral": 1.5,
+   "oms_edicion_anterior": 1.54,
+   "oms_vigente_mismo_anio": {
+    "v": 3.8,
+    "lo": 2.5,
+    "hi": 5.2
+   },
+   "oms_vigente_ultimo": {
+    "v": 2.9,
+    "lo": 1.8,
+    "hi": 4.3
+   },
+   "homicidio_oms": {
+    "v": 6.21,
+    "lo": 3.51,
+    "hi": 10.24
+   }
+  },
+  {
+   "iso3": "URY",
+   "pais": "Uruguay",
+   "mapa_viral": 24.8,
+   "oms_edicion_anterior": 24.75,
+   "oms_vigente_mismo_anio": {
+    "v": 23.3,
+    "lo": 20.2,
+    "hi": 26.7
+   },
+   "oms_vigente_ultimo": {
+    "v": 23.1,
+    "lo": 19.3,
+    "hi": 27.3
+   },
+   "homicidio_oms": {
+    "v": 9.2,
+    "lo": 7.18,
+    "hi": 11.77
+   }
+  },
+  {
+   "iso3": "VEN",
+   "pais": "Venezuela",
+   "mapa_viral": 8.6,
+   "oms_edicion_anterior": 8.63,
+   "oms_vigente_mismo_anio": {
+    "v": 8.6,
+    "lo": 6.5,
+    "hi": 11.2
+   },
+   "oms_vigente_ultimo": {
+    "v": 7.6,
+    "lo": 5.4,
+    "hi": 10.7
+   },
+   "homicidio_oms": {
+    "v": 63.15,
+    "lo": 47.1,
+    "hi": 80.4
+   }
+  }
+ ]
+}

@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Suicidios y homicidios en el Perú: ¿qué tan reales son las cifras?</title>
+<meta name="description" content="Un mapa viral atribuye al Perú 1.5 suicidios por 100 mil habitantes, la tasa más baja de América Latina. Contrastamos esa cifra con la estimación vigente de la OMS, con los certificados de SINADEF y con los homicidios del CEIC-INEI.">
+<link rel="canonical" href="https://unimauro.github.io/mortalidad-peru/suicidios-homicidios.html">
+<meta name="theme-color" content="#b3122b">
+<meta name="author" content="Carlos Mauro Cárdenas Fernández">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9EPCTRBQ9N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9EPCTRBQ9N');
+</script>
+<meta property="og:type" content="article">
+<meta property="og:locale" content="es_PE">
+<meta property="og:site_name" content="Observatorio de Mortalidad del Perú">
+<meta property="og:title" content="Suicidios y homicidios en el Perú: ¿qué tan reales son las cifras?">
+<meta property="og:description" content="El «1.5» del mapa viral viene de una edición antigua de la OMS. La vigente dice 3.8. Y los certificados peruanos apenas codifican la causa.">
+<meta property="og:url" content="https://unimauro.github.io/mortalidad-peru/suicidios-homicidios.html">
+<meta property="og:image" content="https://unimauro.github.io/mortalidad-peru/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .hero h1{max-width:20ch}
+  .kpi .val small{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-soft)}
+  .kpi.hl{border-color:var(--brand)}
+  .ayuda{background:color-mix(in srgb,var(--c3) 12%,var(--card));border:1px solid color-mix(in srgb,var(--c3) 40%,var(--line));
+    border-radius:12px;padding:12px 14px;font-size:13.5px;margin-top:22px}
+  .hall{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .hall .card h3{font-size:15px}
+  .hall .card p{font-size:13.5px;color:var(--ink-soft);margin:6px 0 4px}
+  .tblwrap{overflow-x:auto}
+  .src-table td.num,.src-table th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .src-table tr.pe td{font-weight:600;background:color-mix(in srgb,var(--brand) 8%,transparent)}
+  .volver{font-size:13px;color:var(--ink-soft);text-decoration:none;padding:7px 10px;border-radius:8px}
+  .volver:hover{background:var(--line-2);color:var(--ink)}
+  @media(max-width:820px){.hall{grid-template-columns:1fr}.top nav{display:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="./" style="text-decoration:none"><span class="dot"></span> Mortalidad&nbsp;Perú</a>
+    <nav>
+      <a href="#mapa">El mapa</a>
+      <a href="#suicidios">Suicidios</a>
+      <a href="#homicidios">Homicidios</a>
+      <a href="#comparacion">Comparación</a>
+      <a href="#latam">América Latina</a>
+      <a href="#calidad">Calidad del dato</a>
+      <a href="#fuentes">Fuentes</a>
+    </nav>
+    <a class="volver" href="./" style="margin-left:auto">← Observatorio</a>
+    <button class="iconbtn" id="themeBtn" title="Modo claro/oscuro" aria-label="Cambiar tema">◑</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="kicker">Verificación de datos · Observatorio de Mortalidad</div>
+    <h1>¿El Perú tiene la tasa de suicidio <em>más baja</em> de América Latina?</h1>
+    <p class="lead">Un mapa viral, con la etiqueta «Fuente: OMS», le asigna al Perú <b>1.5 suicidios por cada 100 mil habitantes</b>. Rastreamos de dónde sale ese número y lo contrastamos con la estimación vigente de la OMS, con los certificados de defunción (SINADEF) y con los homicidios.</p>
+    <div class="kpis" id="kpis"></div>
+    <div class="ayuda">💚 <b>Si tú o alguien cercano la está pasando mal:</b> en el Perú puedes llamar gratis a la <b>Línea 113, opción 5</b> (MINSA, orientación en salud mental, 24 horas). Hablar ayuda.</div>
+  </div>
+</section>
+
+<section class="blk" id="mapa">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Lo que encontramos</div>
+      <h2>El número existe, pero está desactualizado y es una estimación</h2>
+      <p id="resumen"></p>
+    </div>
+    <div class="hall">
+      <div class="card"><h3>1 · El «1.5» sí viene de la OMS… de una edición anterior</h3><p id="h1"></p></div>
+      <div class="card"><h3>2 · La OMS ya lo corrigió a más del doble</h3><p id="h2"></p></div>
+      <div class="card"><h3>3 · El Perú casi no codifica la causa</h3><p id="h3"></p></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="suicidios">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Perú · suicidios</div>
+      <h2>Cuatro lecturas de la misma realidad</h2>
+      <p>Según qué se cuente, la tasa peruana va de 0.3 a 3.8 por 100 mil. Ninguna de las fuentes es un conteo completo.</p>
+    </div>
+    <div class="card">
+      <h3>Tasa de suicidio en el Perú, por fuente</h3>
+      <p class="hint">Por 100 mil habitantes, ambos sexos. La franja es el intervalo de incertidumbre de la OMS.</p>
+      <div class="chart tall" id="ch_sui"></div>
+      <div class="cfoot"><span>OMS (GHO) · Banco Mundial · SINADEF · población INEI</span><button data-csv="peru">Descargar CSV</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="homicidios">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Perú · homicidios</div>
+      <h2>En homicidios sí hay un conteo oficial, y el certificado se queda corto</h2>
+      <p>El CEIC-INEI cuenta los homicidios uno a uno con registros policiales y fiscales. Sirve de vara para medir cuánto pierde el certificado de defunción. Para suicidios no existe un conteo equivalente.</p>
+    </div>
+    <div class="card">
+      <h3>Tasa de homicidio en el Perú, por fuente</h3>
+      <p class="hint">Por 100 mil habitantes. La franja es el intervalo de incertidumbre de la OMS.</p>
+      <div class="chart tall" id="ch_hom"></div>
+      <div class="note" id="homNote" style="margin-top:12px"></div>
+      <div class="cfoot"><span>CEIC-INEI · OMS (GHO) · SINADEF</span><button data-csv="peru">Descargar CSV</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="comparacion">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Perú · lado a lado</div>
+      <h2>Suicidios frente a homicidios</h2>
+      <p>Con la mejor cifra disponible de cada uno: homicidios del CEIC-INEI y suicidios de la estimación OMS (y, para los años sin OMS, lo que el certificado marca como suicidio).</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Tasas por 100 mil habitantes</h3>
+        <div class="chart" id="ch_cmp"></div>
+        <div class="cfoot"><span>CEIC-INEI · OMS · SINADEF</span><button data-csv="peru">Descargar CSV</button></div>
+      </div>
+      <div class="card">
+        <h3>Muertes por año (casos)</h3>
+        <p class="hint">Homicidios: conteo CEIC-INEI. Suicidios: casilla del certificado SINADEF (piso).</p>
+        <div class="chart" id="ch_cmpN"></div>
+        <div class="cfoot"><span>CEIC-INEI · SINADEF</span><button data-csv="peru">Descargar CSV</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="latam">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">América Latina</div>
+      <h2>El mapa, país por país, frente a la OMS vigente</h2>
+      <p id="latamLead"></p>
+    </div>
+    <div class="card">
+      <h3>Tasa de suicidio: edición anterior (la del mapa) vs. estimación vigente</h3>
+      <div class="chart" id="ch_latam" style="height:620px"></div>
+      <div class="cfoot"><span>OMS (GHO) · Banco Mundial SH.STA.SUIC.P5</span><button data-csv="latam">Descargar CSV</button></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3>Suicidios y homicidios en la región</h3>
+      <p class="hint" id="scHint"></p>
+      <div class="chart tall" id="ch_sc"></div>
+      <div class="cfoot"><span>OMS (GHO), estimaciones</span><button data-csv="latam">Descargar CSV</button></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3>Tabla completa</h3>
+      <div class="tblwrap"><table class="src-table" id="tblLatam"></table></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="calidad">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Calidad del dato</div>
+      <h2>¿Por qué la cifra peruana es tan frágil?</h2>
+      <p>Para decir «suicidio» en una estadística, el certificado debe traer el código de causa externa. En el Perú, la mayoría de las muertes violentas no lo trae.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Suicidios según el mismo certificado: casilla vs. código</h3>
+        <p class="hint">La casilla «muerte violenta: suicidio» frente a los certificados que además llevan un código CIE-10 X60–X84.</p>
+        <div class="chart" id="ch_gap"></div>
+        <div class="cfoot"><span>SINADEF Datos Abiertos</span><button data-csv="peru">Descargar CSV</button></div>
+      </div>
+      <div class="card">
+        <h3>Muertes violentas de tipo «no se conoce»</h3>
+        <p class="hint">Certificados marcados como muerte violenta sin precisar si fue accidente, homicidio o suicidio, comparados con los marcados como suicidio.</p>
+        <div class="chart" id="ch_nsc"></div>
+        <div class="cfoot"><span>SINADEF Datos Abiertos</span><button data-csv="peru">Descargar CSV</button></div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:18px" id="calNote"></div>
+  </div>
+</section>
+
+<section class="blk" id="fuentes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Método y fuentes</div>
+      <h2>Cómo se hizo</h2>
+    </div>
+    <div class="card">
+      <ul id="notas" style="margin:6px 0 10px;padding-left:20px;font-size:13.5px;color:var(--ink-soft)"></ul>
+      <div class="tblwrap"><table class="src-table" id="tblFuentes"></table></div>
+      <p class="hint" style="margin-top:12px">Lo que <b>no</b> se pudo verificar: no encontramos una serie pública del Instituto de Medicina Legal (Ministerio Público) ni de la PNP con suicidios por año, que sería el equivalente al conteo del CEIC para homicidios. Tampoco se corrige aquí por subregistro general de defunciones. Este análisis es descriptivo.</p>
+      <div class="cfoot"><span id="gen"></span><a href="data/processed/contraste_violentas.json" style="color:var(--brand);font-size:12px">Descargar datos (JSON)</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap cols">
+    <div>
+      <strong>¿De qué morimos en el Perú?</strong><br>
+      Observatorio de datos abiertos · sin fines de lucro · código bajo licencia MIT.<br>
+      Investigación y desarrollo: <b>Carlos Mauro Cárdenas Fernández</b>.<br>
+      <a href="./">← Volver al observatorio</a> · <a href="https://github.com/unimauro/mortalidad-peru" target="_blank" rel="noopener">Repositorio en GitHub →</a>
+    </div>
+    <div style="max-width:42ch;color:var(--ink-soft)">
+      Línea 113, opción 5 (MINSA): orientación gratuita en salud mental, las 24 horas.
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.6.0/echarts.min.js"></script>
+<script>
+const THEME_KEY='mp-theme';
+try{document.documentElement.setAttribute('data-theme',localStorage.getItem(THEME_KEY)||'light');}catch(e){document.documentElement.setAttribute('data-theme','light');}
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const $=id=>document.getElementById(id);
+const f1=v=>v==null?'—':Number(v).toLocaleString('es-PE',{minimumFractionDigits:1,maximumFractionDigits:1});
+const f0=v=>v==null?'—':Number(v).toLocaleString('es-PE');
+const charts={}; let D=null;
+
+function base(){
+  const ink=css('--ink'),soft=css('--ink-soft'),line=css('--line');
+  return {
+    textStyle:{fontFamily:'Inter,system-ui,sans-serif',color:ink},
+    grid:{left:8,right:18,top:innerWidth<700?92:58,bottom:8,containLabel:true},
+    legend:{top:0,left:0,right:0,textStyle:{color:soft,fontSize:12},itemWidth:16,itemHeight:8,itemGap:12},
+    tooltip:{trigger:'axis',backgroundColor:css('--card'),borderColor:line,textStyle:{color:ink,fontSize:12.5},
+      valueFormatter:v=>v==null?'sin dato':f1(v)},
+    xAxis:{type:'category',axisLine:{lineStyle:{color:line}},axisLabel:{color:soft},axisTick:{show:false}},
+    yAxis:{type:'value',axisLabel:{color:soft},splitLine:{lineStyle:{color:line}},name:'por 100 mil',nameTextStyle:{color:soft,fontSize:11,align:'left'}}
+  };
+}
+function draw(id,opt){
+  if(!charts[id]) charts[id]=echarts.init($(id));
+  const b=base();
+  charts[id].setOption(Object.assign({},b,opt,{
+    xAxis:Object.assign({},b.xAxis,opt.xAxis||{}),
+    yAxis:Object.assign({},b.yAxis,opt.yAxis||{}),
+    tooltip:Object.assign({},b.tooltip,opt.tooltip||{}),
+    grid:Object.assign({},b.grid,opt.grid||{}),
+    legend:Object.assign({},b.legend,opt.legend||{})
+  }),true);
+}
+const line=(name,data,color,extra)=>Object.assign({name,type:'line',data,symbolSize:6,lineStyle:{width:2.5,color},itemStyle:{color},connectNulls:false,emphasis:{focus:'series'}},extra||{});
+// franja de incertidumbre: dos series apiladas (base invisible + ancho)
+function banda(lo,hi,color){
+  return [
+    {name:'_lo',type:'line',data:lo,stack:'b'+color,symbol:'none',lineStyle:{opacity:0},tooltip:{show:false},silent:true},
+    {name:'_hi',type:'line',data:hi.map((h,i)=>h==null||lo[i]==null?null:+(h-lo[i]).toFixed(2)),stack:'b'+color,symbol:'none',
+     lineStyle:{opacity:0},areaStyle:{color,opacity:.16},tooltip:{show:false},silent:true}
+  ];
+}
+const sinBanda=names=>({data:names});
+
+function render(){
+  const P=D.peru, M=D.meta, yrs=P.map(p=>p.anio);
+  const c1=css('--c1'),c2=css('--c2'),c3=css('--c3'),c4=css('--c4'),c5=css('--c5'),c8=css('--c8'),brand=css('--brand');
+  const pMapa=P.find(p=>p.anio===M.anio_mapa), pOms=P.find(p=>p.anio===M.anio_oms_suicidio), pUlt=P[P.length-1];
+  const ant=pMapa.suicidio.oms_edicion_anterior, vig=pMapa.suicidio.oms;
+
+  // ---- KPIs ----
+  $('kpis').innerHTML=[
+    ['Mapa viral (OMS, edición anterior, '+M.anio_mapa+')',f1(ant),'por 100 mil · la cifra que circula',''],
+    ['OMS vigente, mismo año '+M.anio_mapa,f1(vig.v),'intervalo '+f1(vig.lo)+' – '+f1(vig.hi),'hl'],
+    ['OMS vigente, último año ('+M.anio_oms_suicidio+')',f1(pOms.suicidio.oms.v),'intervalo '+f1(pOms.suicidio.oms.lo)+' – '+f1(pOms.suicidio.oms.hi),''],
+    ['Certificados SINADEF '+pUlt.anio,f1(pUlt.suicidio.sinadef_campo_tasa),f0(pUlt.suicidio.sinadef_campo_n)+' marcados como suicidio; solo '+f0(pUlt.suicidio.sinadef_cie_n)+' con código CIE-10','']
+  ].map(k=>`<div class="kpi ${k[3]}"><div class="lab">${k[0]}</div><div class="val">${k[1]}</div><div class="sub">${k[2]}</div></div>`).join('');
+
+  // ---- hallazgos ----
+  const mc=M.mapa_coincidencias, L=D.latam;
+  const subieron=L.filter(x=>x.oms_edicion_anterior!=null&&x.oms_vigente_mismo_anio&&x.oms_vigente_mismo_anio.v>x.oms_edicion_anterior+0.05).length;
+  const conAmbas=L.filter(x=>x.oms_edicion_anterior!=null&&x.oms_vigente_mismo_anio).length;
+  const rank=(key)=>{const s=L.filter(x=>x[key]).sort((a,b)=>a[key].v-b[key].v);return [s.findIndex(x=>x.iso3==='PER')+1,s.length,s[0]];};
+  const [rk,rn,rmin]=rank('oms_vigente_ultimo');
+  const solapan=L.filter(x=>x.iso3!=='PER'&&x.oms_vigente_ultimo&&x.oms_vigente_ultimo.v<=pOms.suicidio.oms.hi).length;
+  $('resumen').innerHTML=`La respuesta corta: <b>probablemente está entre las más bajas, pero no en 1.5, y no se puede afirmar que sea la más baja</b>. La cifra vigente es el doble de la del mapa, es una estimación modelada con un margen amplio, y el registro peruano no permite contarlos bien.`;
+  $('h1').innerHTML=`Las cifras del mapa coinciden en <b>${mc.coinciden} de ${mc.paises_comparados}</b> países legibles con la serie que hoy publica el Banco Mundial para ${M.anio_mapa} (indicador SH.STA.SUIC.P5), que reproduce una edición anterior de las estimaciones de la OMS. Perú: ${f1(ant)}.`;
+  $('h2').innerHTML=`En la edición vigente del Observatorio Mundial de la Salud, el mismo año ${M.anio_mapa} figura con <b>${f1(vig.v)}</b> (intervalo ${f1(vig.lo)}–${f1(vig.hi)}), ${f1(vig.v/ant)} veces el valor del mapa. Para ${M.anio_oms_suicidio} estima ${f1(pOms.suicidio.oms.v)}. La revisión subió la tasa en ${subieron} de ${conAmbas} países. Con la cifra vigente de ${M.anio_oms_suicidio} el Perú ocupa el puesto ${rk} de ${rn} de menor a mayor, pero su intervalo (hasta ${f1(pOms.suicidio.oms.hi)}) se cruza con el valor central de ${solapan} países más.`;
+  $('h3').innerHTML=`En ${pUlt.anio}, SINADEF marcó <b>${f0(pUlt.suicidio.sinadef_campo_n)}</b> defunciones como suicidio, pero solo <b>${f0(pUlt.suicidio.sinadef_cie_n)}</b> llevan el código CIE-10 que usan las estadísticas internacionales. Otras ${f0(pUlt.violenta_no_se_conoce)} muertes violentas quedaron como «no se conoce».`;
+
+  // ---- suicidios Perú ----
+  const sLo=P.map(p=>p.suicidio.oms?p.suicidio.oms.lo:null), sHi=P.map(p=>p.suicidio.oms?p.suicidio.oms.hi:null);
+  const nS=['OMS, estimación vigente','OMS, edición anterior (la del mapa)','SINADEF: casilla «suicidio»','SINADEF: código CIE-10 X60–X84'];
+  draw('ch_sui',{legend:sinBanda(nS),xAxis:{data:yrs},series:[
+    ...banda(sLo,sHi,c1),
+    line(nS[0],P.map(p=>p.suicidio.oms?p.suicidio.oms.v:null),c1),
+    line(nS[1],P.map(p=>p.suicidio.oms_edicion_anterior),c4,{lineStyle:{width:2.5,color:c4,type:'dashed'},
+      markPoint:{symbol:'pin',symbolSize:44,data:[{coord:[String(M.anio_mapa),ant],value:f1(ant)}],label:{fontSize:11,color:'#fff'},itemStyle:{color:c4}}}),
+    line(nS[2],P.map(p=>p.suicidio.sinadef_campo_tasa),c3),
+    line(nS[3],P.map(p=>p.suicidio.sinadef_cie_tasa),c8)
+  ]});
+
+  // ---- homicidios Perú ----
+  const hLo=P.map(p=>p.homicidio.oms?p.homicidio.oms.lo:null), hHi=P.map(p=>p.homicidio.oms?p.homicidio.oms.hi:null);
+  const nH=['CEIC-INEI (conteo oficial)','OMS, estimación','SINADEF: casilla «homicidio»','SINADEF: código CIE-10 X85–Y09'];
+  draw('ch_hom',{legend:sinBanda(nH),xAxis:{data:yrs},series:[
+    ...banda(hLo,hHi,c1),
+    line(nH[0],P.map(p=>p.homicidio.ceic_tasa),brand),
+    line(nH[1],P.map(p=>p.homicidio.oms?p.homicidio.oms.v:null),c1),
+    line(nH[2],P.map(p=>p.homicidio.sinadef_campo_tasa),c3),
+    line(nH[3],P.map(p=>p.homicidio.sinadef_cie_tasa),c8)
+  ]});
+  const h=pUlt.homicidio;
+  $('homNote').innerHTML=`En ${pUlt.anio} el CEIC-INEI registró <b>${f0(h.ceic_n)}</b> homicidios. El certificado de defunción marcó ${f0(h.sinadef_campo_n)} (${Math.round(h.sinadef_campo_n/h.ceic_n*100)}%) y solo ${f0(h.sinadef_cie_n)} (${Math.round(h.sinadef_cie_n/h.ceic_n*100)}%) llevan código CIE-10 de agresión. Si el certificado pierde esa proporción de homicidios, que sí tienen un conteo independiente, no hay razón para suponer que capta bien los suicidios. El valor ${pUlt.anio} del CEIC es estimado.`;
+
+  // ---- comparación ----
+  const nC=['Homicidios (CEIC-INEI)','Suicidios (OMS vigente)','Suicidios (SINADEF, casilla)'];
+  draw('ch_cmp',{legend:sinBanda(nC),xAxis:{data:yrs},series:[
+    line(nC[0],P.map(p=>p.homicidio.ceic_tasa),brand),
+    line(nC[1],P.map(p=>p.suicidio.oms?p.suicidio.oms.v:null),c1),
+    line(nC[2],P.map(p=>p.suicidio.sinadef_campo_tasa),c3,{lineStyle:{width:2,color:c3,type:'dashed'}})
+  ]});
+  draw('ch_cmpN',{xAxis:{data:yrs},yAxis:{name:'casos'},tooltip:{valueFormatter:f0},series:[
+    {name:'Homicidios (CEIC-INEI)',type:'bar',data:P.map(p=>p.homicidio.ceic_n),itemStyle:{color:brand,borderRadius:[3,3,0,0]},barGap:'8%'},
+    {name:'Suicidios (SINADEF, casilla)',type:'bar',data:P.map(p=>p.suicidio.sinadef_campo_n),itemStyle:{color:c3,borderRadius:[3,3,0,0]}}
+  ]});
+
+  // ---- LatAm barras ----
+  const Ls=L.filter(x=>x.oms_vigente_mismo_anio).slice().sort((a,b)=>a.oms_vigente_mismo_anio.v-b.oms_vigente_mismo_anio.v);
+  const nL=['Edición anterior '+M.anio_mapa+' (mapa)','OMS vigente '+M.anio_mapa,'OMS vigente '+M.anio_oms_suicidio];
+  const hlPE=(col)=>(p)=>Ls[p.dataIndex].iso3==='PER'?col:col;
+  draw('ch_latam',{legend:sinBanda(nL),tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+    xAxis:{type:'value',axisLabel:{color:css('--ink-soft')},splitLine:{lineStyle:{color:css('--line')}}},
+    yAxis:{type:'category',name:'',data:Ls.map(x=>x.pais),axisLabel:{color:css('--ink'),fontWeight:v=>v==='Perú'?700:400,
+      formatter:v=>v==='Perú'?'▶ Perú':v},splitLine:{show:false},axisLine:{lineStyle:{color:css('--line')}},axisTick:{show:false}},
+    series:[
+      {name:nL[0],type:'bar',data:Ls.map(x=>x.oms_edicion_anterior),itemStyle:{color:c4},barGap:'10%'},
+      {name:nL[1],type:'bar',data:Ls.map(x=>x.oms_vigente_mismo_anio.v),itemStyle:{color:c1}},
+      {name:nL[2],type:'bar',data:Ls.map(x=>x.oms_vigente_ultimo?x.oms_vigente_ultimo.v:null),itemStyle:{color:c6()}}
+    ]});
+  function c6(){return css('--c6');}
+  $('latamLead').innerHTML=`Las barras naranjas son los valores del mapa viral (edición anterior, ${M.anio_mapa}). Las azules, lo que la OMS publica hoy para ese mismo año y para ${M.anio_oms_suicidio}. Son estimaciones modeladas; en países con registro débil el margen de error es amplio.`;
+
+  // ---- dispersión ----
+  const sc=L.filter(x=>x.oms_vigente_mismo_anio&&x.homicidio_oms);
+  $('scHint').textContent=`Cada punto es un país (${M.anio_oms_homicidio}). Eje horizontal: homicidios; vertical: suicidios. El eje de homicidios es logarítmico.`;
+  draw('ch_sc',{legend:{show:false},grid:{top:36,bottom:28,left:14,right:44},
+    tooltip:{trigger:'item',formatter:p=>`<b>${p.data[2]}</b><br>Homicidios: ${f1(p.data[0])}<br>Suicidios: ${f1(p.data[1])}`},
+    xAxis:{type:'log',name:'Homicidios por 100 mil',nameLocation:'middle',nameGap:26,nameTextStyle:{color:css('--ink-soft')},
+      axisLabel:{color:css('--ink-soft')},splitLine:{lineStyle:{color:css('--line')}}},
+    yAxis:{name:'Suicidios por 100 mil'},
+    series:[{type:'scatter',symbolSize:p=>p[3]?20:13,
+      data:sc.map(x=>[x.homicidio_oms.v,x.oms_vigente_mismo_anio.v,x.pais,x.iso3==='PER']),
+      itemStyle:{color:p=>p.data[3]?brand:c1,opacity:.9},
+      label:{show:true,formatter:p=>p.data[2],position:'right',fontSize:11,color:css('--ink-soft')},labelLayout:{hideOverlap:true}}]});
+
+  // ---- tabla ----
+  $('tblLatam').innerHTML=`<thead><tr><th>País</th><th class="num">Mapa viral</th><th class="num">Edición anterior ${M.anio_mapa}</th><th class="num">OMS vigente ${M.anio_mapa}</th><th class="num">Intervalo</th><th class="num">OMS vigente ${M.anio_oms_suicidio}</th><th class="num">Homicidios OMS ${M.anio_oms_homicidio}</th></tr></thead><tbody>`+
+    Ls.map(x=>`<tr class="${x.iso3==='PER'?'pe':''}"><td>${x.pais}</td><td class="num">${x.mapa_viral==null?'—':x.mapa_viral}</td><td class="num">${f1(x.oms_edicion_anterior)}</td><td class="num">${f1(x.oms_vigente_mismo_anio.v)}</td><td class="num">${f1(x.oms_vigente_mismo_anio.lo)}–${f1(x.oms_vigente_mismo_anio.hi)}</td><td class="num">${x.oms_vigente_ultimo?f1(x.oms_vigente_ultimo.v):'—'}</td><td class="num">${x.homicidio_oms?f1(x.homicidio_oms.v):'—'}</td></tr>`).join('')+'</tbody>';
+
+  // ---- calidad ----
+  draw('ch_gap',{xAxis:{data:yrs},yAxis:{name:'casos'},tooltip:{valueFormatter:f0},series:[
+    {name:'Casilla «suicidio»',type:'bar',data:P.map(p=>p.suicidio.sinadef_campo_n),itemStyle:{color:c3,borderRadius:[3,3,0,0]},barGap:'8%'},
+    {name:'Con código CIE-10 X60–X84',type:'bar',data:P.map(p=>p.suicidio.sinadef_cie_n),itemStyle:{color:c8,borderRadius:[3,3,0,0]}}
+  ]});
+  draw('ch_nsc',{xAxis:{data:yrs},yAxis:{name:'casos'},tooltip:{valueFormatter:f0},series:[
+    {name:'Violenta «no se conoce»',type:'bar',data:P.map(p=>p.violenta_no_se_conoce),itemStyle:{color:c2,borderRadius:[3,3,0,0]},barGap:'8%'},
+    {name:'Casilla «suicidio»',type:'bar',data:P.map(p=>p.suicidio.sinadef_campo_n),itemStyle:{color:c3,borderRadius:[3,3,0,0]}}
+  ]});
+  const p23=P.find(p=>p.anio===2023), p22=P.find(p=>p.anio===2022), p24=P.find(p=>p.anio===2024);
+  const sc0=Math.min(...P.map(p=>p.pct_sin_codigo_cie)), sc1=Math.max(...P.map(p=>p.pct_sin_codigo_cie));
+  $('calNote').innerHTML=`⚠️ <b>Tres señales de fragilidad.</b> (1) Entre ${f1(sc0)}% y ${f1(sc1)}% de los certificados de cada año no trae ningún código CIE-10 en los datos abiertos. (2) Por cada suicidio marcado en ${pUlt.anio} hay ${f1(pUlt.violenta_no_se_conoce/pUlt.suicidio.sinadef_campo_n)} muertes violentas de tipo «no se conoce». (3) La serie salta sin explicación epidemiológica: ${f0(p22.suicidio.sinadef_campo_n)} suicidios marcados en 2022, ${f0(p23.suicidio.sinadef_campo_n)} en 2023 y ${f0(p24.suicidio.sinadef_campo_n)} en 2024; 2023 es un año con caída general del registro SINADEF. Un salto así describe al sistema de registro, no a la población.`;
+
+  // ---- fuentes ----
+  $('notas').innerHTML=M.notas.map(n=>`<li>${n}</li>`).join('');
+  const F=M.fuentes, a=(u,t)=>`<a href="${u}" target="_blank" rel="noopener" style="color:var(--brand)">${t}</a>`;
+  $('tblFuentes').innerHTML=`<thead><tr><th>Fuente</th><th>Qué aporta</th><th>Enlace</th></tr></thead><tbody>
+    <tr><td>OMS · Global Health Observatory</td><td>Tasa cruda de suicidio (estimación vigente, hasta ${M.anio_oms_suicidio}) y de homicidio (hasta ${M.anio_oms_homicidio}), con intervalos</td><td>${a(F.oms_suicidio,'Suicidio')} · ${a(F.oms_homicidio,'Homicidio')} · ${a(F.oms_api,'API')}</td></tr>
+    <tr><td>Banco Mundial · SH.STA.SUIC.P5</td><td>Copia de la edición anterior de la OMS: la que usa el mapa viral (consultado; actualizado ${M.banco_mundial_actualizado})</td><td>${a(F.banco_mundial,'Indicador')}</td></tr>
+    <tr><td>SINADEF · MINSA</td><td>Certificados de defunción: casilla «muerte violenta» y códigos CIE-10 (corte ${M.sinadef_ultima_defuncion})</td><td>${a(F.sinadef,'Datos abiertos')}</td></tr>
+    <tr><td>CEIC · INEI</td><td>Homicidios contados uno a uno (registros policiales y fiscales)</td><td>${a(F.ceic,'Informe técnico')}</td></tr>
+    <tr><td>INEI</td><td>Población para las tasas (proyecciones, base Censo 2017)</td><td>${a('https://www.inei.gob.pe/','inei.gob.pe')}</td></tr></tbody>`;
+  $('gen').textContent='Datos generados: '+M.generado.slice(0,10);
+}
+
+// ---- CSV ----
+function csvPeru(){
+  const h=['anio','poblacion','sui_oms_vigente','sui_oms_lo','sui_oms_hi','sui_oms_edicion_anterior','sui_sinadef_casilla_n','sui_sinadef_casilla_tasa','sui_sinadef_cie_n','sui_sinadef_cie_tasa','hom_ceic_n','hom_ceic_tasa','hom_oms','hom_oms_lo','hom_oms_hi','hom_sinadef_casilla_n','hom_sinadef_casilla_tasa','hom_sinadef_cie_n','hom_sinadef_cie_tasa','violenta_no_se_conoce','pct_sin_codigo_cie'];
+  const r=D.peru.map(p=>{const s=p.suicidio,o=s.oms||{},hh=p.homicidio,ho=hh.oms||{};
+    return [p.anio,p.poblacion,o.v,o.lo,o.hi,s.oms_edicion_anterior,s.sinadef_campo_n,s.sinadef_campo_tasa,s.sinadef_cie_n,s.sinadef_cie_tasa,hh.ceic_n,hh.ceic_tasa,ho.v,ho.lo,ho.hi,hh.sinadef_campo_n,hh.sinadef_campo_tasa,hh.sinadef_cie_n,hh.sinadef_cie_tasa,p.violenta_no_se_conoce,p.pct_sin_codigo_cie];});
+  return [h,...r];
+}
+function csvLatam(){
+  const h=['iso3','pais','mapa_viral','oms_edicion_anterior','oms_vigente_mismo_anio','lo','hi','oms_vigente_ultimo','homicidio_oms'];
+  return [h,...D.latam.map(x=>{const v=x.oms_vigente_mismo_anio||{};return [x.iso3,x.pais,x.mapa_viral,x.oms_edicion_anterior,v.v,v.lo,v.hi,(x.oms_vigente_ultimo||{}).v,(x.homicidio_oms||{}).v];})];
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button[data-csv]'); if(!b||!D) return;
+  const rows=b.dataset.csv==='latam'?csvLatam():csvPeru();
+  const txt='﻿'+rows.map(r=>r.map(v=>v==null?'':v).join(',')).join('\n');
+  const u=URL.createObjectURL(new Blob([txt],{type:'text/csv;charset=utf-8'}));
+  const l=document.createElement('a'); l.href=u; l.download='contraste_'+b.dataset.csv+'.csv'; l.click(); URL.revokeObjectURL(u);
+});
+$('themeBtn').addEventListener('click',()=>{
+  const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',n); try{localStorage.setItem(THEME_KEY,n);}catch(e){}
+  if(D) render();
+});
+addEventListener('resize',()=>Object.values(charts).forEach(c=>c.resize()));
+fetch('data/processed/contraste_violentas.json').then(r=>r.json()).then(d=>{D=d;render();})
+  .catch(()=>{$('resumen').textContent='No se pudieron cargar los datos.';});
+</script>
+</body>
+</html>
