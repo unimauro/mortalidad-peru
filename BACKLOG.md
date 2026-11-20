@@ -5,7 +5,14 @@
 Hecho (20-nov-2026): página publicada; contraste con OMS (GHE 2021 vs GHE 2023), Banco Mundial,
 SINADEF, CEIC-INEI, notas del MINSA y literatura; versión por años; OG propia.
 
+Hecho (20-nov, tarde): sección «Cómo se registra» (circuito peruano con la Directiva 353-MINSA/OGTI-2024,
+dos definiciones oficiales, tabla comparativa de 11 países con calidad OMS).
+
 Pendiente:
+- [ ] Verificar si se aprobó el documento normativo de prevención del suicidio que ordena el DS 011-2025-SA
+      (podría asignar la estadística a alguna institución).
+- [ ] Confirmar si el protocolo de necropsia del IML registra el tipo de muerte y qué base remite el Perú a la OMS.
+- [ ] La tabla por país está transcrita a mano en el HTML: pasarla al JSON con sus URLs por celda.
 - [ ] Solicitudes de acceso a la información: Ministerio Público/IML (necropsias por tipo de muerte,
       año y distrito fiscal) y PNP (ocurrencias de suicidio en SIDPOL). Es la única vía para un conteo
       independiente del certificado.

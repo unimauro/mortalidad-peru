@@ -215,7 +215,13 @@
   .src-table td.num{white-space:nowrap}
   .src-table thead th{vertical-align:bottom;border-bottom:2px solid var(--line)}
   .src-table td a{color:var(--brand);text-underline-offset:2px}
-  #tblLatam th:first-child,#tblLatam td:first-child{position:sticky;left:0;z-index:1;background:var(--card)}
+  #tblLatam th:first-child,#tblLatam td:first-child,#tblPaises th:first-child,#tblPaises td:first-child{position:sticky;left:0;z-index:1;background:var(--card)}
+  #tblPaises td{font-size:12.5px;min-width:120px}
+  #tblPaises tr.pe td:first-child{background:color-mix(in srgb,var(--brand) 8%,var(--card))}
+  .pasos{counter-reset:paso;list-style:none;padding:0;margin:8px 0 4px}
+  .pasos li{counter-increment:paso;position:relative;padding:0 0 14px 40px;font-size:13.5px;line-height:1.55;color:var(--ink-soft)}
+  .pasos li::before{content:counter(paso);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--brand-soft);color:var(--brand);font-weight:700;font-size:13px;display:grid;place-items:center}
+  .pasos li b{color:var(--ink)}
   #tblLatam tbody tr:hover td{background:var(--line-2)}
   #tblLatam tr.pe td,#tblLatam tbody tr.pe:hover td{font-weight:600;background:color-mix(in srgb,var(--brand) 9%,var(--card))}
   #tblLatam tr.pe td:first-child{box-shadow:inset 3px 0 0 var(--brand)}
@@ -274,6 +280,7 @@
       <a href="#comparacion">Comparación</a>
       <a href="#latam">América Latina</a>
       <a href="#calidad">Calidad del dato</a>
+      <a href="#registro">Registro</a>
       <a href="#fuentes">Fuentes</a>
     </nav>
     <div class="top-act">
@@ -294,6 +301,7 @@
     <a href="#comparacion">Suicidios frente a homicidios</a>
     <a href="#latam">América Latina, país por país</a>
     <a href="#calidad">Calidad del dato</a>
+    <a href="#registro">Cómo se registra</a>
     <a href="#fuentes">Método y fuentes</a>
     <a class="home" href="./">← Volver al observatorio</a>
   </nav>
@@ -489,6 +497,69 @@
         <li><b>No hay un estudio peruano que mida el subregistro de suicidios.</b> A nivel mundial, un metaanálisis lo estima en 17.9% (Meda et al., <a href="https://doi.org/10.3389/fpsyt.2025.1609580" target="_blank" rel="noopener">Front Psychiatry, 2025</a>).</li>
       </ul>
       <p class="hint">Lectura conjunta: el conteo del certificado (1.4–2.4 por 100 mil) funciona como piso, la estimación de la OMS (2.9–3.8) como valor central y la cifra andina como techo. La certeza es baja: descansa en modelos, no en una medición peruana.</p>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="registro">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Cómo se registra</div>
+      <h2>En el Perú nadie cierra la cifra</h2>
+      <p>La definición de suicidio es la misma en toda la región. Lo que cambia es el camino que recorre una muerte violenta hasta llegar a la estadística, y en el Perú ese camino no termina en un número oficial.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>El circuito peruano, paso a paso</h3>
+        <ol class="pasos">
+          <li><b>Aviso y necropsia.</b> Toda muerte por causa externa se comunica al Ministerio Público, que ordena la necropsia en la morgue. Si nadie sospecha causa externa, la muerte no entra a este circuito.</li>
+          <li><b>Certificado al terminar la necropsia.</b> Lo llena el médico legista, antes de los exámenes de laboratorio y del cierre de la investigación fiscal.</li>
+          <li><b>Una casilla con salida abierta.</b> El formulario pregunta si fue suicidio, homicidio o accidente, y admite «en investigación» e «ignorado». Nada obliga a resolverlas después.</li>
+          <li><b>Sin vía de corrección.</b> La directiva solo permite rectificar errores materiales, como una fecha o un apellido. Ningún numeral conecta el resultado de la investigación con el registro.</li>
+          <li><b>El código llega tarde y falla en muertes violentas.</b> El MINSA asigna la causa básica por lotes, con uno o dos años de rezago, y logra hacerlo en 70–79% de los certificados.</li>
+          <li><b>Nadie concilia.</b> Medicina Legal clasifica cada necropsia pero no publica el resultado, y ninguna norma revisada encarga a una institución la cifra anual de suicidios.</li>
+        </ol>
+        <div class="cfoot"><span><a href="https://www.gob.pe/institucion/minsa/normas-legales/5272607-142-2024-minsa" target="_blank" rel="noopener">Directiva Administrativa 353-MINSA/OGTI-2024</a> · Código Procesal Penal, arts. 195–196 · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10547024/" target="_blank" rel="noopener">Vargas-Herrera et al., 2023</a></span></div>
+      </div>
+      <div class="card">
+        <h3>Dos definiciones oficiales, dos números</h3>
+        <p class="hint">El mismo ministerio usa dos varas y ningún documento las concilia.</p>
+        <div class="kpis" style="grid-template-columns:1fr 1fr;margin:10px 0 14px">
+          <div class="kpi"><div class="lab">Notas de prensa del MINSA: la casilla</div><div class="val" id="defCampo">—</div><div class="sub" id="defCampoSub"></div></div>
+          <div class="kpi"><div class="lab">Plan de salud mental: código CIE-10 X60–X84</div><div class="val" id="defCie">—</div><div class="sub" id="defCieSub"></div></div>
+        </div>
+        <p class="hint">El <a href="http://bvs.minsa.gob.pe/local/MINSA/4422.pdf" target="_blank" rel="noopener">Plan Nacional de Salud Mental Comunitaria 2018–2021</a> define su indicador de mortalidad por suicidio por código CIE-10. Los <a href="http://bvs.minsa.gob.pe/local/MINSA/4629.pdf" target="_blank" rel="noopener">lineamientos de política sectorial</a> del propio MINSA reconocen que «aproximadamente, cuatro de cada diez muertes por suicidio no se registran», citando a la OPS.</p>
+        <p class="hint"><b>Por qué en homicidios sí hay cifra.</b> El comité del INEI que los cuenta fue creado para estadística de criminalidad e integra policía y fiscalía. El suicidio no es delito y queda fuera de su mandato.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3>Cómo lo hacen otros países de la región</h3>
+      <p class="hint">Entre paréntesis, el conteo forense o policial frente a la estadística de salud del mismo año. Calidad, completitud y usabilidad según la OMS (rango de los años evaluados).</p>
+      <div class="tblwrap" tabindex="0" role="region" aria-label="Registro de suicidios por país"><table class="src-table" id="tblPaises">
+        <thead><tr><th scope="col">País</th><th scope="col">Quién certifica la muerte violenta</th><th scope="col">Quién codifica la causa</th><th scope="col">Segundo conteo público</th><th scope="col">Calidad OMS</th><th scope="col" class="num">Completitud</th><th scope="col" class="num">Usabilidad</th></tr></thead>
+        <tbody><tr class="pe"><td>Perú</td><td>Médico legista, al terminar la necropsia</td><td>El médico anota texto y código; el MINSA procesa después, con rezago</td><td>No</td><td>medium</td><td class="num">72–85%</td><td class="num">52–77%</td></tr><tr class=""><td>Chile</td><td>Médico legista (Servicio Médico Legal)</td><td>DEIS, codificadoras centrales</td><td>Sí: anuario del Servicio Médico Legal (2,149 frente a 2,099 en 2022)</td><td>high</td><td class="num">100%</td><td class="num">86–91%</td></tr><tr class=""><td>Colombia</td><td>Médico legista (Medicina Legal)</td><td>DANE, central, con sistema automático desde 2019</td><td>Sí: Forensis (3,195 frente a 3,301 en 2023)</td><td>high</td><td class="num">99–100%</td><td class="num">88–94%</td></tr><tr class=""><td>Costa Rica</td><td>Patología Forense del Poder Judicial; autopsia obligatoria</td><td>INEC</td><td>Sí: informe anual del Poder Judicial (426 frente a 413 en 2023)</td><td>high</td><td class="num">100%</td><td class="num">89–93%</td></tr><tr class=""><td>Brasil</td><td>Médico del instituto médico legal, obligatorio</td><td>Codificadores de las secretarías de salud; el médico no codifica</td><td>Sí: anuario de seguridad pública (16,446 frente a 16,751 en 2024)</td><td>high</td><td class="num">100%</td><td class="num">73–86%</td></tr><tr class=""><td>México</td><td>Médico legista con el Ministerio Público; «presunto suicidio»</td><td>INEGI</td><td>No se halló serie nacional</td><td>high</td><td class="num">100%</td><td class="num">89–94%</td></tr><tr class=""><td>Ecuador</td><td>Médico legista (Medicina Legal)</td><td>INEC, con sistema automático</td><td>Cruce caso a caso con la Policía desde 2016</td><td>high</td><td class="num">63–100%</td><td class="num">43–87%</td></tr><tr class=""><td>Argentina</td><td>Médico forense del Poder Judicial</td><td>Oficinas provinciales</td><td>Sí: registro policial (4,195 frente a 3,488 en 2023)</td><td>medium</td><td class="num">100%</td><td class="num">66–75%</td></tr><tr class=""><td>Uruguay</td><td>Médico forense del Poder Judicial</td><td>Ministerio de Salud Pública</td><td>No se halló</td><td>medium</td><td class="num">100%</td><td class="num">74–80%</td></tr><tr class=""><td>Cuba</td><td>Médico legista del sistema de salud</td><td>Direcciones provinciales</td><td>No se halló</td><td>high</td><td class="num">100%</td><td class="num">89–93%</td></tr><tr class=""><td>Bolivia</td><td>Instituto forense de la Fiscalía, con certificado propio</td><td>Fragmentado</td><td>No se halló</td><td>very low</td><td class="num">37–38%</td><td class="num">13–16%</td></tr></tbody></table></div>
+      <div class="cfoot"><span><a href="https://cdn.who.int/media/docs/default-source/gho-documents/global-health-estimates/ghe2023_cod_methods.pdf" target="_blank" rel="noopener">OMS, métodos GHE 2023, tabla 4.1</a> · normas e instructivos oficiales de cada país · anuarios forenses y policiales</span></div>
+    </div>
+    <div class="grid2" style="margin-top:18px">
+      <div class="card">
+        <h3>Lo que sí distingue al Perú</h3>
+        <ul class="metodo">
+          <li><b>No hay una segunda fuente pública</b> contra la cual medir. Donde existe, la brecha con la estadística de salud es de 2% a 6%, salvo en Argentina (17–20%).</li>
+          <li><b>El registro no cubre todas las muertes:</b> 72–85% de completitud, frente a cerca de 100% en casi todos los demás. Junto con Bolivia, es el único de la lista cuya mortalidad general la OMS no estima a partir del registro.</li>
+          <li><b>La causa externa casi no se codifica.</b> En otros países la asigna un organismo estadístico distinto del médico.</li>
+          <li><b>Más muertes de intención no determinada que suicidios</b> en la base que recibe la OMS (2019 y 2022), rasgo que comparte solo con Argentina.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Lo que no lo distingue</h3>
+        <ul class="metodo">
+          <li><b>La casilla.</b> Colombia, Brasil, Argentina, México y Ecuador también la tienen.</li>
+          <li><b>La falta de conciliación.</b> Solo Ecuador concilia caso a caso; Chile cruza bases. Los demás publican series paralelas.</li>
+          <li><b>Que la presunción inicial no se corrija.</b> El INEGI de México admite que el resultado de la investigación «ya no se refleja en las estadísticas».</li>
+          <li><b>La calidad «media».</b> Uruguay y Argentina tienen la misma calificación de la OMS, por otras razones: muchas causas mal definidas o de intención no determinada.</li>
+        </ul>
+        <p class="hint">Esta comparación explica por qué las tasas no son directamente comparables. No permite calcular cuánto subregistro hay en el Perú.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -838,6 +909,8 @@ function calidad(){
   $('calNote').innerHTML=`⚠️ <b>Tres señales de fragilidad.</b> (1) Entre ${f1(sc0)}% y ${f1(sc1)}% de los certificados de cada año no trae ningún código CIE-10 en los datos abiertos. (2) Por cada suicidio marcado en ${pUlt.anio} hay ${f1(pUlt.violenta_no_se_conoce/pUlt.suicidio.sinadef_campo_n)} muertes violentas de tipo «no se conoce». (3) La serie salta sin explicación epidemiológica: ${f0(p22.suicidio.sinadef_campo_n)} suicidios marcados en 2022, ${f0(p23.suicidio.sinadef_campo_n)} en 2023 y ${f0(p24.suicidio.sinadef_campo_n)} en 2024; 2023 es un año con caída general del registro SINADEF. Un salto así describe al sistema de registro, no a la población.`;
 
   // ---- fuentes ----
+  $('defCampo').textContent=f0(pUlt.suicidio.sinadef_campo_n); $('defCampoSub').textContent='suicidios en '+pUlt.anio+' ('+f1(pUlt.suicidio.sinadef_campo_tasa)+' por 100 mil)';
+  $('defCie').textContent=f0(pUlt.suicidio.sinadef_cie_n); $('defCieSub').textContent='suicidios en '+pUlt.anio+' ('+f1(pUlt.suicidio.sinadef_cie_tasa)+' por 100 mil)';
   const MI=D.minsa, mes=c=>{const [y,m]=c.split('-');return ['ene','feb','mar','abr','may','jun','jul','ago','set','oct','nov','dic'][+m-1]+' '+y;};
   $('tblMinsa').innerHTML=`<thead><tr><th scope="col">Año</th><th scope="col" class="num">MINSA</th><th scope="col">Fecha de la nota</th><th scope="col" class="num">Nuestro conteo</th><th scope="col" class="num">Diferencia</th></tr></thead><tbody>`+
     MI.conteos.map(m=>`<tr><td>${m.anio}</td><td class="num"><a href="${m.url}" target="_blank" rel="noopener">${f0(m.n)}</a></td><td>${mes(m.corte)}</td><td class="num">${f0(m.sinadef_campo_n)}</td><td class="num">${m.sinadef_campo_n-m.n>0?'+':''}${m.sinadef_campo_n-m.n}</td></tr>`).join('')+'</tbody>';
