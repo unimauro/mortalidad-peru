@@ -20,13 +20,25 @@ ARIAL = "/System/Library/Fonts/Supplemental/Arial.ttf"
 ARIAL_B = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 
 
+# Equivalentes en Linux (GitHub Actions): sin esto el OG salía con la fuente
+# bitmap de Pillow, minúscula y sin tildes.
+_LIB = "/usr/share/fonts/truetype/liberation/"
+_DJV = "/usr/share/fonts/truetype/dejavu/"
+_LINUX = {
+    GEORGIA: [_LIB + "LiberationSerif-Regular.ttf", _DJV + "DejaVuSerif.ttf", "DejaVuSerif.ttf"],
+    GEORGIA_B: [_LIB + "LiberationSerif-Bold.ttf", _DJV + "DejaVuSerif-Bold.ttf", "DejaVuSerif-Bold.ttf"],
+    ARIAL: [_LIB + "LiberationSans-Regular.ttf", _DJV + "DejaVuSans.ttf", "DejaVuSans.ttf"],
+    ARIAL_B: [_LIB + "LiberationSans-Bold.ttf", _DJV + "DejaVuSans-Bold.ttf", "DejaVuSans-Bold.ttf"],
+}
+
+
 def font(path, size, fb=ARIAL):
-    for p in (path, fb):
+    for p in [path, *_LINUX.get(path, []), fb, *_LINUX.get(fb, [])]:
         try:
             return ImageFont.truetype(p, size)
         except Exception:
             continue
-    return ImageFont.load_default()
+    raise SystemExit("Sin tipografías TrueType: no se regeneran las imágenes (se conservan las anteriores).")
 
 
 def heartbeat(d, x, y, w, h, color, width=6):
