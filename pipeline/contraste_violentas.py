@@ -158,6 +158,15 @@ def main():
             "homicidio_oms": o_hom[iso].get(a_hom),
         })
 
+    # series largas por país y año (para el selector de año)
+    series = {}
+    for iso in PAISES:
+        series[iso] = {
+            "vig": {a: [x["v"], x["lo"], x["hi"]] for a, x in sorted(o_sui[iso].items())},
+            "ant": dict(sorted(wb[iso].items())),
+            "hom": {a: x["v"] for a, x in sorted(o_hom[iso].items())},
+        }
+
     coinc = [(x["iso3"], x["mapa_viral"], x["oms_edicion_anterior"]) for x in latam
              if x["mapa_viral"] is not None and x["oms_edicion_anterior"] is not None]
     n_ok = sum(1 for _, m, w in coinc if abs(m - w) <= 0.06 or round(w) == m)
@@ -189,6 +198,7 @@ def main():
         },
         "peru": peru,
         "latam": latam,
+        "series": series,
     }
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print("OK", OUT, "| mapa:", n_ok, "de", len(coinc), "coinciden con la edición anterior OMS")

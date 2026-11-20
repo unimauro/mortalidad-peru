@@ -103,6 +103,12 @@
       <div class="chart tall" id="ch_sui"></div>
       <div class="cfoot"><span>OMS (GHO) · Banco Mundial · SINADEF · población INEI</span><button data-csv="peru">Descargar CSV</button></div>
     </div>
+    <div class="card" style="margin-top:18px">
+      <h3>Perú año por año desde 2000: las dos ediciones de la OMS</h3>
+      <p class="hint" id="largoHint"></p>
+      <div class="chart" id="ch_largo"></div>
+      <div class="cfoot"><span>OMS (GHO) · Banco Mundial SH.STA.SUIC.P5</span><button data-csv="latam">Descargar CSV</button></div>
+    </div>
   </div>
 </section>
 
@@ -154,9 +160,16 @@
       <p id="latamLead"></p>
     </div>
     <div class="card">
-      <h3>Tasa de suicidio: edición anterior (la del mapa) vs. estimación vigente</h3>
-      <div class="chart" id="ch_latam" style="height:620px"></div>
+      <h3>Tasa de suicidio por país: edición anterior (la del mapa) vs. estimación vigente</h3>
+      <div class="controls"><label class="ctl">Año <select id="yearLatam"></select></label><span class="hint" id="yearNote" style="margin:0"></span></div>
+      <div class="chart" id="ch_latam" style="height:560px"></div>
       <div class="cfoot"><span>OMS (GHO) · Banco Mundial SH.STA.SUIC.P5</span><button data-csv="latam">Descargar CSV</button></div>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3>Año por año: la tasa de suicidio de los 20 países</h3>
+      <p class="hint">Estimación vigente de la OMS. El Perú va resaltado; pasa el cursor para ver cada país.</p>
+      <div class="chart tall" id="ch_evol"></div>
+      <div class="cfoot"><span>OMS (GHO), estimaciones</span><button data-csv="latam">Descargar CSV</button></div>
     </div>
     <div class="card" style="margin-top:18px">
       <h3>Suicidios y homicidios en la región</h3>
@@ -165,7 +178,7 @@
       <div class="cfoot"><span>OMS (GHO), estimaciones</span><button data-csv="latam">Descargar CSV</button></div>
     </div>
     <div class="card" style="margin-top:18px">
-      <h3>Tabla completa</h3>
+      <h3 id="tblTitle">Tabla completa</h3>
       <div class="tblwrap"><table class="src-table" id="tblLatam"></table></div>
     </div>
   </div>
@@ -332,39 +345,86 @@ function render(){
     {name:'Suicidios (SINADEF, casilla)',type:'bar',data:P.map(p=>p.suicidio.sinadef_campo_n),itemStyle:{color:c3,borderRadius:[3,3,0,0]}}
   ]});
 
-  // ---- LatAm barras ----
-  const Ls=L.filter(x=>x.oms_vigente_mismo_anio).slice().sort((a,b)=>a.oms_vigente_mismo_anio.v-b.oms_vigente_mismo_anio.v);
-  const nL=['Edición anterior '+M.anio_mapa+' (mapa)','OMS vigente '+M.anio_mapa,'OMS vigente '+M.anio_oms_suicidio];
-  const hlPE=(col)=>(p)=>Ls[p.dataIndex].iso3==='PER'?col:col;
-  draw('ch_latam',{legend:sinBanda(nL),tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
-    xAxis:{type:'value',axisLabel:{color:css('--ink-soft')},splitLine:{lineStyle:{color:css('--line')}}},
-    yAxis:{type:'category',name:'',data:Ls.map(x=>x.pais),axisLabel:{color:css('--ink'),fontWeight:v=>v==='Perú'?700:400,
-      formatter:v=>v==='Perú'?'▶ Perú':v},splitLine:{show:false},axisLine:{lineStyle:{color:css('--line')}},axisTick:{show:false}},
-    series:[
-      {name:nL[0],type:'bar',data:Ls.map(x=>x.oms_edicion_anterior),itemStyle:{color:c4},barGap:'10%'},
-      {name:nL[1],type:'bar',data:Ls.map(x=>x.oms_vigente_mismo_anio.v),itemStyle:{color:c1}},
-      {name:nL[2],type:'bar',data:Ls.map(x=>x.oms_vigente_ultimo?x.oms_vigente_ultimo.v:null),itemStyle:{color:c6()}}
-    ]});
-  function c6(){return css('--c6');}
-  $('latamLead').innerHTML=`Las barras naranjas son los valores del mapa viral (edición anterior, ${M.anio_mapa}). Las azules, lo que la OMS publica hoy para ese mismo año y para ${M.anio_oms_suicidio}. Son estimaciones modeladas; en países con registro débil el margen de error es amplio.`;
+  // ---- Perú largo plazo ----
+  const SP=D.series.PER, yl=Object.keys(SP.vig);
+  $('largoHint').textContent=`Tasa por 100 mil, ${yl[0]}–${yl[yl.length-1]}. La edición anterior llega hasta ${M.anio_mapa}. Los saltos de un año a otro (por ejemplo 2008–2009 o 2012–2013) son propios de un registro inestable.`;
+  draw('ch_largo',{legend:{data:['OMS, estimación vigente','OMS, edición anterior (la del mapa)']},xAxis:{data:yl},series:[
+    ...banda(yl.map(y=>SP.vig[y][1]),yl.map(y=>SP.vig[y][2]),c1),
+    line('OMS, estimación vigente',yl.map(y=>SP.vig[y][0]),c1,{symbolSize:4}),
+    line('OMS, edición anterior (la del mapa)',yl.map(y=>SP.ant[y]==null?null:SP.ant[y]),c4,{symbolSize:4,lineStyle:{width:2.5,color:c4,type:'dashed'}})
+  ]});
 
-  // ---- dispersión ----
-  const sc=L.filter(x=>x.oms_vigente_mismo_anio&&x.homicidio_oms);
-  $('scHint').textContent=`Cada punto es un país (${M.anio_oms_homicidio}). Eje horizontal: homicidios; vertical: suicidios. El eje de homicidios es logarítmico.`;
+  // ---- LatAm: evolución anual ----
+  const isoP=L.map(x=>x.iso3), nom=Object.fromEntries(L.map(x=>[x.iso3,x.pais]));
+  draw('ch_evol',{legend:{show:false},grid:{top:28,right:74},
+    tooltip:{trigger:'item',formatter:p=>`<b>${p.seriesName}</b> · ${p.name}<br>${f1(p.value)} por 100 mil`},
+    xAxis:{data:yl},
+    series:isoP.filter(i=>i!=='PER').concat(['PER']).map(i=>{
+      const pe=i==='PER', col=pe?brand:c8;
+      return {name:nom[i],type:'line',data:yl.map(y=>D.series[i].vig[y]?D.series[i].vig[y][0]:null),
+        symbol:'circle',symbolSize:pe?6:3,showSymbol:pe,z:pe?5:1,
+        lineStyle:{width:pe?3.5:1.2,color:col,opacity:pe?1:.55},itemStyle:{color:col},
+        emphasis:{focus:'series',lineStyle:{width:3,opacity:1}},
+        endLabel:{show:pe||i==='URY'||i==='CUB',formatter:'{a}',fontSize:10.5,color:pe?brand:css('--ink-soft'),fontWeight:pe?700:400},
+        labelLayout:{hideOverlap:true}};
+    })});
+
+  // ---- LatAm por año (barras, dispersión, tabla) ----
+  const sel=$('yearLatam');
+  if(!sel.options.length){
+    sel.innerHTML=yl.slice().reverse().map(y=>`<option value="${y}">${y}</option>`).join('');
+    sel.value=String(M.anio_mapa);
+    sel.addEventListener('change',()=>porAnio(sel.value));
+  }
+  porAnio(sel.value);
+}
+
+function porAnio(Y){
+  const M=D.meta, L=D.latam, S=D.series;
+  const c1=css('--c1'),c4=css('--c4'),brand=css('--brand');
+  const rows=L.filter(x=>S[x.iso3].vig[Y]).map(x=>({iso3:x.iso3,pais:x.pais,mapa:x.mapa_viral,
+    v:S[x.iso3].vig[Y][0],lo:S[x.iso3].vig[Y][1],hi:S[x.iso3].vig[Y][2],
+    ant:S[x.iso3].ant[Y]==null?null:S[x.iso3].ant[Y]})).sort((a,b)=>a.v-b.v);
+  const hayAnt=rows.some(r=>r.ant!=null);
+  const pos=rows.findIndex(r=>r.iso3==='PER')+1, pe=rows[pos-1];
+  $('yearNote').innerHTML=`Perú en ${Y}: <b>${f1(pe.v)}</b> (${f1(pe.lo)}–${f1(pe.hi)}), puesto ${pos} de ${rows.length} de menor a mayor`+
+    (pe.ant!=null?`; la edición anterior decía ${f1(pe.ant)}.`:'; sin dato en la edición anterior.')+
+    (String(Y)===String(M.anio_mapa)?' Este es el año del mapa viral.':'');
+  const ser=[];
+  if(hayAnt) ser.push({name:'Edición anterior '+Y,type:'bar',data:rows.map(r=>r.ant),itemStyle:{color:c4},barGap:'10%'});
+  ser.push({name:'OMS vigente '+Y,type:'bar',data:rows.map(r=>r.v),itemStyle:{color:c1}});
+  draw('ch_latam',{legend:{data:ser.map(x=>x.name)},
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+    xAxis:{type:'value',axisLabel:{color:css('--ink-soft')},splitLine:{lineStyle:{color:css('--line')}}},
+    yAxis:{type:'category',name:'',data:rows.map(r=>r.pais),axisLabel:{color:css('--ink'),
+      formatter:v=>v==='Perú'?'▶ Perú':v},splitLine:{show:false},axisLine:{lineStyle:{color:css('--line')}},axisTick:{show:false}},
+    series:ser});
+  $('latamLead').innerHTML=`Las barras naranjas son la edición anterior de la OMS, la que usa el mapa viral (su año es ${M.anio_mapa}). Las azules, lo que la OMS publica hoy. Elige el año para ver cómo cambia el orden. Son estimaciones modeladas; en países con registro débil el margen de error es amplio.`;
+
+  // dispersión: homicidios solo hasta el último año disponible
+  const YH=String(Math.min(+Y,M.anio_oms_homicidio));
+  const sc=L.filter(x=>S[x.iso3].vig[YH]&&S[x.iso3].hom[YH]!=null);
+  $('scHint').textContent=`Cada punto es un país (${YH}`+(YH!==String(Y)?`; la OMS no publica homicidios después de ${M.anio_oms_homicidio}`:'')+`). Eje horizontal: homicidios, en escala logarítmica; vertical: suicidios.`;
   draw('ch_sc',{legend:{show:false},grid:{top:36,bottom:28,left:14,right:44},
     tooltip:{trigger:'item',formatter:p=>`<b>${p.data[2]}</b><br>Homicidios: ${f1(p.data[0])}<br>Suicidios: ${f1(p.data[1])}`},
     xAxis:{type:'log',name:'Homicidios por 100 mil',nameLocation:'middle',nameGap:26,nameTextStyle:{color:css('--ink-soft')},
       axisLabel:{color:css('--ink-soft')},splitLine:{lineStyle:{color:css('--line')}}},
     yAxis:{name:'Suicidios por 100 mil'},
     series:[{type:'scatter',symbolSize:p=>p[3]?20:13,
-      data:sc.map(x=>[x.homicidio_oms.v,x.oms_vigente_mismo_anio.v,x.pais,x.iso3==='PER']),
+      data:sc.map(x=>[S[x.iso3].hom[YH],S[x.iso3].vig[YH][0],x.pais,x.iso3==='PER']),
       itemStyle:{color:p=>p.data[3]?brand:c1,opacity:.9},
       label:{show:true,formatter:p=>p.data[2],position:'right',fontSize:11,color:css('--ink-soft')},labelLayout:{hideOverlap:true}}]});
 
-  // ---- tabla ----
-  $('tblLatam').innerHTML=`<thead><tr><th>País</th><th class="num">Mapa viral</th><th class="num">Edición anterior ${M.anio_mapa}</th><th class="num">OMS vigente ${M.anio_mapa}</th><th class="num">Intervalo</th><th class="num">OMS vigente ${M.anio_oms_suicidio}</th><th class="num">Homicidios OMS ${M.anio_oms_homicidio}</th></tr></thead><tbody>`+
-    Ls.map(x=>`<tr class="${x.iso3==='PER'?'pe':''}"><td>${x.pais}</td><td class="num">${x.mapa_viral==null?'—':x.mapa_viral}</td><td class="num">${f1(x.oms_edicion_anterior)}</td><td class="num">${f1(x.oms_vigente_mismo_anio.v)}</td><td class="num">${f1(x.oms_vigente_mismo_anio.lo)}–${f1(x.oms_vigente_mismo_anio.hi)}</td><td class="num">${x.oms_vigente_ultimo?f1(x.oms_vigente_ultimo.v):'—'}</td><td class="num">${x.homicidio_oms?f1(x.homicidio_oms.v):'—'}</td></tr>`).join('')+'</tbody>';
+  // tabla
+  const esMapa=String(Y)===String(M.anio_mapa);
+  $('tblTitle').textContent='Tabla completa · '+Y;
+  $('tblLatam').innerHTML=`<thead><tr><th>País</th>${esMapa?'<th class="num">Mapa viral</th>':''}<th class="num">Edición anterior ${Y}</th><th class="num">OMS vigente ${Y}</th><th class="num">Intervalo</th><th class="num">Homicidios OMS ${YH}</th></tr></thead><tbody>`+
+    rows.map(r=>`<tr class="${r.iso3==='PER'?'pe':''}"><td>${r.pais}</td>${esMapa?`<td class="num">${r.mapa==null?'—':r.mapa}</td>`:''}<td class="num">${f1(r.ant)}</td><td class="num">${f1(r.v)}</td><td class="num">${f1(r.lo)}–${f1(r.hi)}</td><td class="num">${S[r.iso3].hom[YH]==null?'—':f1(S[r.iso3].hom[YH])}</td></tr>`).join('')+'</tbody>';
+}
 
+function calidad(){
+  const P=D.peru, yrs=P.map(p=>p.anio), pUlt=P[P.length-1], M=D.meta;
+  const c2=css('--c2'),c3=css('--c3'),c8=css('--c8');
   // ---- calidad ----
   draw('ch_gap',{xAxis:{data:yrs},yAxis:{name:'casos'},tooltip:{valueFormatter:f0},series:[
     {name:'Casilla «suicidio»',type:'bar',data:P.map(p=>p.suicidio.sinadef_campo_n),itemStyle:{color:c3,borderRadius:[3,3,0,0]},barGap:'8%'},
@@ -398,8 +458,9 @@ function csvPeru(){
   return [h,...r];
 }
 function csvLatam(){
-  const h=['iso3','pais','mapa_viral','oms_edicion_anterior','oms_vigente_mismo_anio','lo','hi','oms_vigente_ultimo','homicidio_oms'];
-  return [h,...D.latam.map(x=>{const v=x.oms_vigente_mismo_anio||{};return [x.iso3,x.pais,x.mapa_viral,x.oms_edicion_anterior,v.v,v.lo,v.hi,(x.oms_vigente_ultimo||{}).v,(x.homicidio_oms||{}).v];})];
+  const h=['iso3','pais','anio','oms_edicion_anterior','oms_vigente','lo','hi','homicidio_oms'], r=[];
+  D.latam.forEach(x=>{const S=D.series[x.iso3];Object.keys(S.vig).forEach(y=>r.push([x.iso3,x.pais,y,S.ant[y],S.vig[y][0],S.vig[y][1],S.vig[y][2],S.hom[y]]));});
+  return [h,...r];
 }
 document.addEventListener('click',e=>{
   const b=e.target.closest('button[data-csv]'); if(!b||!D) return;
@@ -411,10 +472,10 @@ document.addEventListener('click',e=>{
 $('themeBtn').addEventListener('click',()=>{
   const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
   document.documentElement.setAttribute('data-theme',n); try{localStorage.setItem(THEME_KEY,n);}catch(e){}
-  if(D) render();
+  if(D){render();calidad();}
 });
 addEventListener('resize',()=>Object.values(charts).forEach(c=>c.resize()));
-fetch('data/processed/contraste_violentas.json').then(r=>r.json()).then(d=>{D=d;render();})
+fetch('data/processed/contraste_violentas.json').then(r=>r.json()).then(d=>{D=d;render();calidad();})
   .catch(()=>{$('resumen').textContent='No se pudieron cargar los datos.';});
 </script>
 </body>
